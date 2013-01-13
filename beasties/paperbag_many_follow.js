@@ -91,31 +91,42 @@ function knn(items, index, n) {
 	return results.slice(0,top_n);
 }
 
-//combine these two neatly: omething more functional?
+//combine these two neatly: something more functional?
 function x_move(items) {
-	var x = 0;
+	var x = 0, weight = 2;
 	if (items.length === 0)
 		return x;
 	for (var i=0; i<items.length; i++) {
 		var beast = ids[items[i].index];
-		x += beast.x;
+		if (beast.id === 0) {
+			x += beast.x/weight;
+		}
+		else {
+			x += beast.x;
+		}
+		
 	}
 	return x / items.length;
 }
 
 function y_move(items) {
-	var y = 0;
+	var y = 0, weight = 2;
 	if (items.length === 0)
 		return y;
 	for (var i=0; i<items.length; i++) {
 		var beast = ids[items[i].index];
-		y += beast.y;
+		if (beast.id === 0) {
+			y += beast.y/weight;
+		}
+		else {
+			y += beast.y;
+		}
 	}
 	return y / items.length;
 }
 
 function move(index) {
-	if(index>ids.length-1)
+	if (index>ids.length-1)
 		alert("not ready");
 
 	var beast = ids[index];
