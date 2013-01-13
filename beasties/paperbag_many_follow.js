@@ -4,7 +4,6 @@ var left = 75;
 var right = left + bag_width;
 var up = 25;
 var down = up + bag_width;
-var count = 0;
 
 function Beasty(x, y, id, index) {
 	this.x = x;
@@ -28,19 +27,10 @@ function action(id) {
 		id = setInterval(function() { move(index); }, 150); 
 		beast = new Beasty(x, y, id, index);
 		ids.push(beast);
-		count = count + 1;
-		document.getElementById("demo").innerHTML="Added new beast " + count;
+		document.getElementById("demo").innerHTML="Added new beast " + index;
 	}
 	else {
-		//keep it there, but stop it moving
-		//slightly scrappy way of doing things
-		// we might have several beasts for one, if it has escaped
-		for (var i=0; i<ids.length; ++i) {
-			beast = ids[i];
-			if (beast.id === id) {
-				clearInterval(beast.id);
-			}
-		}
+				clearInterval(id);
 	}
 }
 
@@ -154,9 +144,5 @@ function move(index) {
 		document.getElementById("Go").innerHTML="Start";
 		document.getElementById("demo").innerHTML="Success for beasty " + index;
 		action(beast.id);
-		//"weight escaped ones"
-		for (var i = 0; i < weighting; ++i) {
-			ids.push(beast);
-		}
 	}
 }
