@@ -17,13 +17,11 @@ var ids =  [];
 
 function init()
 {
-	Action(0);
+	action(0);
 }
 
-function Action(id)
-{
-	if (id == 0)
-	{
+function action(id) {
+	if (id === 0) {
 		var x = 175;
 		var y = 150;
 		var index = ids.length;
@@ -31,10 +29,8 @@ function Action(id)
 		var beast = new Beasty(x, y, id, index);
 		ids.push(beast);
 	}
-	else
-	{
-		for (var i=0; i<ids.length; i++)
-		{
+	else {
+		for (var i=0; i<ids.length; i++) {
 			var beast = ids[i];
 			clearInterval(beast.id);
 		}
@@ -42,13 +38,11 @@ function Action(id)
 	}
 }
 
-function in_bag(x_pos, y_pos, left, right, up, down)
-{
+function in_bag(x_pos, y_pos, left, right, up, down) {
 	return (x_pos > left) && (x_pos < right) && (y_pos > up) && (y_pos < down);
 }
 
-function draw()
-{
+function draw() {
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
 
@@ -56,8 +50,7 @@ function draw()
 	ctx.fillStyle="#886644";
 	ctx.fillRect(left,up,bag_width,bag_width);
 	
-	for (var i=0; i<ids.length; i++)
-	{
+	for (var i=0; i<ids.length; i++) {
 		var beast = ids[i];
 		if (typeof beast.x === "undefined") 
 			alert("something is undefined");
@@ -69,8 +62,7 @@ function draw()
 	}
 }
 
-function move(index)
-{
+function move(index) {
 	if(index>ids.length-1)
 		alert("not ready");
 
@@ -86,10 +78,9 @@ function move(index)
 	ids[beast.index] = beast;//is this needed... by ref or value?
 	draw();
 
-	if (!in_bag(beast.x, beast.y, left, right, up, down))
-	{
+	if (!in_bag(beast.x, beast.y, left, right, up, down)) {
 		document.getElementById("Go").innerHTML="Start";
 		document.getElementById("demo").innerHTML="Success";//which one?
-		Action(beast.id);
+		action(beast.id);
 	}
 }

@@ -4,14 +4,11 @@ var width = 4;
 
 var id = 0;
 
-function init()
-{
-	if (id == 0)
-	{
+function init() {
+	if (id === 0) {
 		id = setInterval(drawSomething, 100); 
 	}
-	else
-	{
+	else {
 		clearInterval(id);
 		id = 0;
 		x = 150;
@@ -19,13 +16,11 @@ function init()
 	}
 }
 
-function in_bag(x_pos, y_pos, left, right, up, down)
-{
+function in_bag(x_pos, y_pos, left, right, up, down) {
 	return (x_pos > left) && (x_pos < right) && (y_pos > up) && (y_pos < down);
 }
 
-function drawSomething()
-{
+function drawSomething() {
 	//draw the bag
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
@@ -50,13 +45,11 @@ function drawSomething()
 	ctx.rect(x,y,width,width);
 	ctx.strokeStyle="black";
 	ctx.stroke();
-	if (in_bag(x, y, left, right, up, down))
-	{
+	if (in_bag(x, y, left, right, up, down)) {
 		document.getElementById("Go").innerHTML="Stop";
 		document.getElementById("demo").innerHTML=new_x_move + ", " + new_y_move;
 	}
-	else
-	{
+	else {
 		document.getElementById("Go").innerHTML="Start";
 		document.getElementById("demo").innerHTML="Success";
 		init();
