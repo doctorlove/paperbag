@@ -4,6 +4,7 @@ var left = 75;
 var right = left + bag_width;
 var up = 25;
 var down = up + bag_width;
+var count = 0;
 
 function Beasty(x, y, id, index) {
 	this.x = x;
@@ -27,13 +28,13 @@ function action(id) {
 		id = setInterval(function() { move(index); }, 150); 
 		beast = new Beasty(x, y, id, index);
 		ids.push(beast);
-		//index is wrong for this message if we weight the escaped beasts
-		document.getElementById("demo").innerHTML="Added new beast " + index;
+		count = count + 1;
+		document.getElementById("demo").innerHTML="Added new beast " + count;
 	}
 	else {
 		//keep it there, but stop it moving
 		//slightly scrappy way of doing things
-		//up the "weight" for this next
+		// we might have several beasts for one, if it has escaped
 		for (var i=0; i<ids.length; ++i) {
 			beast = ids[i];
 			if (beast.id === id) {
