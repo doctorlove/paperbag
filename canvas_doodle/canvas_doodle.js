@@ -16,7 +16,7 @@ function draw() {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
  
-    ctx.fillStyle = "rgb(139, 69, 19)";
+    ctx.fillStyle = "rgb(169, 130, 19)";
     ctx.fillRect (10, 20, 100, 100);
  
     ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
