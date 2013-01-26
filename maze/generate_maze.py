@@ -39,3 +39,4 @@ def plot_a_maze():
     pyplot.xticks([]), pyplot.yticks([])
     pyplot.show()
 
+

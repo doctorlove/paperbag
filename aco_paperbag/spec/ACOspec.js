@@ -72,7 +72,7 @@ describe("make_trails", function() {
 
 describe("find_best", function() {
 
-  it("should find the only trail is there is just one", function() {
+  it("should find the only trail if there is just one", function() {
     var trails = [];
     trails.push( [ 2, 3] );
     expect(find_best(trails)).toBe(0);
