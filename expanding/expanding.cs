@@ -11,7 +11,6 @@ namespace paperbagcs
         private int _width;
         private int _bagWidth;
         private int _edge;
-        private int _stars;
 
         private char[] _buffer;
 
@@ -59,12 +58,13 @@ namespace paperbagcs
                 else
                     FillBagRow(row);
             }
+            int centre = (_edge + _bagWidth / 2) * _width + _edge + _bagWidth / 2; ;
+            _buffer[centre] = '*';
+            Draw();
         }
 
         private void Draw()
         {
-            Debug.Write(_buffer);
-
             int line = 0;
             Console.SetCursorPosition(0, line++);
             for (int i = 0; i < _buffer.Length; ++i)
@@ -73,6 +73,7 @@ namespace paperbagcs
                 if(i%_width == 0)
                     Console.SetCursorPosition(0, line++);
             }
+            Thread.Sleep(500);
         }
 
         private char Above(int pos)
@@ -103,16 +104,8 @@ namespace paperbagcs
             return _buffer[pos + 1];
         }
 
-        private bool MoveCreatures()
+        private bool Update()
         {
-            if (_stars == 0)
-            {
-                int pos = (_edge + _bagWidth / 2) * _width + _edge + _bagWidth / 2; ;
-                _buffer[pos] = '*';
-                ++_stars;
-                return true;
-            }
-
             bool breached = false;
             char[] newBuffer = _buffer.ToArray();
             for (int i = 0; i < _buffer.Length; ++i)
@@ -122,7 +115,6 @@ namespace paperbagcs
                     if(_buffer[i] == '|' || _buffer[i] == '-')
                         breached = true;
                     newBuffer[i] = '*';
-                    ++_stars;
                 }
             }
             _buffer = newBuffer;
@@ -142,10 +134,9 @@ namespace paperbagcs
         public void Go()
         {
             Setup();
-            while (MoveCreatures())
+            while (Update())
             {
                 Draw();
-                Thread.Sleep(1000);
             }
             Draw();
 
