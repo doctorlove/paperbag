@@ -3,6 +3,8 @@
 var id = 0;
 
 function stop() {
+  document.getElementById("click_draw").innerHTML = "draw";
+  document.getElementById("result").innerHTML = "0";
   clearInterval(id);
   id = 0;
 }
@@ -48,7 +50,6 @@ function start() {
            }, 100);
   }
   else {
-    document.getElementById("click_draw").innerHTML = "draw";
     setTimeout(stop, 100);
   }
 }
