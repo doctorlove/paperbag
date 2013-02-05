@@ -63,7 +63,8 @@ def draw_maze(maze):
 
 
 def make_rectangle(rows, row, col, color):
-        (x, y) = (col, rows - row)
+        (x, y) = (col, row)
+        #(x, y) = (col, rows - row)
         return Rectangle([x, y], 1.0, 1.0, facecolor=str(color), edgecolor=str(color))
 
 if __name__ == '__main__':
