@@ -23,21 +23,27 @@ function draw() {
     ctx.fillRect (10 + x, 40, 25, 25);
     var result = document.getElementById("result");
     result.innerHTML=parseInt(result.innerHTML) + 1;
+  }
+}
 
+function update() {
     x = x + 5;
+}
 
+function action() {
+    draw();
+    update();
     if (x < 110) {
-      id = setTimeout(draw, 100);
+      id = setTimeout(action, 100);
     }
     else {
       stop();
     }
-  }
 }
 
 function start() {
   if (id === 0) {  
-    id = setTimeout(draw, 100);
+    id = setTimeout(action, 100);
   }
   else {
     id = setTimeout(stop, 100);
