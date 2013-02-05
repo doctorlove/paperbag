@@ -1,14 +1,31 @@
-#http://matplotlib.org/examples/api/hinton_demo.html
-
 import numpy as np
 import matplotlib.pyplot as plt
+
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import NullLocator
 
 import generate_maze
 import solve_maze
 
-def draw(maze, solution):
+def draw_paths(maze, solution, ax):
+    #draw the path taken - make the steps darker so we can see where it went
+    total = 5.0 + len(solution)
+    start = 0.8
+    step = start / total
+    rows = maze.shape[0]
+    cols = maze.shape[1]
+    color = start
+    index = 1
+    for row, col in solution:
+        color = color - step
+        rect = make_rectangle(rows, row, col, color)
+        ax.add_patch(rect)
+        plt.draw()
+        plt.savefig("solution" + str(index) + ".png")
+	index = index + 1
+
+def draw_maze(maze):
+    plt.ion()
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
 
@@ -18,16 +35,8 @@ def draw(maze, solution):
     ax.yaxis.set_major_locator(NullLocator())
 
     size = 1.0
-    #draw the path taken - make the steps darker so we can see where it went
-    total = 5.0 + len(solution)
-    step = 1.0 / total
     rows = maze.shape[0]
     cols = maze.shape[1]
-    color = 1.0
-    for row, col in solution:
-	color = color - step
-        rect = make_rectangle(rows, row, col, color)
-        ax.add_patch(rect)
 
     #draw the walls
     for row in xrange(rows):
@@ -48,15 +57,9 @@ def draw(maze, solution):
     rect = Rectangle([cols - 1, 1], 1.0, 1.0, facecolor='brown', edgecolor='brown')
     ax.add_patch(rect)
 
-    #draw the start and end points to make it clear
-    row, col = solution[1]
-    rect = make_rectangle(rows, row, col, 'red')
-    ax.add_patch(rect)
-    row, col = solution[-1]
-    rect = make_rectangle(rows, row, col, 'blue')
-    ax.add_patch(rect)
-
     ax.autoscale_view()
+    plt.draw()
+    return ax;
 
 
 def make_rectangle(rows, row, col, color):
@@ -66,9 +69,11 @@ def make_rectangle(rows, row, col, color):
 if __name__ == '__main__':
     maze = generate_maze.maze(30, 15)
     solution = solve_maze.wall_follow(maze)
-    draw(maze, solution)
+    ax = draw_maze(maze)
+    plt.savefig("solution0.png")
+    draw_paths(maze, solution[1:], ax)
     plt.title('Left wall follower')
     plt.show()
-
+    plt.savefig("solution.png")
 
 
