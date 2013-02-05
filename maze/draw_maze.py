@@ -11,7 +11,7 @@ def draw_paths(maze, solution, ax):
     #draw the path taken - make the steps darker so we can see where it went
     total = 5.0 + len(solution)
     start = 0.8
-    step = start / total
+    step = (start -0.2) / total
     rows = maze.shape[0]
     cols = maze.shape[1]
     color = start
@@ -46,7 +46,7 @@ def draw_maze(maze):
                 ax.add_patch(rect)
 
     #draw the bag
-    for row in xrange(rows - 1):
+    for row in xrange(rows):
         for col in xrange(cols):
             if row == 0 or col == 0 or col == cols - 1:
                     rect = make_rectangle(rows, row, col, 'brown')
@@ -73,7 +73,8 @@ if __name__ == '__main__':
     ax = draw_maze(maze)
     plt.savefig("solution0.png")
     draw_paths(maze, solution[1:], ax)
-    plt.title('Left wall follower')
+    #plt.title('Left wall follower') #this doesn't show and it;s right now it's updie down
+    plt.ioff()
     plt.show()
     plt.savefig("solution.png")
 
