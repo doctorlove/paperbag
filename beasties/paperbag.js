@@ -26,7 +26,7 @@ function drawSomething() {
 	var ctx=c.getContext("2d");
 	
 	ctx.clearRect(0,0,c.width,c.height); 
-	ctx.fillStyle="#886644";
+	ctx.fillStyle="#E0B044";
 	var bag_width = 300;
 	var left = 75;
 	var right = left + bag_width;

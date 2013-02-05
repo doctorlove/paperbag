@@ -230,7 +230,7 @@ function draw() {
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    ctx.fillStyle = "rgb(139, 69, 19)";
+    ctx.fillStyle = "rgb(180, 120, 60)";
     ctx.fillRect (1, 8, canvas.width - 1, canvas.height - 8);
 
     var result = document.getElementById("epoch");
