@@ -46,7 +46,7 @@ namespace paperbagcs
 	        }
         }
 
-        private void FormGrid()
+        private void Setup()
         {
             _buffer = new char[_width*_width];
 
@@ -61,7 +61,7 @@ namespace paperbagcs
             }
         }
 
-        private void DrawGrid()
+        private void Draw()
         {
             Debug.Write(_buffer);
 
@@ -105,38 +105,28 @@ namespace paperbagcs
 
         private bool MoveCreatures()
         {
-            //Do *not* update the actual buffer here... one move will affect the next step 
             if (_stars == 0)
             {
-                /*
-                 *   | |
-                 *   | |
-                 *   ---
-                 */
-
                 int pos = (_edge + _bagWidth / 2) * _width + _edge + _bagWidth / 2; ;
                 _buffer[pos] = '*';
                 ++_stars;
                 return true;
             }
-            if(_stars < _width*_width)
+
+            bool breached = false;
+            char[] newBuffer = _buffer.ToArray();
+            for (int i = 0; i < _buffer.Length; ++i)
             {
-                bool breached = false;
-                char[] newBuffer = _buffer.ToArray();
-                for (int i = 0; i < _buffer.Length; ++i)
+                if (Above(i) == '*' || Below(i) == '*' || Left(i) == '*' || Right(i) == '*')
                 {
-                    if (Above(i) == '*' || Below(i) == '*' || Left(i) == '*' || Right(i) == '*')
-                    {
-                        if(_buffer[i] == '|' || _buffer[i] == '-')
-                            breached = true;
-                        newBuffer[i] = '*';
-                        ++_stars;
-                    }
+                    if(_buffer[i] == '|' || _buffer[i] == '-')
+                        breached = true;
+                    newBuffer[i] = '*';
+                    ++_stars;
                 }
-                _buffer = newBuffer;
-                return !breached;
             }
-            return false;
+            _buffer = newBuffer;
+            return !breached;
         }
 
         public Expanding(int width, int bagWidth)
@@ -151,13 +141,13 @@ namespace paperbagcs
 
         public void Go()
         {
-            FormGrid();
+            Setup();
             while (MoveCreatures())
             {
-                DrawGrid();
+                Draw();
                 Thread.Sleep(1000);
             }
-            DrawGrid();
+            Draw();
 
             Console.WriteLine("\nDone");
         }
