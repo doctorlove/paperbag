@@ -5,8 +5,6 @@ var id = 0;
 function stop() {
   clearInterval(id);
   id = 0;
-  xx = 0;
-  document.getElementById("click_draw").innerHTML="draw";
 }
 
 function draw(x) {
@@ -44,13 +42,14 @@ function action(x) {
 
 function start() {
   if (id === 0) {  
+      document.getElementById("click_draw").innerHTML = "stop";
       id = setTimeout(function() {
 	     action(0);
            }, 100);
   }
   else {
-    id = setTimeout(stop, 100);
+    document.getElementById("click_draw").innerHTML = "draw";
+    setTimeout(stop, 100);
   }
-  document.getElementById("click_draw").innerHTML="stop";
 }
 
