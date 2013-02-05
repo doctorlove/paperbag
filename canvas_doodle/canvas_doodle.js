@@ -1,16 +1,15 @@
 //https://developer.mozilla.org/en-US/docs/HTML/Canvas
 
 var id = 0;
-var x = 0;
 
 function stop() {
   clearInterval(id);
   id = 0;
-  x = 0;
+  xx = 0;
   document.getElementById("click_draw").innerHTML="draw";
 }
 
-function draw() {
+function draw(x) {
   var canvas = document.getElementById('tutorial');
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
@@ -26,15 +25,17 @@ function draw() {
   }
 }
 
-function update() {
-    x = x + 5;
+function update(x) {
+    return x + 5;
 }
 
-function action() {
-    draw();
-    update();
+function action(x) {
+    draw(x);
+    x = update(x);
     if (x < 110) {
-      id = setTimeout(action, 100);
+      id = setTimeout(function() {
+	     action(x);
+           }, 100);
     }
     else {
       stop();
@@ -43,7 +44,9 @@ function action() {
 
 function start() {
   if (id === 0) {  
-    id = setTimeout(action, 100);
+      id = setTimeout(function() {
+	     action(0);
+           }, 100);
   }
   else {
     id = setTimeout(stop, 100);
