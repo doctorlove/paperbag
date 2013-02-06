@@ -163,7 +163,8 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
   }
 
   for (i = 0; i < cumulative.length - 1; ++i) {
-    if (p >= cumulative[i] && p <= cumulative[i+1]) { //the first place where it is in range, with 1 is in [1,1]
+    if (p >= cumulative[i] && p <= cumulative[i+1]) { 
+      //the first place where it is in range, with 1 is in [1,1]
       return possible[i];
     }
   }
@@ -172,56 +173,56 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
 }
 
 function pheromone_trail(height, width, pheromones) {
-    var trail = [], pos = start_pos(width);
-    trail.push(pos);
+  var trail = [], pos = start_pos(width);
+  trail.push(pos);
 
-    while (pos.y < height) {
-      pos = roulette_wheel_choice(width, pos, trail, pheromones);
-      trail.push(pos);
-    }
-    return trail;
+  while (pos.y < height) {
+    pos = roulette_wheel_choice(width, pos, trail, pheromones);
+    trail.push(pos);
+  }
+  return trail;
 }
 
 function new_trails(height, width, ants) {
-    var i = 0, trails = [], trail;
-    for (i = 0; i < ants; ++i) {
-        trail = pheromone_trail(width, height, pheromones);
-        trails.push(trail);
-    }
-    return trails;
+  var i = 0, trails = [], trail;
+  for (i = 0; i < ants; ++i) {
+      trail = pheromone_trail(width, height, pheromones);
+      trails.push(trail);
+  }
+  return trails;
 }
 
 function next(max) {
-    if (x < max) {
-      id = setTimeout(simulate, 200);
-    }
-    else {
-      stop();
-    }
+  if (x < max) {
+    id = setTimeout(simulate, 200);
+  }
+  else {
+    stop();
+  }
 }
 
 function find_best(trails) {
-    var len = -1, best = 0, i = 0;
+  var len = -1, best = 0, i = 0;
 
-    for (i = 0; i < trails.length; ++i) {
-        if (len === -1 || trails[i].length < len) {
-            best = i;
-            len = trails[i].length;
-        }
-    }
-    return best;
+  for (i = 0; i < trails.length; ++i) {
+      if (len === -1 || trails[i].length < len) {
+          best = i;
+          len = trails[i].length;
+      }
+  }
+  return best;
 }
 
 function find_worst(trails) {
-    var len = 0, worst = 0, i = 0;
+  var len = 0, worst = 0, i = 0;
 
-    for (i = 0; i < trails.length; ++i) {
-        if (trails[i].length > len) {
-            worst = i;
-            len = trails[i].length;
-        }
-    }
-    return worst;
+  for (i = 0; i < trails.length; ++i) {
+      if (trails[i].length > len) {
+          worst = i;
+          len = trails[i].length;
+      }
+  }
+  return worst;
 }
 
 function draw() {
@@ -256,9 +257,9 @@ function draw() {
   }
 }
 
-function update_pheromones(pheromones, trail) {
+function evapourate(pheromones) {
   var evapouration = 0.5;
-  var update = [], i, pos, new_pos, new_weight, bias;
+  var update = [], new_pos;
 
   for(i = 0; i < pheromones.length; ++i) {
     new_pos = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
@@ -266,6 +267,13 @@ function update_pheromones(pheromones, trail) {
       update.push( new_pos );
     }
   }
+  return update;
+}
+
+function update_pheromones(pheromones, trail) {
+  var evapouration = 0.5;
+  var i, pos, new_pos, new_weight, bias;
+  var update = evapourate(pheromones);
 
   for (i = 0; i < trail.length; ++i) {
     done = false;
