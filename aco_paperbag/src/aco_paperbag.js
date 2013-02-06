@@ -271,7 +271,6 @@ function evapourate(pheromones) {
 }
 
 function update_pheromones(pheromones, trail) {
-  var evapouration = 0.5;
   var i, pos, new_pos, new_weight, bias;
   var update = evapourate(pheromones);
 
@@ -280,18 +279,18 @@ function update_pheromones(pheromones, trail) {
     pos = trail[i];
     bias = pos.y * pos.y; //make ones near the top more attractive
     //I just want to add one here *or* update the old one
-    index = nearest_pheromone(pheromones, pos);
-    if ( index !== -1 ) {
-      new_weight = evapouration * pheromones[index].weight + bias;
-      new_pos = {x: pheromones[index].x, y: pheromones[index].y, weight: new_weight};
+    indexExisting = nearest_pheromone(pheromones, pos);
+    indexUpdated = nearest_pheromone(update, pos);
+    if ( indexUpdated !== -1 ) {
+      new_weight = update[indexUpdated].weight + bias;
+      new_pos = {x: update[indexUpdated].x, y: update[indexUpdated].y, weight: new_weight};
 
-      index = nearest_pheromone(update, pos);
-      if ( index !== -1 ) {
-        update[index] = new_pos;
-      }
-      else {
-        update.push( new_pos );
-      }
+      update[indexUpdated] = new_pos;
+    }
+    else if ( indexExisting !== -1 ) {
+      new_weight = pheromones[indexExisting].weight + bias;
+      new_pos = {x: pheromones[indexExisting].x, y: pheromones[indexExisting].y, weight: new_weight};
+      update.push( new_pos );
     }
     else {
       new_weight = bias;
