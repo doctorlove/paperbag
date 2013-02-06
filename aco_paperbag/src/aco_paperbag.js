@@ -342,13 +342,7 @@ function start() {
     id = setTimeout(aco, 100);
   }
   else {
-    var canvas = document.getElementById('tutorial');
-    if (canvas.getContext) {
-      var ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    }
-
-    id = setTimeout(stop, 100);
+     stop();
   }
 }
 
