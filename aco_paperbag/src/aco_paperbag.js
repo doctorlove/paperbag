@@ -192,15 +192,6 @@ function new_trails(height, width, ants) {
   return trails;
 }
 
-function next(max) {
-  if (x < max) {
-    id = setTimeout(simulate, 200);
-  }
-  else {
-    stop();
-  }
-}
-
 function find_best(trails) {
   var len = -1, best = 0, i = 0;
 
@@ -322,7 +313,14 @@ function simulate() {
     draw();
 
     x = x + 1;
-    next(30);
+    if (x < 30) {
+      id = setTimeout(function() {
+             simulate();
+           }, 200);
+    }
+    else {
+      stop();
+    }
   }
   catch(err) {
     alert(err);
