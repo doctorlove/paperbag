@@ -275,7 +275,6 @@ function update_pheromones(pheromones, trail) {
   var update = evapourate(pheromones);
 
   for (i = 0; i < trail.length; ++i) {
-    done = false;
     pos = trail[i];
     bias = pos.y * pos.y; //make ones near the top more attractive
     //I just want to add one here *or* update the old one
@@ -284,7 +283,6 @@ function update_pheromones(pheromones, trail) {
     if ( indexUpdated !== -1 ) {
       new_weight = update[indexUpdated].weight + bias;
       new_pos = {x: update[indexUpdated].x, y: update[indexUpdated].y, weight: new_weight};
-
       update[indexUpdated] = new_pos;
     }
     else if ( indexExisting !== -1 ) {
