@@ -1,7 +1,6 @@
 //https://developer.mozilla.org/en-US/docs/HTML/Canvas
 
 var id = 0;
-var x = 0;
 var scale = 20.0;
 var height;
 var width;
@@ -307,15 +306,15 @@ function update() {
   trails = new_trails(height, width, ants);
 }
 
-function simulate() {
+function simulate(epoch) {
   try {
     update();
     draw();
 
-    x = x + 1;
-    if (x < 30) {
+    epoch = epoch + 1;
+    if (epoch < 30) {
       id = setTimeout(function() {
-             simulate();
+             simulate(epoch);
            }, 200);
     }
     else {
@@ -329,7 +328,7 @@ function simulate() {
 
 function aco() {
   draw();
-  simulate();
+  simulate(0);
 }
 
 function start() {
