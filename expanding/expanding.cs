@@ -141,6 +141,7 @@ namespace paperbagcs
             Draw();
 
             Console.WriteLine("\nDone");
+	    Console.ReadLine();
         }
     }
 }

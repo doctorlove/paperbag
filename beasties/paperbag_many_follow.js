@@ -43,7 +43,7 @@ function draw() {
 	var ctx=c.getContext("2d");
 
 	ctx.clearRect(0,0,c.width,c.height); 
-	ctx.fillStyle="#886644";
+	ctx.fillStyle="#E0B044";
 	ctx.fillRect(left,up,bag_width,bag_width);
 	
 	for (var i=0; i<ids.length; i++) {
@@ -64,10 +64,6 @@ function distance_index(distance, index) {
 }
 
 function knn(items, index, n) {
-	//unit test this
-	//what if there's a tie?
-	var beast = items[index];
-
 	var results =[]; 
 	for (var i=0; i<items.length; i++) {
 		if (i !==index) {
