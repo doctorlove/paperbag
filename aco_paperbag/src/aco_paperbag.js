@@ -1,9 +1,5 @@
-//https://developer.mozilla.org/en-US/docs/HTML/Canvas
-
 var id = 0;
 var scale = 20.0;
-var height;
-var width;
 var ants = 20;
 var trails = [];
 var pheromones = [];
@@ -82,12 +78,7 @@ function start_pos(width) {
   return { x: Math.floor(width/2), y: 0 };
 }
 
-function random_trail(width, height) {
-    // + + + //
-    // . . . //
-    // . . . //
-    // - - - //
-    //
+function random_trail(height, width) {
     // Assume we start at the bottom
     //     If we get to the top, we're out, finish
     var trail = [], pos = start_pos(width);
@@ -104,7 +95,7 @@ function random_trail(width, height) {
 function make_trails(height, width, ants) {
     var i = 0, trails = [], trail;
     for (i = 0; i < ants; ++i) {
-        trail = random_trail(width, height);
+        trail = random_trail(height, width);
         trails.push(trail);
     }
     return trails;
@@ -249,48 +240,48 @@ function draw() {
 
 function evapourate(pheromones) {
   var evapouration = 0.5;
-  var update = [], new_pos;
+  var updated = [], new_pos;
 
   for(i = 0; i < pheromones.length; ++i) {
     new_pos = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
     if (new_pos.weight > 0.5) {
-      update.push( new_pos );
+      updated.push( new_pos );
     }
   }
-  return update;
+  return updated;
 }
 
 function update_pheromones(pheromones, trail) {
   var i, pos, new_pos, new_weight, bias;
-  var update = evapourate(pheromones);
+  var updated = evapourate(pheromones);
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
     bias = pos.y * pos.y; //make ones near the top more attractive
     //I just want to add one here *or* update the old one
     indexExisting = nearest_pheromone(pheromones, pos);
-    indexUpdated = nearest_pheromone(update, pos);
+    indexUpdated = nearest_pheromone(updated, pos);
     if ( indexUpdated !== -1 ) {
-      new_weight = update[indexUpdated].weight + bias;
-      new_pos = {x: update[indexUpdated].x, y: update[indexUpdated].y, weight: new_weight};
-      update[indexUpdated] = new_pos;
+      new_weight = updated[indexUpdated].weight + bias;
+      new_pos = {x: updated[indexUpdated].x, y: updated[indexUpdated].y, weight: new_weight};
+      updated[indexUpdated] = new_pos;
     }
     else if ( indexExisting !== -1 ) {
       new_weight = pheromones[indexExisting].weight + bias;
       new_pos = {x: pheromones[indexExisting].x, y: pheromones[indexExisting].y, weight: new_weight};
-      update.push( new_pos );
+      updated.push( new_pos );
     }
     else {
       new_weight = bias;
       new_pos = {x: pos.x, y: pos.y, weight: new_weight};
-      update.push( new_pos );
+      updated.push( new_pos );
     }
 
   }
-  return update;
+  return updated;
 }
 
-function update() {
+function update(height, width) {
   var trail, i;
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
@@ -306,15 +297,15 @@ function update() {
   trails = new_trails(height, width, ants);
 }
 
-function simulate(epoch) {
+function simulate(epoch, height, width) {
   try {
-    update();
+    update(height, width);
     draw();
 
     epoch = epoch + 1;
     if (epoch < 30) {
       id = setTimeout(function() {
-             simulate(epoch);
+             simulate(epoch, height, width);
            }, 200);
     }
     else {
@@ -327,16 +318,16 @@ function simulate(epoch) {
 }
 
 function aco() {
+  var canvas = document.getElementById('tutorial');
+  height = canvas.height / scale;
+  width = canvas.width / scale;
+  trails = make_trails(height, width, ants);
   draw();
-  simulate(0);
+  simulate(0, height, width);
 }
 
 function start() {
   if (id === 0) {  
-    var canvas = document.getElementById('tutorial');
-    height = canvas.height / scale;
-    width = canvas.width / scale;
-    trails = make_trails(height, width, ants);
     document.getElementById("click_draw").innerHTML="stop";
     id = setTimeout(aco, 100);
   }
