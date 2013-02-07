@@ -140,6 +140,14 @@ function cumulative_weights(possible, pheromones){
   return cumulative;
 }
 
+function show_pheromones(pheromones) {
+  var display = "", i = 0;
+  for (i = 0; i < pheromones.length; ++i) {
+    display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + " ";
+  }
+  return display;
+}
+
 function roulette_wheel_choice(width, pos, trail, pheromones) {
   var possible = possible_positions(width, pos);
   var allowed = [];
@@ -152,7 +160,7 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
   var cumulative = cumulative_weights(possible, pheromones);
   var total = cumulative[cumulative.length-1];
   //random is in [0, 1) 
-  var p = Math.floor(Math.random() * total + 1);
+  var p = Math.random() * total;
   if ( p > total) {
     return possible[possible.length - 1];
   }
@@ -164,7 +172,7 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
     }
   }
 
-  throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative;
+  throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative + " and pheromones " + show_pheromones(pheromones) ;
 }
 
 function pheromone_trail(height, width, pheromones) {
