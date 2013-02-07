@@ -159,7 +159,7 @@ describe("nearest_pheromones", function() {
 
 describe("cumulative_weights", function() {
 
-  it("should give the cumulative sums of the weights", function() {
+  it("should give the sum of tau eta when there is one point", function() {
     var pheromones = [];
     var pos = {x: 1, y: 2, weight: 1};
     pheromones.push(pos);
@@ -168,10 +168,10 @@ describe("cumulative_weights", function() {
     var cumulative = cumulative_weights(possible, pheromones); 
     expect(cumulative.length === 2).toBe(true);
     expect(cumulative[0]).toEqual(0);
-    expect(cumulative[1]).toEqual(1);
+    expect(cumulative[1]).toEqual(taueta(pos.weight, pos.y));
   });
 
-  it("should give total of one when there is a one and the rest are zero", function() {
+  it("should give the sum of tau eta when there is a non-zero weight and the rest are zero", function() {
     var pheromones = [], possible = [];
 
     pheromones.push({x: 0, y: 1, weight: 1});
@@ -182,12 +182,12 @@ describe("cumulative_weights", function() {
     possible.push( { x: 1, y: 1 } );
     possible.push( { x: 1, y: 0 } );
 
-    var cumulative = cumulative_weights(possible, pheromones); 
+    var cumulative = cumulative_weights(possible, pheromones);
     expect(cumulative.length === 4).toBe(true);
     expect(cumulative[0]).toEqual(0);
-    expect(cumulative[1]).toEqual(1);
-    expect(cumulative[2]).toEqual(1);
-    expect(cumulative[3]).toEqual(1);
+    expect(cumulative[1]).toEqual(taueta(1,1));
+    expect(cumulative[2]).toEqual(taueta(1,1) + taueta(0,1));
+    expect(cumulative[3]).toEqual(taueta(1,1) + taueta(0,1) + taueta(0,0));
   });
 
 });
@@ -202,11 +202,11 @@ describe("roulette_wheel_choice", function() {
     expect(new_pos.x >= 0).toBe(true);
   });
 
-  it("should go to non-zero pheromones point if all other pheromones are 0", function() {
+  it("should go to best pheromone point", function() {
     //the randomness makes this fail sometimes
     var pheromones = [], possible = [], trail = [], pos = {x: 0, y: 0};
 
-    pheromones.push({x: 0, y: 1, weight: 1});
+    pheromones.push({x: 0, y: 1, weight: 1});//best weight and height
     pheromones.push({x: 1, y: 1, weight: 0});
     pheromones.push({x: 1, y: 0, weight: 0});
 

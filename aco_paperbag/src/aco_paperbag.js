@@ -121,15 +121,21 @@ function nearest_pheromone(pheromones, pos) {
 }
 
 
+function taueta(weight, y) {
+  var alpha = 1.0;
+  var beta = 3.0;//want this to be non-linear
+  return Math.pow(weight, alpha) + Math.pow(y, beta);
+  //return weight; //very boring - it finds the best path in the 2nd epoch
+}
+
 function cumulative_weights(possible, pheromones){
   var total = 0, index;
   var cumulative = [total];
   for (i = 0; i < possible.length; ++i) {
     index = nearest_pheromone(pheromones, possible[i]);
     if (index !== -1) {
-      total = total + pheromones[index].weight;
+      total = total + taueta(pheromones[index].weight, pheromones[index].y);
     }
-    // does weight * 1/distance work? (or weight if it's on top of it)
     cumulative.push(total);
   }
   return cumulative;
@@ -254,10 +260,13 @@ function evapourate(pheromones) {
 function update_pheromones(pheromones, trail) {
   var i, pos, new_pos, new_weight, bias;
   var updated = evapourate(pheromones);
+  var Q = 2.0;
+  var L = Q/trail.length;
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
-    bias = pos.y * pos.y; //make ones near the top more attractive
+    //bias = pos.y * pos.y; //make ones near the top more attractive
+    bias = L;
     //I just want to add one here *or* update the old one
     indexExisting = nearest_pheromone(pheromones, pos);
     indexUpdated = nearest_pheromone(updated, pos);
