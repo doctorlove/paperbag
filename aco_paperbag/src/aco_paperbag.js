@@ -2,7 +2,6 @@ var id = 0;
 var scale = 20.0;
 var ants = 20;
 var trails = [];
-var pheromones = [];
 
 function stop()
 {
@@ -179,10 +178,10 @@ function pheromone_trail(height, width, pheromones) {
   return trail;
 }
 
-function new_trails(height, width, ants) {
+function new_trails(pheromones, height, width, ants) {
   var i = 0, trails = [], trail;
   for (i = 0; i < ants; ++i) {
-      trail = pheromone_trail(width, height, pheromones);
+      trail = pheromone_trail(height, width, pheromones);
       trails.push(trail);
   }
   return trails;
@@ -265,20 +264,12 @@ function update_pheromones(pheromones, trail) {
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
-    //bias = pos.y * pos.y; //make ones near the top more attractive
     bias = L;
-    //I just want to add one here *or* update the old one
-    indexExisting = nearest_pheromone(pheromones, pos);
     indexUpdated = nearest_pheromone(updated, pos);
     if ( indexUpdated !== -1 ) {
       new_weight = updated[indexUpdated].weight + bias;
       new_pos = {x: updated[indexUpdated].x, y: updated[indexUpdated].y, weight: new_weight};
       updated[indexUpdated] = new_pos;
-    }
-    else if ( indexExisting !== -1 ) {
-      new_weight = pheromones[indexExisting].weight + bias;
-      new_pos = {x: pheromones[indexExisting].x, y: pheromones[indexExisting].y, weight: new_weight};
-      updated.push( new_pos );
     }
     else {
       new_weight = bias;
@@ -290,7 +281,7 @@ function update_pheromones(pheromones, trail) {
   return updated;
 }
 
-function update(height, width) {
+function update(pheromones, height, width) {
   var trail, i;
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
@@ -303,18 +294,18 @@ function update(height, width) {
     pheromones = update_pheromones(pheromones, trail);
   }
 
-  trails = new_trails(height, width, ants);
+  trails = new_trails(pheromones, height, width, ants);
 }
 
-function simulate(epoch, height, width) {
+function simulate(epoch, pheromones, height, width) {
   try {
-    update(height, width);
+    update(pheromones, height, width);
     draw();
 
     epoch = epoch + 1;
     if (epoch < 30) {
       id = setTimeout(function() {
-             simulate(epoch, height, width);
+             simulate(epoch, pheromones, height, width);
            }, 200);
     }
     else {
@@ -328,11 +319,12 @@ function simulate(epoch, height, width) {
 
 function aco() {
   var canvas = document.getElementById('tutorial');
+  var pheromones = [];
   height = canvas.height / scale;
   width = canvas.width / scale;
   trails = make_trails(height, width, ants);
   draw();
-  simulate(0, height, width);
+  simulate(0, pheromones, height, width);
 }
 
 function start() {
