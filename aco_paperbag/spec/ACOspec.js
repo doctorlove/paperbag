@@ -111,12 +111,12 @@ describe("contains", function() {
 
 });
 
-describe("update_pheromones", function () {
+describe("add_new_pheromones", function () {
 
   it("should contain each point in a new trail", function() {
     var found, i, pos, pheromones = [], updated;
     var trail = random_trail(5, 6);
-    updated = update_pheromones(pheromones, trail);
+    updated = add_new_pheromones(pheromones, trail);
     for( i = 0; i < trail.length; ++i) {
       pos = trail[i];
       found = false;
@@ -197,7 +197,7 @@ describe("roulette_wheel_choice", function() {
   it("should return a position", function() {
     var width = 5, i, pos = {x: 0, y: 0}, pheromones = [], updated;
     var trail = random_trail(width, 6);
-    updated = update_pheromones(pheromones, trail);
+    updated = add_new_pheromones(pheromones, trail);
     var new_pos = roulette_wheel_choice(width, pos, trail, updated);
     expect(new_pos.x >= 0).toBe(true);
   });

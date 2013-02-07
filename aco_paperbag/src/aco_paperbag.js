@@ -256,42 +256,42 @@ function evapourate(pheromones) {
   return updated;
 }
 
-function update_pheromones(pheromones, trail) {
+function add_new_pheromones(pheromones, trail) {
   var i, pos, new_pos, new_weight, bias;
-  var updated = evapourate(pheromones);
   var Q = 2.0;
   var L = Q/trail.length;
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
     bias = L;
-    indexUpdated = nearest_pheromone(updated, pos);
-    if ( indexUpdated !== -1 ) {
-      new_weight = updated[indexUpdated].weight + bias;
-      new_pos = {x: updated[indexUpdated].x, y: updated[indexUpdated].y, weight: new_weight};
-      updated[indexUpdated] = new_pos;
+    index = nearest_pheromone(pheromones, pos);
+    if ( index !== -1 ) {
+      new_weight = pheromones[index].weight + bias;
+      new_pos = {x: pheromones[index].x, y: pheromones[index].y, weight: new_weight};
+      pheromones[index] = new_pos;
     }
     else {
       new_weight = bias;
       new_pos = {x: pos.x, y: pos.y, weight: new_weight};
-      updated.push( new_pos );
+      pheromones.push( new_pos );
     }
 
   }
-  return updated;
+  return pheromones;
 }
 
 function update(pheromones, height, width) {
   var trail, i;
+  var updated = evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
     if (trail.length < 2*height ) {
-      pheromones = update_pheromones(pheromones, trail);
+      pheromones = add_new_pheromones(pheromones, trail);
     }
   }
   if (pheromones.length === 0) {
     var trail = trails[find_best(trails)];
-    pheromones = update_pheromones(pheromones, trail);
+    pheromones = add_new_pheromones(pheromones, trail);
   }
 
   trails = new_trails(pheromones, height, width, ants);
