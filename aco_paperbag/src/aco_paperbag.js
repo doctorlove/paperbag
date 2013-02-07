@@ -258,7 +258,7 @@ function evapourate(pheromones) {
 
   for(i = 0; i < pheromones.length; ++i) {
     new_pos = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
-    if (new_pos.weight > 0.5) {
+    if (new_pos.weight > 0.1) {
       updated.push( new_pos );
     }
   }
@@ -266,22 +266,19 @@ function evapourate(pheromones) {
 }
 
 function add_new_pheromones(pheromones, trail) {
-  var i, pos, new_pos, new_weight, bias;
-  var Q = 2.0;
+  var i, pos, new_pos;
+  var Q = 20.0;
   var L = Q/trail.length;
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
-    bias = L;
     index = nearest_pheromone(pheromones, pos);
     if ( index !== -1 ) {
-      new_weight = pheromones[index].weight + bias;
-      new_pos = {x: pheromones[index].x, y: pheromones[index].y, weight: new_weight};
+      new_pos = {x: pheromones[index].x, y: pheromones[index].y, weight: pheromones[index].weight + L};
       pheromones[index] = new_pos;
     }
     else {
-      new_weight = bias;
-      new_pos = {x: pos.x, y: pos.y, weight: new_weight};
+      new_pos = {x: pos.x, y: pos.y, weight: L};
       pheromones.push( new_pos );
     }
 
