@@ -7,7 +7,6 @@ function stop()
 {
   clearInterval(id);
   id = 0;
-  x = 0;
   document.getElementById("click_draw").innerHTML="draw";
 }
 
