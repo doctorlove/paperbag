@@ -208,10 +208,6 @@ describe("roulette_wheel_choice", function() {
     pheromones.push({x: 0, y: 1, weight: 1});//best weight and height
     pheromones.push({x: 1, y: 0, weight: 0});
 
-    possible.push( { x: 0, y: 1 } );
-    possible.push( { x: 1, y: 1 } );
-    possible.push( { x: 1, y: 0 } );
-
     trail.push( { x: 0, y: 0 } );
 
     var new_pos = roulette_wheel_choice(4, pos, trail, pheromones);

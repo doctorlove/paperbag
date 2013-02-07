@@ -128,7 +128,7 @@ function taueta(weight, y) {
 }
 
 function cumulative_weights(possible, pheromones){
-  var total = 0, index;
+  var total = 0.0, index;
   var cumulative = [total];
   for (i = 0; i < possible.length; ++i) {
     index = nearest_pheromone(pheromones, possible[i]);
@@ -159,20 +159,23 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
   }
   var cumulative = cumulative_weights(possible, pheromones);
   var total = cumulative[cumulative.length-1];
-  //random is in [0, 1) 
+  if (total === 0) {
+    return possible[Math.floor(Math.random() * possible.length + 1)];
+  }
+
   var p = Math.random() * total;
   if ( p > total) {
     return possible[possible.length - 1];
   }
 
   for (i = 0; i < cumulative.length - 1; ++i) {
-    if (p >= cumulative[i] && p <= cumulative[i+1]) { 
+    if (p > cumulative[i] && p <= cumulative[i+1]) { 
       //the first place where it is in range, with 1 is in [1,1]
       return possible[i];
     }
   }
 
-  throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative + " and pheromones " + show_pheromones(pheromones) ;
+  throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative + " and pheromones " + show_pheromones(pheromones) + " at pos " + pos.x + ", " + pos.y ;
 }
 
 function pheromone_trail(height, width, pheromones) {
