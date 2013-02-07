@@ -202,12 +202,10 @@ describe("roulette_wheel_choice", function() {
     expect(new_pos.x >= 0).toBe(true);
   });
 
-  it("should go to best pheromone point", function() {
-    //the randomness makes this fail sometimes
+  it("should go to best pheromone point if all other points have zero probability", function() {
     var pheromones = [], possible = [], trail = [], pos = {x: 0, y: 0};
 
     pheromones.push({x: 0, y: 1, weight: 1});//best weight and height
-    pheromones.push({x: 1, y: 1, weight: 0});
     pheromones.push({x: 1, y: 0, weight: 0});
 
     possible.push( { x: 0, y: 1 } );
