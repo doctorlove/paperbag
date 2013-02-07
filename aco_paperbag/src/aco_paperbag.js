@@ -121,8 +121,8 @@ function nearest_pheromone(pheromones, pos) {
 
 function taueta(weight, y) {
   var alpha = 1.0;
-  var beta = 3.0;//want this to be non-linear
-  return Math.pow(weight, alpha) + Math.pow(y, beta);
+  var beta = 2.0;//want this to be non-linear
+  return Math.pow(weight, alpha) * Math.pow(y, beta);
 }
 
 function cumulative_probability(possible, pheromones){
