@@ -122,7 +122,7 @@ describe("add_new_pheromones", function () {
       found = false;
       for(j = 0; j<updated.length; ++j) {
         if ((pos.x === updated[j].x) && (pos.y === updated[j].y)) {
-     found = true;
+          found = true;
         }
       }
       expect(found).toBe(true);
@@ -157,7 +157,7 @@ describe("nearest_pheromones", function() {
 
 });
 
-describe("cumulative_weights", function() {
+describe("cumulative_probability", function() {
 
   it("should give the sum of tau eta when there is one point", function() {
     var pheromones = [];
@@ -165,7 +165,7 @@ describe("cumulative_weights", function() {
     pheromones.push(pos);
     var possible = [];
     possible.push( { x: 1, y:2 } );
-    var cumulative = cumulative_weights(possible, pheromones); 
+    var cumulative = cumulative_probability(possible, pheromones); 
     expect(cumulative.length === 2).toBe(true);
     expect(cumulative[0]).toEqual(0);
     expect(cumulative[1]).toEqual(taueta(pos.weight, pos.y));
@@ -182,7 +182,7 @@ describe("cumulative_weights", function() {
     possible.push( { x: 1, y: 1 } );
     possible.push( { x: 1, y: 0 } );
 
-    var cumulative = cumulative_weights(possible, pheromones);
+    var cumulative = cumulative_probability(possible, pheromones);
     expect(cumulative.length === 4).toBe(true);
     expect(cumulative[0]).toEqual(0);
     expect(cumulative[1]).toEqual(taueta(1,1));
@@ -196,7 +196,7 @@ describe("roulette_wheel_choice", function() {
 
   it("should return a position", function() {
     var width = 5, i, pos = {x: 0, y: 0}, pheromones = [], updated;
-    var trail = random_trail(width, 6);
+    var trail = random_trail(6, width);
     updated = add_new_pheromones(pheromones, trail);
     var new_pos = roulette_wheel_choice(width, pos, trail, updated);
     expect(new_pos.x >= 0).toBe(true);

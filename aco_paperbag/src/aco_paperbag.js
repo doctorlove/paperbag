@@ -124,10 +124,9 @@ function taueta(weight, y) {
   var alpha = 1.0;
   var beta = 3.0;//want this to be non-linear
   return Math.pow(weight, alpha) + Math.pow(y, beta);
-  //return weight; //very boring - it finds the best path in the 2nd epoch
 }
 
-function cumulative_weights(possible, pheromones){
+function cumulative_probability(possible, pheromones){
   var total = 0.0, index;
   var cumulative = [total];
   for (i = 0; i < possible.length; ++i) {
@@ -149,6 +148,7 @@ function show_pheromones(pheromones) {
 }
 
 function roulette_wheel_choice(width, pos, trail, pheromones) {
+  var p=0;
   var possible = possible_positions(width, pos);
   var allowed = [];
   var i = 0;
@@ -157,19 +157,17 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
       allowed.push(possible[i]);
     }
   }
-  var cumulative = cumulative_weights(possible, pheromones);
+  var cumulative = cumulative_probability(possible, pheromones);
   var total = cumulative[cumulative.length-1];
   if (total === 0) {
-    return possible[Math.floor(Math.random() * possible.length + 1)];
+    p = Math.floor(Math.random() * possible.length);
+    return possible[p];
   }
 
-  var p = Math.random() * total;
-  if ( p > total) {
-    return possible[possible.length - 1];
-  }
+  p = Math.random() * total;
 
   for (i = 0; i < cumulative.length - 1; ++i) {
-    if (p > cumulative[i] && p <= cumulative[i+1]) { 
+    if (p >= cumulative[i] && p <= cumulative[i+1]) { 
       //the first place where it is in range, with 1 is in [1,1]
       return possible[i];
     }
