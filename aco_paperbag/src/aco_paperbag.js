@@ -272,9 +272,9 @@ function evapourate(pheromones) {
   return updated;
 }
 
-function add_new_pheromones(pheromones, trail) {
+function add_new_pheromones(height, pheromones, trail) {
   var i, pos, new_pos;
-  var Q = 20.0;
+  var Q = 2.0 * height;
   var L = Q/trail.length;
 
   for (i = 0; i < trail.length; ++i) {
@@ -299,12 +299,12 @@ function update(pheromones, height, width) {
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
     if (trail.length < 2*height ) {
-      pheromones = add_new_pheromones(pheromones, trail);
+      pheromones = add_new_pheromones(height, pheromones, trail);
     }
   }
   if (pheromones.length === 0) {
     var trail = trails[find_best(trails)];
-    pheromones = add_new_pheromones(pheromones, trail);
+    pheromones = add_new_pheromones(height, pheromones, trail);
   }
 
   trails = new_trails(pheromones, height, width, ants);

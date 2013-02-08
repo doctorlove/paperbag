@@ -72,7 +72,7 @@ describe("random_trail", function() {
   it("should start at bottom of bag", function() {
     var width = 4;
     var height = 3;
-    var trail = random_trail(width, height);
+    var trail = random_trail(height, width);
     expect(trail.length>0).toBe(true);
     expect(trail[0].y === 0).toBe(true);
   });
@@ -80,7 +80,7 @@ describe("random_trail", function() {
   it("should end above bag", function() {
     var width = 4;
     var height = 3;
-    var trail = random_trail(width, height);
+    var trail = random_trail(height, width);
     expect(trail.length>0).toBe(true);
     expect(trail[trail.length-1].y>=height).toBe(true);
   });
@@ -163,8 +163,10 @@ describe("add_new_pheromones", function () {
 
   it("should contain each point in a new trail", function() {
     var found, i, pos, pheromones = [], updated;
-    var trail = random_trail(5, 6);
-    updated = add_new_pheromones(pheromones, trail);
+    var width = 4;
+    var height = 6;
+    var trail = random_trail(height, width);
+    updated = add_new_pheromones(height, pheromones, trail);
     for( i = 0; i < trail.length; ++i) {
       pos = trail[i];
       found = false;
@@ -243,9 +245,9 @@ describe("cumulative_probability", function() {
 describe("roulette_wheel_choice", function() {
 
   it("should return a position", function() {
-    var width = 5, i, pos = {x: 0, y: 0}, pheromones = [], updated;
-    var trail = random_trail(6, width);
-    updated = add_new_pheromones(pheromones, trail);
+    var width = 5, height = 6, i, pos = {x: 0, y: 0}, pheromones = [], updated;
+    var trail = random_trail(height, width);
+    updated = add_new_pheromones(height, pheromones, trail);
     var new_pos = roulette_wheel_choice(width, pos, trail, updated);
     expect(new_pos.x >= 0).toBe(true);
   });
