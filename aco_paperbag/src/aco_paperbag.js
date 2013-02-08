@@ -121,7 +121,7 @@ function nearest_pheromone(pheromones, pos) {
 
 function taueta(weight, y) {
   var alpha = 1.0;
-  var beta = 2.0;//want this to be non-linear
+  var beta = 3.0;
   return Math.pow(weight, alpha) * Math.pow(y, beta);
 }
 
@@ -264,9 +264,9 @@ function evapourate(pheromones) {
   var updated = [], new_pos;
 
   for(i = 0; i < pheromones.length; ++i) {
-    new_pos = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
-    if (new_pos.weight > 0.1) {
-      updated.push( new_pos );
+    pheromone = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
+    if (pheromone.weight > 0.1) {
+      updated.push( pheromone );
     }
   }
   return updated;
@@ -298,14 +298,14 @@ function update(pheromones, height, width) {
   var updated = evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
-    if (trail.length < 2*height ) {
+//    if (trail.length < 2*height ) {
       pheromones = add_new_pheromones(height, pheromones, trail);
-    }
+//    }
   }
-  if (pheromones.length === 0) {
-    var trail = trails[find_best(trails)];
-    pheromones = add_new_pheromones(height, pheromones, trail);
-  }
+//  if (pheromones.length === 0) {
+//    var trail = trails[find_best(trails)];
+//    pheromones = add_new_pheromones(height, pheromones, trail);
+//  }
 
   trails = new_trails(pheromones, height, width, ants);
 }
