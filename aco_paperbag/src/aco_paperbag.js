@@ -298,14 +298,8 @@ function update(pheromones, height, width) {
   var updated = evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
-//    if (trail.length < 2*height ) {
       pheromones = add_new_pheromones(height, pheromones, trail);
-//    }
   }
-//  if (pheromones.length === 0) {
-//    var trail = trails[find_best(trails)];
-//    pheromones = add_new_pheromones(height, pheromones, trail);
-//  }
 
   trails = new_trails(pheromones, height, width, ants);
 }
