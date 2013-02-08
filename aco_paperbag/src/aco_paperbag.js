@@ -19,10 +19,6 @@ function contains(a, obj) {
     return false;
 }
 
-function contains_key(a, key) {
-  return a.hasOwnProperty(key);
-}
-
 function possible_positions(width, pos) {
     //up to eight neighbours
     var possible = [], n = 0;
@@ -65,7 +61,7 @@ function next_pos(width, pos, trail) {
         }
     }  
     n = Math.floor(Math.random() * allowed.length);//we want < total length, so don't add one here
-    if (n < 0 || n > possible.length) {
+    if (n < 0 || n > allowed.length) {
         throw "n out of range " + n;
     }
     return allowed[n];
