@@ -23,13 +23,23 @@ describe("next_pos", function() {
   });
 
 
-  it("should not return to a previous point", function() {
+  it("should not return to a current point", function() {
     expect(true).toBe(true);
     var width = 4;
     var pos = { x:0, y:1 };
     var trail = [];
     var old_pos = { x:0, y:1 };
     trail.push( old_pos );
+    var new_pos = next_pos(width, pos, trail);
+    expect(new_pos.x === 0 && new_pos.y === 1).toBe(false);
+  });
+
+  it("should not return to a previous point", function() {
+    expect(true).toBe(true);
+    var width = 4;
+    var pos = { x:0, y:1 };
+    var trail = [];
+    trail.push( {x:0, y:1 } );
     var new_pos = next_pos(width, pos, trail);
     expect(contains(trail, new_pos)).toBe(false);
   });
@@ -106,6 +116,7 @@ describe("contains", function() {
     var trails = []
     var pos = { x: 0, y: 1};
     trails.push( pos );
+    //trails.push( {x: 0, y:1 } ); //I'm comparing the ref: bug!
     expect(contains(trails, pos)).toBe(true);
   });
 

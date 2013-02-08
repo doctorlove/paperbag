@@ -25,7 +25,6 @@ function contains_key(a, key) {
 
 function possible_positions(width, pos) {
     //up to eight neighbours
-    //Consider not allowing you to revisit a node
     var possible = [], n = 0;
     if (pos.y > 0) {
         if (pos.x > 0) {
@@ -69,7 +68,7 @@ function next_pos(width, pos, trail) {
     if (n < 0 || n > possible.length) {
         throw "n out of range " + n;
     }
-    return possible[n];
+    return allowed[n];
 }
 
 function start_pos(width) {
