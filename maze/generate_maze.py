@@ -1,3 +1,4 @@
+#from http://en.wikipedia.org/wiki/Maze_generation_algorithm
 import numpy
 from numpy.random import random_integers as rand
 import matplotlib.pyplot as pyplot
