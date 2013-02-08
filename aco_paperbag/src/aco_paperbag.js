@@ -265,9 +265,7 @@ function evapourate(pheromones) {
 
   for(i = 0; i < pheromones.length; ++i) {
     pheromone = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
-    if (pheromone.weight > 0.1) {
-      updated.push( pheromone );
-    }
+    updated.push( pheromone );
   }
   return updated;
 }
@@ -281,12 +279,10 @@ function add_new_pheromones(height, pheromones, trail) {
     pos = trail[i];
     index = nearest_pheromone(pheromones, pos);
     if ( index !== -1 ) {
-      new_pos = {x: pheromones[index].x, y: pheromones[index].y, weight: pheromones[index].weight + L};
-      pheromones[index] = new_pos;
+      pheromones[index] = {x: pheromones[index].x, y: pheromones[index].y, weight: pheromones[index].weight + L};
     }
     else {
-      new_pos = {x: pos.x, y: pos.y, weight: L};
-      pheromones.push( new_pos );
+      pheromones.push( {x: pos.x, y: pos.y, weight: L});
     }
 
   }
@@ -298,7 +294,7 @@ function update(pheromones, height, width) {
   var updated = evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
-      pheromones = add_new_pheromones(height, pheromones, trail);
+    pheromones = add_new_pheromones(height, pheromones, trail);
   }
 
   trails = new_trails(pheromones, height, width, ants);
