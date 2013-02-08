@@ -10,11 +10,23 @@ function stop()
   document.getElementById("click_draw").innerHTML="draw";
 }
 
+function properties_match(lhs, rhs, property) {
+  return (lhs.hasOwnProperty(property) && rhs.hasOwnProperty(property) && lhs[property]==rhs[property]);
+}
+
+
 function contains(a, obj) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] === obj) {
             return true;
         }
+        else { 
+            var x_matches = properties_match(a[i], obj, "x");
+            var y_matches = properties_match(a[i], obj, "y");
+            if (x_matches && y_matches) {
+                return true;
+            }
+	}
     }
     return false;
 }
@@ -60,8 +72,11 @@ function next_pos(width, pos, trail) {
             allowed.push(possible[i]);
         }
     }  
+    if (allowed.length === 0) {
+        allowed = possible;
+    }
     n = Math.floor(Math.random() * allowed.length);//we want < total length, so don't add one here
-    if (n < 0 || n > allowed.length) {
+    if (n < 0 || n >= allowed.length) {
         throw "n out of range " + n;
     }
     return allowed[n];
@@ -141,8 +156,7 @@ function show_pheromones(pheromones) {
   return display;
 }
 
-function roulette_wheel_choice(width, pos, trail, pheromones) {
-  var p=0;
+function allowed_positions(width, pos, trail) {
   var possible = possible_positions(width, pos);
   var allowed = [];
   var i = 0;
@@ -151,6 +165,15 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
       allowed.push(possible[i]);
     }
   }
+  if (allowed.length === 0) {
+      allowed = possible;
+  }
+  return allowed;
+}
+
+function roulette_wheel_choice(width, pos, trail, pheromones) {
+  var p=0;
+  var possible = allowed_positions(width, pos, trail);
   var cumulative = cumulative_probability(possible, pheromones);
   var total = cumulative[cumulative.length-1];
   if (total === 0) {

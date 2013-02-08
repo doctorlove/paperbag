@@ -37,16 +37,35 @@ describe("next_pos", function() {
   it("should not return to a previous point", function() {
     expect(true).toBe(true);
     var width = 4;
-    var pos = { x:0, y:1 };
+    var pos = { x:0, y:0 };
     var trail = [];
+    trail.push( {x:0, y:0 } );
     trail.push( {x:0, y:1 } );
+    trail.push( {x:1, y:0 } );
+
     var new_pos = next_pos(width, pos, trail);
-    expect(contains(trail, new_pos)).toBe(false);
+    expect(new_pos.x).toEqual(1);
+    expect(new_pos.y).toEqual(1);
   });
 
 
 });
 
+describe("allowed_positions", function() {
+
+  it("should not go to a position that has already been visited", function() {
+    var pheromones = [], trail = [], pos = {x: 0, y: 0};
+ 
+    pheromones.push({x: 0, y: 1, weight: 1});
+    pheromones.push({x: 1, y: 0, weight: 0});
+
+    trail.push( { x: 0, y: 0 } );
+    trail.push( { x: 0, y: 1 } );
+
+    var allowed = allowed_positions(4, pos, trail);
+    expect(allowed.length).toEqual(2);
+  });
+});
 
 describe("random_trail", function() {
 
@@ -104,6 +123,24 @@ describe("find_best", function() {
 
 });
 
+describe("properties_match", function() {
+
+  it("should be true for matching positions", function() {
+    var pos = { x: 0, y: 1};
+    var matching_pos = { x: 0, y: 1};
+    expect(properties_match(pos, matching_pos, "x")).toBe(true);
+    expect(properties_match(pos, matching_pos, "y")).toBe(true);
+  });
+
+  it("should be flase for non-matching positions", function() {
+    var pos = { x: 0, y: 1};
+    var matching_pos = { x: 1, y: 1};
+    expect(properties_match(pos, matching_pos, "x")).toBe(false);
+    expect(properties_match(pos, matching_pos, "y")).toBe(true);
+  });
+});
+
+
 describe("contains", function() {
 
   it("should not contain a item when it is empty", function() {
@@ -115,8 +152,8 @@ describe("contains", function() {
   it("should contain a item when it is the only item", function() {
     var trails = []
     var pos = { x: 0, y: 1};
-    trails.push( pos );
-    //trails.push( {x: 0, y:1 } ); //I'm comparing the ref: bug!
+    //trails.push( pos );
+    trails.push( {x: 0, y:1 } ); //I'm comparing the ref: bug!
     expect(contains(trails, pos)).toBe(true);
   });
 
@@ -226,6 +263,20 @@ describe("roulette_wheel_choice", function() {
     expect(new_pos.y).toEqual(1);
   });
 
+  it("should not go to a place already visited", function() {
+    var pheromones = [], trail = [], pos = {x: 0, y: 0};
+
+    pheromones.push({x: 0, y: 1, weight: 1});
+    pheromones.push({x: 1, y: 0, weight: 0});
+
+    trail.push( { x: 0, y: 0 } );
+    trail.push( { x: 0, y: 1 } );
+    trail.push( { x: 1, y: 1 } );
+
+    var new_pos = roulette_wheel_choice(4, pos, trail, pheromones);
+    expect(new_pos.x).toEqual(1);
+    expect(new_pos.y).toEqual(0);
+  });
 });
 
 
