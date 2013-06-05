@@ -1,33 +1,49 @@
+import pdb
 import math
 import random
 
 def collision_point(x0, y0, x1, y1, height, width):
+    if x0 == x1: return x0, y0
     x = 0.0
     if x1 > width: x = width
     m = (y1 - y0)/(1.0*x1 - x0)
     y = y0 + m*(x-x0)
-    return y
+    return x, y
 
 def collides(x0, y0, x1, y1, height, width):
+    x, y = collision_point(x0, y0, x1, y1, height, width)
     if x0 >= 0 and x0 <= width and x1 >= 0 and x1 <= width:
-        return False
+        return x, y, False
     if (x0 <= 0 and x1 <= 0) or (x0 >= width and x1 >= width):
-        return False
-    y = collision_point(x0, y0, x1, y1, height, width)
-    return y < height
+        return x, y, False
+    return x, y, y < height
+
+def escaped(path):
+    if len(path) == 0: return False
+    return path[-1][2] == False
 
 def launch(generation, height, width):
-    result = []
+    results = []
     for (theta, v) in generation:
-        print theta, v
-        for t in [i*0.2 for i in range(20)]:
+        result = []
+        x = width/2.0
+        y = 0
+        previous_x = x
+        previous_y = y
+        for i in xrange(1, 20):
+            t  = i*0.2
             x = width/2.0 + v * t * math.cos(theta)
-            y = v * t * math.sin(theta) - 0.5 * 9.81 * i * i
+            y = v * t * math.sin(theta) - 0.5 * 9.81 * t * t
             if y < 0: y = 0
-            #print '\t',x,y
-            escaped = False
-            result.append((x, y, escaped))
-    return result
+            #pdb.set_trace()
+            x_hit, y_hit, hits = collides(previous_x, previous_y, x, y, height, width)
+            if hits:
+                result.append(x_hit, y_hit, hits)
+                break
+            else:
+                result.append((x, y, False))
+        results.append(result)
+    return results
 
 if __name__ == "__main__":
     epochs = 25
