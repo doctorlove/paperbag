@@ -46,6 +46,30 @@ class TestCollisions(unittest.TestCase):
         self.assertEqual(height + 1, y_hit)
         self.assertFalse(hits)
 
+    def test_that_ball_crossing_bag_to_left_does_collide(self):
+        height  =  5
+        width  =  10
+        x0 = 1
+        x1 = -2
+        y = height - 2
+        x_hit, y_hit, hits = collides(x0, y, x1, y, height, width)
+        self.assertEqual(0.0, x_hit)
+        self.assertEqual(y, y_hit)
+        self.assertTrue(hits)
+
+    def test_that_ball_going_over_bag_to_left_does_not_collide(self):
+        height  =  5
+        width  =  10
+        x0 = 2
+        x1 = -2
+        y0 = height - 2
+        y1 = height + 4
+        x_hit, y_hit, hits = collides(x0, y0, x1, y1, height, width)
+        self.assertEqual(0.0, x_hit)
+        self.assertEqual(height + 1, y_hit)
+        self.assertFalse(hits)
+
+
 
 class TestLaunch(unittest.TestCase):
     def test_that_launch_with_v_is_zero_means_none_escaped(self):
