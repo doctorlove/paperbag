@@ -48,9 +48,11 @@ def launch(generation, height, width):
         results.append(result)
     return results
 
-def graph_interpolation(results):
+def graph_interpolation(generation, results):
     fig = plt.figure()
     ax = fig.add_subplot(111)
+    for gen in generation:
+        print gen
     for res in results:
         print "res", res, escaped(res)
         print "escaped", escaped(res)
@@ -64,7 +66,7 @@ def graph_interpolation(results):
 
 if __name__ == "__main__":
     epochs = 1
-    items = 2
+    items = 5
     height = 5
     width = 10
 
@@ -78,8 +80,8 @@ if __name__ == "__main__":
 
     for i in range(epochs):
         results = launch(generation, height, width)
-        #then corssover
+        #then crossover
         #then mutate
 
-    graph_interpolation(results)
+    graph_interpolation(generation, results)
 
