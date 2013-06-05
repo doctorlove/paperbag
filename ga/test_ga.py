@@ -3,10 +3,6 @@ import unittest
 
 class TestCollisions(unittest.TestCase):
 
-    def test_that_interpolation_of_horizontal_line_keeps_y_unchanged(self):
-        x, y  =  interpolate((0, 2), (1, 2))
-        self.assertEqual(2, y)
-
     def test_that_ball_staying_inside_bag_does_not_collide(self):
         height  =  5
         width  =  10
@@ -25,7 +21,7 @@ class TestCollisions(unittest.TestCase):
         y1 = 0
         self.assertFalse(collides(x0, y0, x1, y1, height, width))
 
-    def test_that_ball_crossing_bag_does_collide(self):
+    def test_that_ball_crossing_bag_to_right_does_collide(self):
         height  =  5
         width  =  10
         x0 = width - 1
@@ -34,7 +30,7 @@ class TestCollisions(unittest.TestCase):
         self.assertEqual(y, collision_point(x0, y, x1, y, height, width))
         self.assertTrue(collides(x0, y, x1, y, height, width))
 
-    def test_that_ball_going_over_bag_does_not_collide(self):
+    def test_that_ball_going_over_bag_to_right_does_not_collide(self):
         height  =  5
         width  =  10
         x0 = width - 2

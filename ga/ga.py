@@ -1,7 +1,4 @@
 
-def interpolate(a, b):
-    return a
-
 def collision_point(x0, y0, x1, y1, height, width):
     x = 0.0
     if x1 > width: x = width
