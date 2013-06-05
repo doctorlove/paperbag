@@ -70,7 +70,6 @@ class TestCollisions(unittest.TestCase):
         self.assertFalse(hits)
 
 
-
 class TestLaunch(unittest.TestCase):
     def test_that_launch_with_v_is_zero_means_none_escaped(self):
         items = 1
@@ -100,8 +99,6 @@ class TestLaunch(unittest.TestCase):
             generation.append((theta, v))
 
         result = launch(generation, height, width)
-
-        result = launch(generation, height, width)
         self.assertEqual(1, len(result))
         self.assertTrue(escaped(result[0]))
 
@@ -109,8 +106,13 @@ class TestLaunch(unittest.TestCase):
         self.assertFalse(escaped([]))
 
     def test_that_escaped_True_for_one_point_escaping(self):
-        self.assertFalse(escaped([(0,0,True)]))
+        self.assertTrue(escaped([(0,0,False)]))#bool means if it hit or not
 
+    def test_that_escaped_is_false_when_last_item_says_hit(self):
+        res1 = [(5.0, 0, False), (6.6641708557952946, 2.4354348728539814, False), (8.3283417115905891, 4.4784697457079634, False), (9.9925125673858837, 6.1291046185619455, False), (11.656683423181178, 7.3873394914159256, False), (12, 4.9593311501214679, True)] 
+        self.assertFalse(escaped(res1))
+        res2 = [(5.0, 0, False), (2.4897309478420744, 0.11915097568091043, False), (0.0, 0.0, True)]
+        self.assertFalse(escaped(res2))
 
 
 if __name__  == '__main__':

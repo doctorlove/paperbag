@@ -30,9 +30,10 @@ def launch(generation, height, width):
         result = []
         x = width/2.0
         y = 0
-        previous_x = x
-        previous_y = y
+        result.append((x, y, False))
         for i in xrange(1, 20):
+            previous_x = x
+            previous_y = y
             t  = i*0.2
             x = width/2.0 + v * t * math.cos(theta)
             y = v * t * math.sin(theta) - 0.5 * 9.81 * t * t
@@ -58,12 +59,12 @@ def graph_interpolation(results):
         if escaped(res):
             ax.plot(x, y, 'ro-')
         else:
-            ax.plot(x, y, 'b-')
+            ax.plot(x, y, 'bx-')
     plt.show()
 
 if __name__ == "__main__":
-    epochs = 25
-    items = 10
+    epochs = 1
+    items = 2
     height = 5
     width = 10
 
@@ -77,6 +78,8 @@ if __name__ == "__main__":
 
     for i in range(epochs):
         results = launch(generation, height, width)
+        #then corssover
+        #then mutate
 
     graph_interpolation(results)
 
