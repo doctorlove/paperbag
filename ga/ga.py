@@ -1,5 +1,7 @@
 import pdb
+
 import math
+import matplotlib.pyplot as plt
 import random
 
 def collision_point(x0, y0, x1, y1, height, width):
@@ -38,12 +40,26 @@ def launch(generation, height, width):
             #pdb.set_trace()
             x_hit, y_hit, hits = collides(previous_x, previous_y, x, y, height, width)
             if hits:
-                result.append(x_hit, y_hit, hits)
+                result.append((x_hit, y_hit, hits))
                 break
             else:
                 result.append((x, y, False))
         results.append(result)
     return results
+
+def graph_interpolation(results):
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    for res in results:
+        print "res", res, escaped(res)
+        print "escaped", escaped(res)
+        x = [i[0] for i in res]
+        y = [i[1] for i in res]
+        if escaped(res):
+            ax.plot(x, y, 'ro-')
+        else:
+            ax.plot(x, y, 'b-')
+    plt.show()
 
 if __name__ == "__main__":
     epochs = 25
@@ -57,9 +73,10 @@ if __name__ == "__main__":
         v = random.uniform(2, 20)
         generation.append((theta, v))
 
-    escaped = launch(generation, height, width)
+    results = []
 
-    for i in range(1, epochs):
-        launch(generation, height, width)
+    for i in range(epochs):
+        results = launch(generation, height, width)
 
+    graph_interpolation(results)
 
