@@ -94,13 +94,21 @@ class TestLaunch(unittest.TestCase):
 
         generation = []
         for i in range(items):
-            theta = random.uniform(15, 180) * math.pi/180
+            theta = random.uniform(15, 180) * math.pi/90
             v = 1
             generation.append((theta, v))
 
         result = launch(generation, height, width)
         self.assertEqual(1, len(result))
         self.assertTrue(escaped(result[0]))
+
+    def test_that_projectile_going_up_does_not_escape(self):
+        height = 5
+        width = 10
+        generation = [(1.57, 6.5978380724998082)] 
+        result = launch(generation, height, width)
+        self.assertEqual(len(generation), len(result))
+        self.assertFalse(0, escaped(result[0]))
 
     def test_that_escaped_False_for_empty_path(self):
         self.assertFalse(escaped([]))

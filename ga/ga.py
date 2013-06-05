@@ -48,9 +48,26 @@ def launch(generation, height, width):
         results.append(result)
     return results
 
-def graph_interpolation(generation, results):
+def crossover(generation, results):
+    next_generation = generation
+    #todo
+    return next_generation
+
+def mutate(generation):
+    for i in range(len(generation)):
+        (theta, v) = generation[i]
+        if random.random() < 0.1:
+            theta += random.uniform(-10, 10)
+        if random.random() < 0.1:
+            v *= random.uniform(0.9, 1.1)
+        generation[i] = (theta, v)
+
+def graph_interpolation(generation, results, height, width):
     fig = plt.figure()
     ax = fig.add_subplot(111)
+    rect = plt.Rectangle((0, 0), width, height, facecolor='brown')
+    ax.add_patch(rect)
+    
     for gen in generation:
         print gen
     for res in results:
@@ -80,8 +97,8 @@ if __name__ == "__main__":
 
     for i in range(epochs):
         results = launch(generation, height, width)
-        #then crossover
-        #then mutate
+        generation = crossover(generation, results)
+        mutate(generation)
 
-    graph_interpolation(generation, results)
+    graph_interpolation(generation, results, height, width)
 
