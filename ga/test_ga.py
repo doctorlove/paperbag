@@ -100,7 +100,7 @@ class TestLaunch(unittest.TestCase):
 
         result = launch(generation, height, width)
         self.assertEqual(1, len(result))
-        self.assertTrue(escaped(result[0]))
+        self.assertTrue(escaped(height, width, result[0]))
 
     def test_that_projectile_going_up_does_not_escape(self):
         height = 5
@@ -108,19 +108,40 @@ class TestLaunch(unittest.TestCase):
         generation = [(1.57, 6.5978380724998082)] 
         result = launch(generation, height, width)
         self.assertEqual(len(generation), len(result))
-        self.assertFalse(0, escaped(result[0]))
+        self.assertFalse(0, escaped(height, width, result[0]))
+
+    def test_that_projectile_going_through_origin_does_not_escape(self):
+        height = 5
+        width = 10
+        x0 = 0.13608130789921624
+        y0 = 0
+        x = 0.0
+        y = 0.0
+        self.assertTrue(collides(x0, y0, x, y, height, width))
+            
+    def test_that_projectile_not_making_the_edge_does_not_escape(self):
+        height = 5
+        width = 10
+        path = [(2.4868625562327922, 0, False), (2.3297914659973418, 0, False), (2.1727203757618918, 0, False), (2.015649285526441, 0, False)] 
+        self.assertFalse(escaped(height, width, path)) 
 
     def test_that_escaped_False_for_empty_path(self):
-        self.assertFalse(escaped([]))
+        height = 5
+        width = 10
+        self.assertFalse(escaped(height, width, []))
 
     def test_that_escaped_True_for_one_point_escaping(self):
-        self.assertTrue(escaped([(0,0,False)]))#bool means if it hit or not
+        height = 5
+        width = 10
+        self.assertTrue(escaped(height, width, [(0,0,False)]))#bool means if it hit or not
 
     def test_that_escaped_is_false_when_last_item_says_hit(self):
+        height = 5
+        width = 10
         res1 = [(5.0, 0, False), (6.6641708557952946, 2.4354348728539814, False), (8.3283417115905891, 4.4784697457079634, False), (9.9925125673858837, 6.1291046185619455, False), (11.656683423181178, 7.3873394914159256, False), (12, 4.9593311501214679, True)] 
-        self.assertFalse(escaped(res1))
+        self.assertFalse(escaped(height, width, res1))
         res2 = [(5.0, 0, False), (2.4897309478420744, 0.11915097568091043, False), (0.0, 0.0, True)]
-        self.assertFalse(escaped(res2))
+        self.assertFalse(escaped(height, width, res2))
 
 
 if __name__  == '__main__':

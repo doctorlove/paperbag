@@ -20,8 +20,9 @@ def collides(x0, y0, x1, y1, height, width):
         return x, y, False
     return x, y, y < height
 
-def escaped(path):
+def escaped(height, width, path):
     if len(path) == 0: return False
+    if path[-1][0]>0 and path[-1][0]<width: return False
     return path[-1][2] == False
 
 def launch(generation, height, width):
@@ -49,8 +50,9 @@ def launch(generation, height, width):
     return results
 
 def crossover(generation, results):
-    next_generation = generation
-    #todo
+    next_generation = []
+    for i in range(0, len(generation)):
+        next_generation.append(generation[i])
     return next_generation
 
 def mutate(generation):
@@ -71,11 +73,11 @@ def graph_interpolation(generation, results, height, width):
     for gen in generation:
         print gen
     for res in results:
-        print "res", res, escaped(res)
-        print "escaped", escaped(res)
+        print "res", res, escaped(height, width, res)
+        print "escaped", escaped(height, width, res)
         x = [i[0] for i in res]
         y = [i[1] for i in res]
-        if escaped(res):
+        if escaped(height, width, res):
             ax.plot(x, y, 'ro-')
         else:
             ax.plot(x, y, 'bx-')
