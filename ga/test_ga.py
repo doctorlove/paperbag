@@ -41,5 +41,23 @@ class TestCollisions(unittest.TestCase):
         self.assertFalse(collides(x0, y0, x1, y1, height, width))
 
 
+class TestLaunch(unittest.TestCase):
+    def test_that_launch_with_v_is_zero_means_none_escaped(self):
+        items = 10
+        height = 5
+        width = 10
+
+        generation = []
+        for i in range(items):
+            theta = random.uniform(15, 180) * math.pi/180
+            v = 0
+        generation.append((theta, v))
+
+        result = launch(generation, height, width)
+
+        for res in result:
+            self.assertFalse(res[2])
+
+
 if __name__  == '__main__':
     unittest.main()
