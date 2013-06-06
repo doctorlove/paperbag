@@ -51,7 +51,8 @@ def launch(generation, height, width):
 def crossover(generation, results):
     #choices = zip(generation, results) #might do, but copies lots of the results stuff
     choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if results[i][-1] ]
-    if len(choices) == 0 : choices = generation
+    if len(choices) == 0:
+            choices = init_random_generation(items)
     #choices = sorted(choices, key = lambda t: t[1])
     next_generation = []
     for i in range(0, len(generation)):
@@ -75,9 +76,8 @@ def display(generation, result, ax, height, width):
     ax.add_patch(rect)
     for gen in generation:
         print gen
-    for res in results:
+    for res in result:
         print "res", res, escaped(height, width, res)
-        print "escaped", escaped(height, width, res)
         x = [i[0] for i in res]
         y = [i[1] for i in res]
         if escaped(height, width, res):
@@ -98,17 +98,22 @@ def graph_interpolation(generation0, result0, generation, result, height, width)
     display(generation, result, ax, height, width)
     plt.show()
 
+def init_random_generation(items):
+    generation = []
+    for i in range(items):
+        theta = random.uniform(15, 180) * math.pi/180
+        v = random.uniform(2, 20)
+        generation.append((theta, v))
+    return generation
+
+
 if __name__ == "__main__":
     epochs = 10
     items = 8
     height = 5
     width = 10
 
-    generation = []
-    for i in range(items):
-        theta = random.uniform(15, 180) * math.pi/180
-        v = random.uniform(2, 20)
-        generation.append((theta, v))
+    generation = init_random_generation(items)
 
     generation0 = list(generation)
     results = launch(generation, height, width)
