@@ -66,7 +66,9 @@ def mutate(generation):
     for i in range(len(generation)):
         (theta, v) = generation[i]
         if random.random() < 0.1:
-            theta += random.uniform(-10, 10)
+            new_theta = theta + random.uniform(-10, 10) * math.pi/180
+            if new_theta > 0 and new_theta < 2*math.pi:
+                theta = new_theta
         if random.random() < 0.1:
             v *= random.uniform(0.9, 1.1)
         generation[i] = (theta, v)
@@ -74,6 +76,8 @@ def mutate(generation):
 def display(generation, result, ax, height, width):
     rect = plt.Rectangle((0, 0), width, height, facecolor='grey')
     ax.add_patch(rect)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
     for gen in generation:
         print gen
     for res in result:
@@ -93,8 +97,10 @@ def graph_interpolation(generation0, result0, generation, result, height, width)
     #selects the ithe subplot for the current plot. The plots are numbered along the top
     #row of the figure window, then the second row, and so forth.
     ax0 = fig.add_subplot(2,1,1)
+    ax0.set_title('Initial attempt')
     display(generation0, result0, ax0, height, width)
     ax = fig.add_subplot(2,1,2)
+    ax.set_title('Final attempt')
     display(generation, result, ax, height, width)
     plt.show()
 

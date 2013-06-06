@@ -2,4 +2,7 @@ Need to do crossover properly
 	use the last height as a input - maybe save it on the end of generation info, or with True/False at end
 	add some tests for it (and muttate)
 
+Label both graphs (and axes)
+
+
 
