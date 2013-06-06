@@ -48,11 +48,12 @@ def launch(generation, height, width):
         results.append(result)
     return results
 
-def crossover(generation, results):
+def crossover(generation, results, height, width):
     #choices = zip(generation, results) #might do, but copies lots of the results stuff
-    choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if results[i][-1] ]
+    choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
+    print "Choices", len(choices) 
     if len(choices) == 0:
-            choices = init_random_generation(items)
+            return init_random_generation(items)
     #choices = sorted(choices, key = lambda t: t[1])
     next_generation = []
     for i in range(0, len(generation)):
@@ -80,15 +81,17 @@ def display(generation, result, ax, height, width):
     ax.set_ylabel('y')
     for gen in generation:
         print gen
+    free = 0
     for res in result:
-        print "res", res, escaped(height, width, res)
+        if escaped(height, width, res):
+            free += 1
         x = [i[0] for i in res]
         y = [i[1] for i in res]
         if escaped(height, width, res):
             ax.plot(x, y, 'ro-')
         else:
             ax.plot(x, y, 'bx-')
-
+    print "Escaped", free
 
 def graph_interpolation(generation0, result0, generation, result, height, width):
     fig = plt.figure()
@@ -115,7 +118,7 @@ def init_random_generation(items):
 
 if __name__ == "__main__":
     epochs = 10
-    items = 8
+    items = 5
     height = 5
     width = 10
 
@@ -125,7 +128,7 @@ if __name__ == "__main__":
     results = launch(generation, height, width)
     results0 = list(results)
     for i in range(1, epochs):
-        generation = crossover(generation, results)
+        generation = crossover(generation, results, height, width)
         mutate(generation)
         results = launch(generation, height, width)
 
