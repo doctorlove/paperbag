@@ -50,6 +50,9 @@ def launch(generation, height, width):
     return results
 
 def crossover(generation, results):
+    #want something like
+    #sorted(l, key = lambda t: t[1])
+    #to sort by height
     next_generation = []
     for i in range(0, len(generation)):
         next_generation.append(generation[i])
@@ -64,12 +67,9 @@ def mutate(generation):
             v *= random.uniform(0.9, 1.1)
         generation[i] = (theta, v)
 
-def graph_interpolation(generation, results, height, width):
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    rect = plt.Rectangle((0, 0), width, height, facecolor='brown')
+def display(generation, result, ax, height, width):
+    rect = plt.Rectangle((0, 0), width, height, facecolor='grey')
     ax.add_patch(rect)
-    
     for gen in generation:
         print gen
     for res in results:
@@ -81,6 +81,18 @@ def graph_interpolation(generation, results, height, width):
             ax.plot(x, y, 'ro-')
         else:
             ax.plot(x, y, 'bx-')
+
+
+def graph_interpolation(generation0, result0, generation, result, height, width):
+    fig = plt.figure()
+    #http://stackoverflow.com/questions/3584805/in-matplotlib-what-does-111-means-in-fig-add-subplot111
+    #subplot(m,n,i) breaks the figure window into an m-by-n matrix of small subplots and 
+    #selects the ithe subplot for the current plot. The plots are numbered along the top
+    #row of the figure window, then the second row, and so forth.
+    ax0 = fig.add_subplot(2,1,1)
+    display(generation0, result0, ax0, height, width)
+    ax = fig.add_subplot(2,1,2)
+    display(generation, result, ax, height, width)
     plt.show()
 
 if __name__ == "__main__":
@@ -96,11 +108,12 @@ if __name__ == "__main__":
         generation.append((theta, v))
 
     results = []
-
+    generation0 = list(generation)
+    results0 = launch(generation, height, width)
     for i in range(epochs):
         results = launch(generation, height, width)
         generation = crossover(generation, results)
         mutate(generation)
 
-    graph_interpolation(generation, results, height, width)
+    graph_interpolation(generation0, results0, generation, results, height, width)
 
