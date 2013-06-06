@@ -39,7 +39,6 @@ def launch(generation, height, width):
             x = width/2.0 + v * t * math.cos(theta)
             y = v * t * math.sin(theta) - 0.5 * 9.81 * t * t
             if y < 0: y = 0
-            #pdb.set_trace()
             x_hit, y_hit, hits = collides(previous_x, previous_y, x, y, height, width)
             if hits:
                 result.append((x_hit, y_hit, hits))
@@ -50,12 +49,16 @@ def launch(generation, height, width):
     return results
 
 def crossover(generation, results):
-    #want something like
-    #sorted(l, key = lambda t: t[1])
-    #to sort by height
+    #choices = zip(generation, results) #might do, but copies lots of the results stuff
+    choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if results[i][-1] ]
+    if len(choices) == 0 : choices = generation
+    #choices = sorted(choices, key = lambda t: t[1])
     next_generation = []
     for i in range(0, len(generation)):
-        next_generation.append(generation[i])
+        mum = generation[random.randint(0, len(choices)-1)]
+        dad = generation[random.randint(0, len(choices)-1)]
+        t = (mum[0], dad[1])
+        next_generation.append(t)
     return next_generation
 
 def mutate(generation):
@@ -96,8 +99,8 @@ def graph_interpolation(generation0, result0, generation, result, height, width)
     plt.show()
 
 if __name__ == "__main__":
-    epochs = 1
-    items = 5
+    epochs = 10
+    items = 8
     height = 5
     width = 10
 
@@ -107,13 +110,14 @@ if __name__ == "__main__":
         v = random.uniform(2, 20)
         generation.append((theta, v))
 
-    results = []
     generation0 = list(generation)
-    results0 = launch(generation, height, width)
-    for i in range(epochs):
-        results = launch(generation, height, width)
+    results = launch(generation, height, width)
+    results0 = list(results)
+    for i in range(1, epochs):
         generation = crossover(generation, results)
         mutate(generation)
+        results = launch(generation, height, width)
 
+    #pdb.set_trace()
     graph_interpolation(generation0, results0, generation, results, height, width)
 
