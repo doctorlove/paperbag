@@ -16,6 +16,10 @@ class TestCumulativeProbabilites(unittest.TestCase):
         self.assertEqual(15, res[1])
         self.assertEqual(45, res[2])
 
+    def test_that_one_choice_is_chosen(self):
+        res = cumulative_probabilities([(10,15)])
+        self.assertEqual(0, choose(res))
+
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
         width = 10

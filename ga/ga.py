@@ -67,17 +67,23 @@ def cumulative_probabilities(results):
 
 def get_choices(generation, height, width, results):
     choices = cumulative_probabilities(results)
-    #choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
     return choices
+
+def choose(choices):
+    print choices[-1]
+    p = random.uniform(0,choices[-1])
+    for i in range(len(choices)):
+        if choices[i] >= p:
+            return i
+    return i
+
 
 def crossover(generation, results, height, width):
     choices = get_choices(generation, height, width, results)
-    if len(choices) == 0:
-            return init_random_generation(items)
     next_generation = []
     for i in range(0, len(generation)):
-        mum = generation[random.randint(0, len(choices)-1)]
-        dad = generation[random.randint(0, len(choices)-1)]
+        mum = generation[choose(choices)]
+        dad = generation[choose(choices)]
         t = (mum[0], dad[1])
         next_generation.append(t)
     return next_generation
@@ -145,15 +151,16 @@ if __name__ == "__main__":
 
     generation0 = list(generation)
     results0 = launch(generation, height, width)
-    results = []
-    for gen in generation:
-        result.append(hit_height(gen))
 
     for i in range(1, epochs):
+        results = []
+        for gen in generation:
+            theta, v = gen
+            results.append(hit_height(theta, v, height))
         generation = crossover(generation, results, height, width)
         mutate(generation)
-        results = launch(generation, height, width)
 
     #pdb.set_trace()
+    results = launch(generation, height, width)
     graph_interpolation(generation0, results0, generation, results, height, width)
 
