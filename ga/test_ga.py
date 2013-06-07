@@ -1,10 +1,44 @@
 import pdb
 from ga import *
+import math
 import unittest
 
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
-        self.assertEqual(0.0, hit_height(0,10))
+        width = 10
+        x, y = hit_height(0, 10, width)
+        self.assertEqual(0.5*width, x)
+        self.assertEqual(0.0, y)
+
+    def test_that_angle_of_Pi_gives_hit_height_of_zero(self):
+        width = 10
+        x, y = hit_height(math.pi, 10, width)
+        self.assertEqual(0.0, x)
+        self.assertEqual(0.0, y)
+
+    def test_that_angle_of_50_degrees_going_slow_gives_hit_height_of_less_than_bag_height(self):
+        width = 10
+        x, y = hit_height(50*math.pi/180, 10, width)
+        self.assertEqual(0.5*width, x)
+        self.assertTrue(y < 5.0)
+
+    def test_that_angle_of_50_degrees_fast_gives_hit_height_of_more_than_bag_height(self):
+        width = 10
+        x, y = hit_height(50*math.pi/180, 50, width)
+        self.assertEqual(0.5*width, x)
+        self.assertTrue(y > 5.0)
+
+    def test_that_angle_of_130_degrees_going_slow_gives_hit_height_of_less_than_bag_height(self):
+        width = 10
+        x, y = hit_height(130*math.pi/180, 10, width)
+        self.assertEqual(0.0, x)
+        self.assertTrue(y < 5.0)
+
+    def test_that_angle_of_3Pi_by_4_going_fast_gives_hit_height_of_more_than_bag_height(self):
+        width = 10
+        x, y = hit_height(130*math.pi/180, 50, width)
+        self.assertEqual(0.0, x)
+        self.assertTrue(y > 5.0)
 
 class TestCollisions(unittest.TestCase):
 

@@ -4,8 +4,16 @@ import math
 import matplotlib.pyplot as plt
 import random
 
-def hit_height(theta, v):
-    return 0.0
+def hit_height(theta, v, width):
+    angle = theta
+    x = 0.5*width
+    if theta > math.pi/2:
+        angle = math.pi - theta
+        x = 0.0
+    t = 0.5*width / (v * math.cos(angle))
+    y = v * t * math.sin(angle) - 0.5 * 9.81 * t * t
+    if y < 0 : y=0.0
+    return x, y
 
 def collision_point(x0, y0, x1, y1, height, width):
     if x0 == x1: return x0, y0
