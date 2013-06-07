@@ -1,6 +1,10 @@
 from ga import *
 import unittest
 
+class TestHitHeight(unittest.TestCase):
+    def test_that_angle_of_zero_gives_hit_height_of_zero(self):
+        self.assertEqual(0.0, hit_height(0,10))
+
 class TestCollisions(unittest.TestCase):
 
     def test_that_ball_staying_inside_bag_does_not_collide(self):

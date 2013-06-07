@@ -4,6 +4,9 @@ import math
 import matplotlib.pyplot as plt
 import random
 
+def hit_height(theta, v):
+    return 0.0
+
 def collision_point(x0, y0, x1, y1, height, width):
     if x0 == x1: return x0, y0
     x = 0.0
@@ -18,7 +21,9 @@ def collides(x0, y0, x1, y1, height, width):
         return x, y, False
     if (x0 <= 0 and x1 <= 0) or (x0 >= width and x1 >= width):
         return x, y, False
-    return x, y, y < height
+    if y < height:
+        return x, y, True
+    return x, y, False 
 
 def escaped(height, width, path):
     if len(path) == 0: return False
@@ -48,9 +53,12 @@ def launch(generation, height, width):
         results.append(result)
     return results
 
-def crossover(generation, results, height, width):
-    #choices = zip(generation, results) #might do, but copies lots of the results stuff
+def get_choices(generation, height, width, results):
     choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
+    return choices
+
+def crossover(generation, results, height, width):
+    choices = get_choices(generation, height, width, results)
     print "Choices", len(choices) 
     if len(choices) == 0:
             return init_random_generation(items)
@@ -118,7 +126,7 @@ def init_random_generation(items):
 
 if __name__ == "__main__":
     epochs = 10
-    items = 5
+    items = 12
     height = 5
     width = 10
 
