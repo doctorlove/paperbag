@@ -17,11 +17,7 @@ def collision_point(x0, y0, x1, y1, height, width):
 
 def collides(x0, y0, x1, y1, height, width):
     x, y = collision_point(x0, y0, x1, y1, height, width)
-    if x0 >= 0 and x0 <= width and x1 >= 0 and x1 <= width:
-        return x, y, False
-    if (x0 <= 0 and x1 <= 0) or (x0 >= width and x1 >= width):
-        return x, y, False
-    if y < height:
+    if y < height and ((x0 >= 0 and x1 <= 0) or (x0 <= width and x1 >= width)):
         return x, y, True
     return x, y, False 
 

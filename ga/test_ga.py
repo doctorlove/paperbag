@@ -1,3 +1,4 @@
+import pdb
 from ga import *
 import unittest
 
@@ -10,8 +11,8 @@ class TestCollisions(unittest.TestCase):
     def test_that_ball_staying_inside_bag_does_not_collide(self):
         height  =  5
         width  =  10
-        x0 = 1
-        x1 = 0
+        x0 = 2
+        x1 = 1
         y0 = 1
         y1 = 1
         x_hit, y_hit, hits = collides(x0, y0, x1, y1, height, width)
