@@ -57,16 +57,23 @@ def launch(generation, height, width):
         results.append(result)
     return results
 
+def cumulative_probabilities(results):
+    cp = []
+    total = 0
+    for res in results:
+        total += res[1] # maybe if it's more than height square it
+        cp.append(total)
+    return cp
+
 def get_choices(generation, height, width, results):
-    choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
+    choices = cumulative_probabilities(results)
+    #choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
     return choices
 
 def crossover(generation, results, height, width):
     choices = get_choices(generation, height, width, results)
-    print "Choices", len(choices) 
     if len(choices) == 0:
             return init_random_generation(items)
-    #choices = sorted(choices, key = lambda t: t[1])
     next_generation = []
     for i in range(0, len(generation)):
         mum = generation[random.randint(0, len(choices)-1)]
@@ -137,8 +144,11 @@ if __name__ == "__main__":
     generation = init_random_generation(items)
 
     generation0 = list(generation)
-    results = launch(generation, height, width)
-    results0 = list(results)
+    results0 = launch(generation, height, width)
+    results = []
+    for gen in generation:
+        result.append(hit_height(gen))
+
     for i in range(1, epochs):
         generation = crossover(generation, results, height, width)
         mutate(generation)

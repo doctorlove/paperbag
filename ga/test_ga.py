@@ -3,6 +3,19 @@ from ga import *
 import math
 import unittest
 
+class TestCumulativeProbabilites(unittest.TestCase):
+    def test_that_one_result_gives_height(self):
+        res = cumulative_probabilities([(10,15)])
+        self.assertEqual(1, len(res))
+        self.assertEqual(15, res[0])
+
+    def test_that_two_results_gives_total_heights(self):
+        res = cumulative_probabilities([(5,0), (10,15), (15, 30)])
+        self.assertEqual(3, len(res))
+        self.assertEqual(0, res[0])
+        self.assertEqual(15, res[1])
+        self.assertEqual(45, res[2])
+
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
         width = 10
