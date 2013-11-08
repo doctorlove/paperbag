@@ -1,5 +1,3 @@
-import pdb
-
 import math
 import matplotlib.pyplot as plt
 import random
@@ -70,7 +68,6 @@ def get_choices(generation, height, width, results):
     return choices
 
 def choose(choices):
-    print choices[-1]
     p = random.uniform(0,choices[-1])
     for i in range(len(choices)):
         if choices[i] >= p:
@@ -160,7 +157,6 @@ if __name__ == "__main__":
         generation = crossover(generation, results, height, width)
         mutate(generation)
 
-    #pdb.set_trace()
     results = launch(generation, height, width)
     graph_interpolation(generation0, results0, generation, results, height, width)
 
