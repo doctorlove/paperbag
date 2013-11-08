@@ -1,3 +1,5 @@
+Sorry about ga1 and ga2 - bad names, but it marries up with the article in Overload showing the thought process.
+
 Need to do crossover properly
 	use the last height as a input - maybe save it on the end of generation info, or with True/False at end
 	add some tests for it (and muttate)
