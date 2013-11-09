@@ -1,5 +1,5 @@
 import pdb
-from ga import *
+from ga1 import *
 import unittest
 
 class TestHitHeight(unittest.TestCase):
