@@ -1,4 +1,3 @@
-//do one particle first, making sure you can see it trail around
 //See http://msdn.microsoft.com/en-us/magazine/hh335067.aspx
 //v(t+1) = (w * v(t)) + (c1 * r1 * (p(t) - x(t)) + (c2 * r2 * (g(t) - x(t))
 //p this particle, g global (i.e. swarm itself)
@@ -51,14 +50,23 @@ function draw(item, epoch) {
   }
 }
 
-function pso(item, epoch) {
+function updateBest(item, bestGlobal) {
+// Want a global best and a personal best
+  var i;
+  for (i = 0; i < item.length; ++i) {
+    bestGlobal = best(item[i], bestGlobal);
+  }
+}
+
+function pso(item, epoch, bestGlobal) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
   move(item);
   draw(item, epoch);
+  updateBest(item, bestGlobal);
   //Why not just loop?
   if (epoch < 25) {
-    setTimeout(function () { pso(item, epoch); }, 100);
+    setTimeout(function () { pso(item, epoch, bestGlobal); }, 100);
   }
 }
 
@@ -82,6 +90,7 @@ function start() {
   item = initialise(3);
   var epoch = 0;
   draw(item, epoch);
-  var id = setTimeout(function () { pso(item, epoch); }, 100);
+  var bestGlobal = {x:0, y:0};
+  var id = setTimeout(function () { pso(item, epoch, bestGlobal); }, 100);
 }
 
