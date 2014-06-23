@@ -1,15 +1,3 @@
-//See http://msdn.microsoft.com/en-us/magazine/hh335067.aspx
-//v(t+1) = (w * v(t)) + (c1 * r1 * (p(t) - x(t)) + (c2 * r2 * (g(t) - x(t))
-//p this particle, g global (i.e. swarm itself)
-//w an inertia weight
-//c1 "cognitive" (or local) weight
-//r1 random in [0,1)
-//p particle's best pos so far
-//c2 social (or global) weight
-//r2 random in [0,1)
-//g best in swarm position so far
-// x(t+1) = x(t) + v(t+1)
-
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -22,10 +10,28 @@ function best(first, second) {
   return second;
 }
 
-function move(item) {
+function move(item, w, c1, c2, width) {
+//See http://msdn.microsoft.com/en-us/magazine/hh335067.aspx
+//v(t+1) = (w * v(t)) + (c1 * r1 * (p(t) - x(t)) + (c2 * r2 * (g(t) - x(t))
+//p this particle, g global (i.e. swarm itself)
+//w an inertia weight
+//c1 "cognitive" (or local) weight
+//r1 random in [0,1)
+//p particle's best pos so far
+//c2 social (or global) weight
+//r2 random in [0,1)
+//g best in swarm position so far
+// x(t+1) = x(t) + v(t+1)
+
+//move the x as well, at some point...
+//and avoid going over the edges
   var i;
   for (i = 0; i < item.length; ++i) {
     item[i].y = item[i].y + 5; 
+    x = item[i].x + 5*getRandomInt(-5, 5); 
+    if (x > 0 && x < width) {
+      item[i].x = x;
+    }
   }
 }
 
@@ -58,15 +64,18 @@ function updateBest(item, bestGlobal) {
   }
 }
 
-function pso(item, epoch, bestGlobal) {
+function pso(item, epoch, bestGlobal, width) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
-  move(item);
+  var inertiaWeight = 0.7;
+  var personalWeight = 1.5;
+  var swarmWeight = 1.5;
+  move(item, inertiaWeight, personalWeight, swarmWeight, width);
   draw(item, epoch);
   updateBest(item, bestGlobal);
   //Why not just loop?
   if (epoch < 25) {
-    setTimeout(function () { pso(item, epoch, bestGlobal); }, 100);
+    setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 100);
   }
 }
 
@@ -91,6 +100,6 @@ function start() {
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = {x:0, y:0};
-  var id = setTimeout(function () { pso(item, epoch, bestGlobal); }, 100);
+  var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.width); }, 100);
 }
 
