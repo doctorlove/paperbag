@@ -31,9 +31,9 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     current = item[i];
     var r1 = getRandomInt(-5, 5);//need to think about this 
     var r2 = getRandomInt(-5, 5);//need to think about this 
-    var v = 5;//(w * current.v.y) + (c1 * r1 * current.best.y - current.y) + (c2 * r2 * (bestGlobal.y - current.y);
-    var v2 = (w * current.v.y) + (c1 * r1 * current.best.y - current.y);// + (c2 * r2 * (bestGlobal.y - current.y);
+    var v = (w * current.v.y) + (c1 * r1 * current.best.y - current.y) + (c2 * r2 * (bestGlobal.y - current.y));
     item[i].y = item[i].y + v;
+    item[i].v.y = v;
     if (item[i].y < 0) {
       item[i].y = 0
     }
@@ -98,7 +98,7 @@ function initialise(particles){
   for (i = 0; i < particles; ++i) {
       x = getRandomInt(0, canvas.width-4);//don't hard code the 4
       y = 0;
-      var velocity = { x:getRandomInt(-5,5), y:getRandomInt(-5,5)};
+      var velocity = { x:getRandomInt(-5,5), y:getRandomInt(0,5)};
       item.push ( { x: x, y: y, best: {x:0, y:0}, v:velocity } );
   }
   return item;

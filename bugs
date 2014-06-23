@@ -6,3 +6,22 @@ follow up - sometimes goes out of the side
 why don't the aco ants ever get stuck if I'm checking possible positions haven't be previously visited?
 
 why do the trails end up bigger than 13*13?
+
+......
+What does v start at (pso)?
+...try (0,0)
+
+Stop button doesn't work
+
+Best global never gets updated - but how come the items do?
+	learn by reg and value stuff
+
+Add some tests
+
+Should ut keep going until all the items have escaped?
+
+Why do the items go up then clamp to the bottom?
+
+Should the "velocity" have an x and y? Why does x not seem to change?
+
+
