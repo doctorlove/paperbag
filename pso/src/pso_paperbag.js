@@ -10,7 +10,7 @@ function best(first, second) {
   return second;
 }
 
-function move(item, w, c1, c2, width) {
+function move(item, w, c1, c2, height, width, bestGlobal) {
 //See http://msdn.microsoft.com/en-us/magazine/hh335067.aspx
 //v(t+1) = (w * v(t)) + (c1 * r1 * (p(t) - x(t)) + (c2 * r2 * (g(t) - x(t))
 //p this particle, g global (i.e. swarm itself)
@@ -27,7 +27,19 @@ function move(item, w, c1, c2, width) {
 //and avoid going over the edges
   var i;
   for (i = 0; i < item.length; ++i) {
-    item[i].y = item[i].y + 5; 
+    //item[i].y = item[i].y + 5; 
+    current = item[i];
+    var r1 = getRandomInt(-5, 5);//need to think about this 
+    var r2 = getRandomInt(-5, 5);//need to think about this 
+    var v = 5;//(w * current.v.y) + (c1 * r1 * current.best.y - current.y) + (c2 * r2 * (bestGlobal.y - current.y);
+    var v2 = (w * current.v.y) + (c1 * r1 * current.best.y - current.y);// + (c2 * r2 * (bestGlobal.y - current.y);
+    item[i].y = item[i].y + v;
+    if (item[i].y < 0) {
+      item[i].y = 0
+    }
+    if (item[i].y > height) {
+      item[i].y = height
+    }
     x = item[i].x + 5*getRandomInt(-5, 5); 
     if (x > 0 && x < width) {
       item[i].x = x;
@@ -43,7 +55,6 @@ function draw(item, epoch) {
     ctx.fillStyle = "rgb(180, 120, 60)";
     ctx.fillRect (1, 8, canvas.width - 1, canvas.height - 8);
 
-    epoch = epoch + 1
     var result = document.getElementById("epoch");
     result.innerHTML =  epoch;
 
@@ -64,18 +75,18 @@ function updateBest(item, bestGlobal) {
   }
 }
 
-function pso(item, epoch, bestGlobal, width) {
+function pso(item, epoch, bestGlobal, height, width) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
   var inertiaWeight = 0.7;
   var personalWeight = 1.5;
   var swarmWeight = 1.5;
-  move(item, inertiaWeight, personalWeight, swarmWeight, width);
+  move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   updateBest(item, bestGlobal);
   //Why not just loop?
   if (epoch < 25) {
-    setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 100);
+    setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 200);
   }
 }
 
@@ -86,7 +97,8 @@ function initialise(particles){
   for (i = 0; i < particles; ++i) {
       x = getRandomInt(0, canvas.width-4);//don't hard code the 4
       y = 0;
-      item.push ( { x: x, y: y, best: {x:0, y:0} } );
+      var velocity = { x:getRandomInt(-5,5), y:getRandomInt(-5,5)};
+      item.push ( { x: x, y: y, best: {x:0, y:0}, v:velocity } );
   }
   return item;
 }
@@ -100,6 +112,6 @@ function start() {
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = {x:0, y:0};
-  var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.width); }, 100);
+  var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.height, canvas.width); }, 100);
 }
 
