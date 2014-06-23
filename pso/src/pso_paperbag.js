@@ -77,7 +77,7 @@ function initialise(particles){
   for (i = 0; i < particles; ++i) {
       x = getRandomInt(0, canvas.width-4);//don't hard code the 4
       y = 0;
-      item.push ( { x: x, y: y } );
+      item.push ( { x: x, y: y, best: {x:0, y:0} } );
   }
   return item;
 }
