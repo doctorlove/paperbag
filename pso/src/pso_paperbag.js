@@ -51,10 +51,10 @@ function draw(item, epoch) {
 }
 
 function updateBest(item, bestGlobal) {
-// Want a global best and a personal best
   var i;
   for (i = 0; i < item.length; ++i) {
     bestGlobal = best(item[i], bestGlobal);
+    item[i].best = best(item[i].best, item[i]);
   }
 }
 
