@@ -3,7 +3,9 @@
 //v(t+1) = (w * v(t)) + (c1 * r1 * (p(t) – x(t)) + (c2 * r2 * (g(t) – x(t))
 // x(t+1) = x(t) + v(t+1)
 
-//are these by value?
+function move(item) {
+}
+
 function draw(item, epoch) {
   var canvas = document.getElementById('tutorial');
   if (canvas.getContext) {
@@ -23,14 +25,18 @@ function draw(item, epoch) {
       ctx.fillRect (particle.x, particle.y - 2, 4, 4);
     }
   }
+}
+
+function pso(item, epoch) {
+  epoch = epoch + 1;//is this by ref?
+  move(item);
+  draw(item, epoch);
+  //Why not just loop?
   if (epoch < 5) {
     setTimeout(function () { pso(item, epoch); }, 100);
   }
 }
 
-function pso(item, epoch) {
-  draw(item, epoch);
-}
 function initialise(particles){
   var item = [];
   var canvas = document.getElementById('tutorial');
@@ -53,7 +59,8 @@ function start() {
   //
   document.getElementById("click_draw").innerHTML="stop"; 
   item = initialise(1);
-  var epoch = 1;
+  var epoch = 0;
+  draw(item, epoch);
   var id = setTimeout(function () { pso(item, epoch); }, 100);
 }
 
