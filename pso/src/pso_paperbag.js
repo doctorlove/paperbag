@@ -73,6 +73,7 @@ function updateBest(item, bestGlobal) {
     bestGlobal = best(item[i], bestGlobal);
     item[i].best = best(item[i].best, item[i]);
   }
+  return bestGlobal;
 }
 
 function pso(item, epoch, bestGlobal, height, width) {
@@ -83,7 +84,7 @@ function pso(item, epoch, bestGlobal, height, width) {
   var swarmWeight = 1.5;
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
-  updateBest(item, bestGlobal);
+  bestGlobal = updateBest(item, bestGlobal);
   //Why not just loop?
   if (epoch < 25) {
     setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 200);
