@@ -11,6 +11,11 @@
 //g best in swarm position so far
 // x(t+1) = x(t) + v(t+1)
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 function best(first, second) {
   if (first.y > second.y) {
     return first;
@@ -47,6 +52,7 @@ function draw(item, epoch) {
 }
 
 function pso(item, epoch) {
+  //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
   move(item);
   draw(item, epoch);
@@ -61,23 +67,19 @@ function initialise(particles){
   var canvas = document.getElementById('tutorial');
   var i;
   for (i = 0; i < particles; ++i) {
-      x = canvas.width/2.0;
-      y = canvas.height - canvas.height/2.0;//note the - to change y to canvas
+      x = getRandomInt(0, canvas.width-4);//don't hard code the 4
+      y = 0;
       item.push ( { x: x, y: y } );
   }
   return item;
 }
-
-//draw
-//move, draw, move etc etc
-//See simulate function in aco
 
 function start() {
   var canvas = document.getElementById('tutorial');
   //...
   //
   document.getElementById("click_draw").innerHTML="stop"; 
-  item = initialise(1);
+  item = initialise(3);
   var epoch = 0;
   draw(item, epoch);
   var id = setTimeout(function () { pso(item, epoch); }, 100);
