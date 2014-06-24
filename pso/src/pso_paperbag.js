@@ -27,11 +27,10 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
 //and avoid going over the edges
   var i;
   for (i = 0; i < item.length; ++i) {
-    //item[i].y = item[i].y + 5; 
-    current = item[i];
+    var current = item[i];
     var r1 = getRandomInt(0, 5);//need to think about this 
     var r2 = getRandomInt(0, 5);//need to think about this 
-    var v = (w * current.v.y) + (c1 * r1 * current.best.y - current.y) + (c2 * r2 * (bestGlobal.y - current.y));
+    var v = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
     item[i].y = item[i].y + v;
     if (item[i].y < 0) {
       item[i].y = 0
@@ -42,14 +41,14 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     else {
       item[i].v.y = v;
     }
-    x = item[i].x + 5*getRandomInt(-5, 5); //use v instead?
+    var x = item[i].x + getRandomInt(-5, 5); //use v instead?
     if (x > 0 && x < width) {
       item[i].x = x;
     }
     var result = document.getElementById("update");
     result.innerHTML =  result.innerHTML + item[i].y + ", " + v
-                      + " , " + (current.best.y - current.y)
-		      + ", " + (bestGlobal.y - current.y) + "\n";
+                      + " , (" + (current.best.y - current.y)
+		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
   }
 
 }
