@@ -29,22 +29,29 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
   for (i = 0; i < item.length; ++i) {
     //item[i].y = item[i].y + 5; 
     current = item[i];
-    var r1 = getRandomInt(-5, 5);//need to think about this 
-    var r2 = getRandomInt(-5, 5);//need to think about this 
+    var r1 = getRandomInt(0, 5);//need to think about this 
+    var r2 = getRandomInt(0, 5);//need to think about this 
     var v = (w * current.v.y) + (c1 * r1 * current.best.y - current.y) + (c2 * r2 * (bestGlobal.y - current.y));
     item[i].y = item[i].y + v;
-    item[i].v.y = v;
     if (item[i].y < 0) {
       item[i].y = 0
     }
-    if (item[i].y > height) {
+    else if (item[i].y > height) {
       item[i].y = height
     }
-    x = item[i].x + 5*getRandomInt(-5, 5); 
+    else {
+      item[i].v.y = v;
+    }
+    x = item[i].x + 5*getRandomInt(-5, 5); //use v instead?
     if (x > 0 && x < width) {
       item[i].x = x;
     }
+    var result = document.getElementById("update");
+    result.innerHTML =  result.innerHTML + item[i].y + ", " + v
+                      + " , " + (current.best.y - current.y)
+		      + ", " + (bestGlobal.y - current.y) + "\n";
   }
+
 }
 
 function draw(item, epoch) {
@@ -85,7 +92,7 @@ function pso(item, epoch, bestGlobal, height, width) {
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
-  //Why not just loop?
+  //Why not just loop? When does the canvas get redrawn?
   if (epoch < 25) {
     setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 200);
   }
@@ -99,7 +106,7 @@ function initialise(particles){
       x = getRandomInt(0, canvas.width-4);//don't hard code the 4
       y = 0;
       var velocity = { x:getRandomInt(-5,5), y:getRandomInt(0,5)};
-      item.push ( { x: x, y: y, best: {x:0, y:0}, v:velocity } );
+      item.push ( { x: x, y: y, best: {x:x, y:y}, v:velocity } );
   }
   return item;
 }
