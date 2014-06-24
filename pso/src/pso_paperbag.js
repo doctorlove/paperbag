@@ -31,12 +31,13 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     var r1 = getRandomInt(0, 5);//need to think about this 
     var r2 = getRandomInt(0, 5);//need to think about this 
     var v = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
-    item[i].y = item[i].y + v;
+    item[i].y = v;//surely adding it to itslef is exponetial? //item[i].y + v;
+    //but just using v directly doesn't escape///
     if (item[i].y < 0) {
-      item[i].y = 0
+      item[i].y = 0;
     }
     else if (item[i].y > height) {
-      item[i].y = height
+      item[i].y = height;
     }
     else {
       item[i].v.y = v;
