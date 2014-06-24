@@ -85,9 +85,9 @@ function updateBest(item, bestGlobal) {
 function pso(item, epoch, bestGlobal, height, width) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
-  var inertiaWeight = 0.7;
-  var personalWeight = 1.5;
-  var swarmWeight = 1.5;
+  var inertiaWeight = 0.9;
+  var personalWeight = 0.5;
+  var swarmWeight = 0.5;
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
@@ -97,12 +97,11 @@ function pso(item, epoch, bestGlobal, height, width) {
   }
 }
 
-function initialise(particles){
+function initialise(particles, width){
   var item = [];
-  var canvas = document.getElementById('tutorial');
   var i;
   for (i = 0; i < particles; ++i) {
-      x = getRandomInt(0, canvas.width-4);//don't hard code the 4
+      x = getRandomInt(0, width);
       y = 0;
       var velocity = { x:getRandomInt(-5,5), y:getRandomInt(0,5)};
       item.push ( { x: x, y: y, best: {x:x, y:y}, v:velocity } );
@@ -115,10 +114,12 @@ function start() {
   //...
   //
   document.getElementById("click_draw").innerHTML="stop"; 
-  item = initialise(3);
+  //make stop button work
+  var canvas = document.getElementById('tutorial');
+  item = initialise(3, canvas.width - 4); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
-  var bestGlobal = {x:0, y:0};
+  var bestGlobal = item[0]; 
   var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.height, canvas.width); }, 100);
 }
 

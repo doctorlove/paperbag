@@ -16,3 +16,26 @@ describe("getRandomInt", function() {
   });
 });
 
+describe("initialise", function() {
+  it("should return the requesed number of particles", function() {
+    var width = 250;
+    expect(initialise(1, width).length == 1).toBe(true);
+    expect(initialise(2, width).length == 2).toBe(true);
+    expect(initialise(3, width).length == 3).toBe(true);
+  });
+
+  it("should set best to initial position", function() {
+    var width = 250;
+    var item = initialise(3, width);
+    var i;
+    for(i=0; i<item.length; ++i) {
+      var current = item[i];
+      //Which equals do I mean anyway?
+      expect(item[i].best.x == item[i].x).toBe(true);
+      expect(item[i].best.y == item[i].y).toBe(true);
+      expect(current.best.x == current.x).toBe(true);
+      expect(current.best.y == current.y).toBe(true);
+    }
+  });
+});
+
