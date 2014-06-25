@@ -30,12 +30,13 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     var current = item[i];
     var r1 = getRandomInt(0, 5);//need to think about this 
     var r2 = getRandomInt(0, 5);//need to think about this 
-    var v = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
+    var vy = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
+    var vx = (w * current.v.x) + (c1 * r1 * (current.best.x - current.x)) + (c2 * r2 * (bestGlobal.x - current.x));
     var result = document.getElementById("update");
-    result.innerHTML =  result.innerHTML + i + ", " + item[i].y + ", " + v
+    result.innerHTML =  result.innerHTML + i + ", " + item[i].y + ", " + vy
                       + " , (" + (current.best.y - current.y)
 		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
-    item[i].y = item[i].y + v;
+    item[i].y = item[i].y + vy;
     //Goes exponential,
     //but just using v directly doesn't escape///
     if (item[i].y < 0) {
@@ -45,9 +46,10 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
       item[i].y = height;
     }
     else {
-      item[i].v.y = v;
+      item[i].v.y = vy;
     }
-    var x = item[i].x + getRandomInt(-5, 5); //use v instead?
+    var x = item[i].x + vx;//getRandomInt(-5, 5); //use v instead?
+    //what about the 44 to allow space to draw it?
     if (x > 0 && x < width) {
       item[i].x = x;
     }
