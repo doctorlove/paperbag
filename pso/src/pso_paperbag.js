@@ -88,13 +88,13 @@ function pso(item, epoch, bestGlobal, height, width) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
   var inertiaWeight = 0.9;
-  var personalWeight = 0.5;
-  var swarmWeight = 0.5;
+  var personalWeight = 0.1;
+  var swarmWeight = 0.1;
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
   //Why not just loop? When does the canvas get redrawn?
-  if (epoch < 10) {
+  if (epoch < 20) {
     setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 200);
   }
 }
@@ -118,7 +118,7 @@ function start() {
   document.getElementById("click_draw").innerHTML="stop"; 
   //make stop button work
   var canvas = document.getElementById('tutorial');
-  item = initialise(1, canvas.width - 4, canvas.height); //don't hard code the 4
+  item = initialise(3, canvas.width - 4, canvas.height); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 
