@@ -31,7 +31,12 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     var r1 = getRandomInt(0, 5);//need to think about this 
     var r2 = getRandomInt(0, 5);//need to think about this 
     var v = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
-    item[i].y = v;//surely adding it to itslef is exponetial? //item[i].y + v;
+    var result = document.getElementById("update");
+    result.innerHTML =  result.innerHTML + i + ", " + item[i].y + ", " + v
+                      + " , (" + (current.best.y - current.y)
+		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
+    item[i].y = item[i].y + v;
+    //Goes exponential,
     //but just using v directly doesn't escape///
     if (item[i].y < 0) {
       item[i].y = 0;
@@ -46,10 +51,6 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     if (x > 0 && x < width) {
       item[i].x = x;
     }
-    var result = document.getElementById("update");
-    result.innerHTML =  result.innerHTML + item[i].y + ", " + v
-                      + " , (" + (current.best.y - current.y)
-		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
   }
 
 }
@@ -93,17 +94,17 @@ function pso(item, epoch, bestGlobal, height, width) {
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
   //Why not just loop? When does the canvas get redrawn?
-  if (epoch < 25) {
+  if (epoch < 10) {
     setTimeout(function () { pso(item, epoch, bestGlobal, width); }, 200);
   }
 }
 
-function initialise(particles, width){
+function initialise(particles, width, height){
   var item = [];
   var i;
   for (i = 0; i < particles; ++i) {
       x = getRandomInt(0, width);
-      y = 0;
+      y = height/2.0;
       var velocity = { x:getRandomInt(-5,5), y:getRandomInt(0,5)};
       item.push ( { x: x, y: y, best: {x:x, y:y}, v:velocity } );
   }
@@ -117,7 +118,7 @@ function start() {
   document.getElementById("click_draw").innerHTML="stop"; 
   //make stop button work
   var canvas = document.getElementById('tutorial');
-  item = initialise(3, canvas.width - 4); //don't hard code the 4
+  item = initialise(1, canvas.width - 4, canvas.height); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 

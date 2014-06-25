@@ -13,12 +13,7 @@ What does v start at (pso)?
 
 Stop button doesn't work
 
-Best global never gets updated - but how come the items do?
-	learn by reg and value stuff
-
-Add some tests
-
-Should ut keep going until all the items have escaped?
+Should it keep going until all the items have escaped?
 
 Why do the items go up then clamp to the bottom?
 
@@ -26,5 +21,6 @@ Should the "velocity" have an x and y? Why does x not seem to change?
 Seems to be moving out of the bag in about 3 steps - the y seems to grow exponetially. Add tests!
 
 Move callouts to canvas, to pass in hieght and width
+
 
 
