@@ -34,6 +34,7 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     var vx = (w * current.v.x) + (c1 * r1 * (current.best.x - current.x)) + (c2 * r2 * (bestGlobal.x - current.x));
     var result = document.getElementById("update");
     result.innerHTML =  result.innerHTML + i + ", " + item[i].y + ", " + vy
+                      + ", " + item[i].x + ", " + vx
                       + " , (" + (current.best.y - current.y)
 		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
     item[i].y = item[i].y + vy;
@@ -48,10 +49,11 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     else {
       item[i].v.y = vy;
     }
-    var x = item[i].x + vx;//getRandomInt(-5, 5); //use v instead?
-    //what about the 44 to allow space to draw it?
+    var x = item[i].x + vx;
+    //what about the 4 to allow space to draw it?
     if (x > 0 && x < width) {
       item[i].x = x;
+      item[i].v.x = vx;
     }
   }
 
@@ -120,7 +122,7 @@ function start() {
   document.getElementById("click_draw").innerHTML="stop"; 
   //make stop button work
   var canvas = document.getElementById('tutorial');
-  item = initialise(3, canvas.width - 4, canvas.height); //don't hard code the 4
+  item = initialise(1, canvas.width - 4, canvas.height); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 
