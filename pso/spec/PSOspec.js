@@ -45,9 +45,26 @@ describe("move", function() {
   it("should keep x inside width of bag for each step", function() {
     var width = 250;
     item = { x: 0, y: 0, best: {x:0, y:0}, v: { x: 1, y: 1} };
-//function keep_in_range(velocity, max, item, property) {
-    keep_in_range(-10, width, item, "x");
+    move_in_range(-10, width, item, "x");
     expect(item.x).toEqual(0);
+  });
+  it("should keep y inside width of bag for each step", function() {
+    var height = 20;
+    item = { x: 0, y: 0, best: {x:0, y:0}, v: { x: 1, y: 1} };
+    move_in_range(100, height, item, "y");
+    expect(item.y).toEqual(height);
+  });
+  it("should move y if possible", function() {
+    var height = 20;
+    item = { x: 0, y: 0, best: {x:0, y:0}, v: { x: 1, y: 1} };
+    move_in_range(1, height, item, "y");
+    expect(item.y).toEqual(1);
+  });
+  it("should move x if possible", function() {
+    var width = 20;
+    item = { x: 0, y: 0, best: {x:0, y:0}, v: { x: 1, y: 1} };
+    move_in_range(1, width, item, "x");
+    expect(item.x).toEqual(1);
   });
 });
 

@@ -10,8 +10,8 @@ function best(first, second) {
   return second;
 }
 
-function keep_in_range(velocity, max, item, property) {
-  var value = item[property];
+function move_in_range(velocity, max, item, property) {
+  var value = item[property] + velocity;
   if (value < 0) {
     item[property] = 0;
   }
@@ -51,30 +51,10 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
                       + ", " + item[i].x + ", " + vx
                       + " , (" + (current.best.y - current.y)
 		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
-    item[i].y = item[i].y + vy;
-    //Goes exponential,
-    //but just using v directly doesn't escape///
-    if (item[i].y < 0) {
-      item[i].y = 0;
-    }
-    else if (item[i].y > height) {
-      item[i].y = height;
-    }
-    else {
-      item[i].v.y = vy;
-    }
-    var x = item[i].x + vx;
+    //item[i].y = item[i].y + vy;
+    move_in_range(vy, height, item[i], "y");
+    move_in_range(vx, width, item[i], "x");
     //what about the 4 to allow space to draw it?
-    if (x < 0) {
-      item[i].x = 0;
-    }
-    else if (x > width) {
-      item[i].x = width;
-    }
-    else {
-      item[i].x = x;
-      item[i].v.x = vx;
-    }
   }
 
 }
