@@ -101,7 +101,7 @@ function pso(item, epoch, bestGlobal, height, width) {
   }
 }
 
-function initialise(particles, width, height){
+function initialise(particles, width, height) {
   var item = [];
   var i;
   for (i = 0; i < particles; ++i) {
