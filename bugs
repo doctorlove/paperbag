@@ -22,5 +22,6 @@ Seems to be moving out of the bag in about 3 steps - the y seems to grow exponet
 
 Move callouts to canvas, to pass in hieght and width
 
+Item's x moves the first time, but never agterwards
 
 
