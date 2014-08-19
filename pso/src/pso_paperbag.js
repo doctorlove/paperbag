@@ -46,12 +46,6 @@ function move(item, w, c1, c2, height, width, bestGlobal) {
     var r2 = getRandomInt(0, 5);//need to think about this 
     var vy = (w * current.v.y) + (c1 * r1 * (current.best.y - current.y)) + (c2 * r2 * (bestGlobal.y - current.y));
     var vx = (w * current.v.x) + (c1 * r1 * (current.best.x - current.x)) + (c2 * r2 * (bestGlobal.x - current.x));
-    var result = document.getElementById("update");
-    result.innerHTML =  result.innerHTML + i + ", " + item[i].y + ", " + vy
-                      + ", " + item[i].x + ", " + vx
-                      + " , (" + (current.best.y - current.y)
-		      + "), (" + (bestGlobal.y - current.y) + ")<br/>";
-    //item[i].y = item[i].y + vy;
     move_in_range(vy, height, item[i], "y");
     move_in_range(vx, width, item[i], "x");
     //what about the 4 to allow space to draw it?
