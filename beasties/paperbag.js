@@ -34,6 +34,7 @@ function drawSomething() {
 	var down = up + bag_width;
 	ctx.fillRect(left,up,bag_width,bag_width);
 	
+        //Make this a move function...
 	var new_x_move = bag_width * 0.2 * (-0.5 + Math.random());
 	var new_y_move = bag_width * 0.2 * (-0.5 + Math.random());
 	x += new_x_move;

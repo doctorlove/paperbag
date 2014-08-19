@@ -65,10 +65,11 @@ function distance_index(distance, index) {
 
 function knn(items, index, n) {
 	var results =[]; 
+	var item = items[index];
 	for (var i=0; i<items.length; i++) {
 		if (i !==index) {
 			var neighbour = items[i];
-			var distance = Math.sqrt(neighbour.x*neighbour.x + neighbour.y*neighbour.y);
+			var distance = Math.sqrt(item.x*neighbour.x + item.y*neighbour.y);
 			results.push( new distance_index(distance, i) );
 		}
 	}
