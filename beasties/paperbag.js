@@ -6,7 +6,7 @@ var id = 0;
 
 function init() {
 	if (id === 0) {
-		id = setInterval(drawSomething, 100); 
+		id = setInterval(update, 100); 
 	}
 	else {
 		clearInterval(id);
@@ -20,7 +20,7 @@ function in_bag(x_pos, y_pos, left, right, up, down) {
 	return (x_pos > left) && (x_pos < right) && (y_pos > up) && (y_pos < down);
 }
 
-function drawSomething() {
+function update() {
 	//draw the bag
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
@@ -38,9 +38,7 @@ function drawSomething() {
 	var new_x_move = bag_width * 0.2 * (-0.5 + Math.random());
 	var new_y_move = bag_width * 0.2 * (-0.5 + Math.random());
 	x += new_x_move;
-	x %= c.width;
 	y += new_y_move;
-	y %= c.height;
 	
 	ctx.beginPath();
 	ctx.rect(x,y,width,width);
