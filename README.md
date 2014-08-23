@@ -13,4 +13,6 @@ I've tried
 
 4. transforming this to a known problem: escaping a maze, and solving that instead:  Putting the maze in a paper bag means I have programmed my way out :-)
 
-5. using genetic algorithms
+5. using genetic algorithms - see http://accu.org/index.php/journals/1821 for details
+
+6. using particle swarm optimiation - currently a work in progress
