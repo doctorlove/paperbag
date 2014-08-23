@@ -82,7 +82,7 @@ function updateBest(item, bestGlobal) {
   return bestGlobal;
 }
 
-function pso(item, epoch, bestGlobal, height, width) {
+function pso(item, epoch, bestGlobal, height, width, milliseconds) {
   //Consider adding a try catch
   epoch = epoch + 1;//is this by ref?
   var inertiaWeight = 0.9;
@@ -91,9 +91,11 @@ function pso(item, epoch, bestGlobal, height, width) {
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
-  //Why not just loop? When does the canvas get redrawn?
   if (epoch < 20) {
-    setTimeout(function () { pso(item, epoch, bestGlobal, height, width); }, 200);
+    setTimeout(function () { pso(item, epoch, bestGlobal, height, width, milliseconds); }, 200);
+   var total_milliseconds = new Date().getTime() - milliseconds;
+    document.getElementById("update").innerHTML = total_milliseconds;
+    update.innerHTML =  epoch;
   }
 }
 
@@ -120,6 +122,7 @@ function start() {
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 
-  var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.height, canvas.width); }, 100);
+  var milliseconds = new Date().getTime();
+  var id = setTimeout(function () { pso(item, epoch, bestGlobal, canvas.height, canvas.width, milliseconds); }, 100);
 }
 
