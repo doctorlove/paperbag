@@ -6,7 +6,11 @@ var id = 0;
 
 function init() {
 	if (id === 0) {
-		id = setInterval(update, 100); 
+		var milliseconds = new Date().getTime();
+		id = setInterval(function() {
+			update(milliseconds);
+			},
+			100); 
 	}
 	else {
 		clearInterval(id);
@@ -20,7 +24,7 @@ function in_bag(x_pos, y_pos, left, right, up, down) {
 	return (x_pos > left) && (x_pos < right) && (y_pos > up) && (y_pos < down);
 }
 
-function update() {
+function update(milliseconds) {
 	//draw the bag
 	var c=document.getElementById("myCanvas");
 	var ctx=c.getContext("2d");
@@ -35,10 +39,8 @@ function update() {
 	ctx.fillRect(left,up,bag_width,bag_width);
 	
         //Make this a move function...
-	var new_x_move = bag_width * 0.2 * (-0.5 + Math.random());
-	var new_y_move = bag_width * 0.2 * (-0.5 + Math.random());
-	x += new_x_move;
-	y += new_y_move;
+	x += bag_width * 0.2 * (-0.5 + Math.random());
+	y += bag_width * 0.2 * (-0.5 + Math.random());;
 	
 	ctx.beginPath();
 	ctx.rect(x,y,width,width);
@@ -51,6 +53,8 @@ function update() {
 	else {
 		document.getElementById("Go").innerHTML="Start";
 		document.getElementById("demo").innerHTML="Success";
+		var total_milliseconds = new Date().getTime() - milliseconds;
+		document.getElementById("time").innerHTML=total_milliseconds;
 		init();
 	}
 }
