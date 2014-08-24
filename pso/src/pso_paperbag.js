@@ -59,7 +59,7 @@ function draw(item, epoch) {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
     ctx.fillStyle = "rgb(180, 120, 60)";
-    ctx.fillRect (1, 8, canvas.width - 1, canvas.height - 8);
+    ctx.fillRect (1, 8, canvas.width - 6, canvas.height - 8);
 
     var result = document.getElementById("epoch");
     result.innerHTML =  epoch;
@@ -118,7 +118,7 @@ function start() {
   document.getElementById("click_draw").innerHTML="stop"; 
   //make stop button work
   var canvas = document.getElementById('tutorial');
-  item = initialise(5, canvas.width - 4, canvas.height); //don't hard code the 4
+  item = initialise(25, canvas.width - 4, canvas.height); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 
