@@ -87,12 +87,12 @@ function pso(item, epoch, bestGlobal, height, width, milliseconds) {
   epoch = epoch + 1;//is this by ref?
   var inertiaWeight = 0.9;
   var personalWeight = 0.1;
-  var swarmWeight = 0.1;
+  var swarmWeight = 0.09;
   move(item, inertiaWeight, personalWeight, swarmWeight, height, width, bestGlobal);
   draw(item, epoch);
   bestGlobal = updateBest(item, bestGlobal);
-  if (epoch < 20) {
-    setTimeout(function () { pso(item, epoch, bestGlobal, height, width, milliseconds); }, 200);
+  if (epoch < 40) {//TODO keep going til they escape
+    setTimeout(function () { pso(item, epoch, bestGlobal, height, width, milliseconds); }, 300);
    var total_milliseconds = new Date().getTime() - milliseconds;
     document.getElementById("update").innerHTML = total_milliseconds;
     update.innerHTML =  epoch;
@@ -118,7 +118,7 @@ function start() {
   document.getElementById("click_draw").innerHTML="stop"; 
   //make stop button work
   var canvas = document.getElementById('tutorial');
-  item = initialise(25, canvas.width - 4, canvas.height); //don't hard code the 4
+  item = initialise(20, canvas.width - 4, canvas.height); //don't hard code the 4
   var epoch = 0;
   draw(item, epoch);
   var bestGlobal = item[0]; 
