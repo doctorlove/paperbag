@@ -15,4 +15,9 @@ I've tried
 
 5. using genetic algorithms - see http://accu.org/index.php/journals/1821 for details
 
-6. using particle swarm optimiation - currently a work in progress
+6. using particle swarm optimiation -  see http://accu.org/index.php/journals/2023 for details
+
+7. using diffusion 
+
+8. using an Abstract Bee Colony 
+
