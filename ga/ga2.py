@@ -69,7 +69,6 @@ def get_choices(results):
 
 def choose(choices):
     p = random.uniform(0, choices[-1])
-    print "p", p, "from", choices
     for i in range(len(choices)):
         if choices[i] >= p:
             return i
