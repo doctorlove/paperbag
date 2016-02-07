@@ -63,7 +63,7 @@ def cumulative_probabilities(results):
         cp.append(total)
     return cp
 
-def get_choices(generation, height, width, results):
+def get_choices(results):
     choices = cumulative_probabilities(results)
     return choices
 
@@ -75,8 +75,9 @@ def choose(choices):
     return i
 
 
-def crossover(generation, results, height, width):
-    choices = get_choices(generation, height, width, results)
+def crossover(gen, res, height, width):
+    results, generation = zip(*sorted(zip(res, gen)))
+    choices = get_choices(results)
     next_generation = []
     for i in range(0, len(generation)):
         mum = generation[choose(choices)]

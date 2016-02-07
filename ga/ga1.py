@@ -48,14 +48,13 @@ def launch(generation, height, width):
     return results
 
 def get_choices(generation, height, width, results):
-    choices = [(generation[i][0], generation[i][1]) for i in range(len(generation)) if escaped(height, width, results[i]) ]
+    choices = [generation[i] for i in range(len(generation)) if escaped(height, width, results[i]) ]
     return choices
 
 def crossover(generation, results, height, width):
     choices = get_choices(generation, height, width, results)
     if len(choices) == 0:
             return init_random_generation(items)
-    #choices = sorted(choices, key = lambda t: t[1])
     next_generation = []
     for i in range(0, len(generation)):
         mum = generation[random.randint(0, len(choices)-1)]

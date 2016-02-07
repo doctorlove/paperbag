@@ -59,24 +59,26 @@ def cumulative_probabilities(results):
     cp = []
     total = 0
     for res in results:
-        total += res[1] # maybe if it's more than height square it
+        total += res[1] 
         cp.append(total)
     return cp
 
-def get_choices(generation, height, width, results):
+def get_choices(results):
     choices = cumulative_probabilities(results)
     return choices
 
 def choose(choices):
-    p = random.uniform(0,choices[-1])
+    p = random.uniform(0, choices[-1])
+    print "p", p, "from", choices
     for i in range(len(choices)):
         if choices[i] >= p:
             return i
     return i
 
 
-def crossover(generation, results, height, width):
-    choices = get_choices(generation, height, width, results)
+def crossover(gen, res, height, width):
+    results, generation = zip(*sorted(zip(res, gen)))
+    choices = get_choices(results)
     next_generation = []
     for i in range(0, len(generation)):
         mum = generation[choose(choices)]

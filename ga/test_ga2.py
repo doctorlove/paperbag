@@ -5,12 +5,12 @@ import unittest
 
 class TestCumulativeProbabilites(unittest.TestCase):
     def test_that_one_result_gives_height(self):
-        res = cumulative_probabilities([(10,15)])
+        res = cumulative_probabilities([(10, 15)])
         self.assertEqual(1, len(res))
         self.assertEqual(15, res[0])
 
     def test_that_two_results_gives_total_heights(self):
-        res = cumulative_probabilities([(5,0), (10,15), (15, 30)])
+        res = cumulative_probabilities([(5, 0), (10, 15), (15, 30)])
         self.assertEqual(3, len(res))
         self.assertEqual(0, res[0])
         self.assertEqual(15, res[1])
@@ -19,6 +19,21 @@ class TestCumulativeProbabilites(unittest.TestCase):
     def test_that_one_choice_is_chosen(self):
         res = cumulative_probabilities([(10,15)])
         self.assertEqual(0, choose(res))
+
+    def test_that_get_choices_returns_full_generation(self):
+	results = [(5, 0), (10, 15), (15, 30)]
+        choices = get_choices(results)
+	self.assertEqual(len(choices), len(results))
+
+
+class TestCrossover(unittest.TestCase):
+    def test_that_crossover_generates_full_population(self):
+        generation = [(0,0), (1,1), (0,0)]
+        result = [(0, 0), (2, 2), (0, 1)]
+        whatever = 0
+        next_generation = crossover(generation, result, whatever, whatever)
+        self.assertEqual(len(next_generation), len(generation))
+
 
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):

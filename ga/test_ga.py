@@ -20,6 +20,12 @@ class TestCumulativeProbabilites(unittest.TestCase):
         res = cumulative_probabilities([(10,15)])
         self.assertEqual(0, choose(res))
 
+    def test_that_get_choices_returns_full_generation(self):
+	results = [(5,0), (10,15), (15, 30)]
+        choices = get_choices(results)
+	self.assertEqual(len(choices), len(results))
+
+
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
         width = 10

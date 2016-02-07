@@ -6,6 +6,27 @@ class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
         self.assertEqual(0.0, hit_height(0,10))
 
+
+class TestChoices(unittest.TestCase):
+    def test_that_get_choices_returns_escaped_items(self):
+	results = [[(5, 0, True)], [(10, 10, False)], [(15, 20, False)]]
+	gen = [(0,0), (0,0), (0,0)]
+        choices = get_choices(gen, 10, 5, results)
+	self.assertEqual(len(choices), 2)
+
+    def test_that_get_choices_returns_full_generation(self):
+	results = [[(5,0, True)], [(10, 0, True)], [(15, 0, True)]]
+	gen = [(0,0), (0,0), (0,0)]
+        choices = get_choices(gen, 10, 5, results)
+	self.assertEqual(len(choices), 0)
+
+
+class TestInitialise(unittest. TestCase):
+    def test_that_init_random_generation_gives_number_of_items_requested(self):
+        items = 5
+        gen = init_random_generation(items)
+	self.assertEqual(len(gen), items)
+
 class TestCollisions(unittest.TestCase):
 
     def test_that_ball_staying_inside_bag_does_not_collide(self):
