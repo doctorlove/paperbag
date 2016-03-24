@@ -139,7 +139,7 @@ def init_random_generation(items):
     return generation
 
 
-if __name__ == "__main__":
+def demo():
     epochs = 10
     items = 12
     height = 5
@@ -161,3 +161,5 @@ if __name__ == "__main__":
     results = launch(generation, height, width)
     graph_interpolation(generation0, results0, generation, results, height, width)
 
+if __name__ == "__main__":
+    demo()
