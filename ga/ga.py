@@ -75,8 +75,7 @@ def choose(choices):
     return i
 
 
-def crossover(gen, res, height, width):
-    results, generation = zip(*sorted(zip(res, gen)))
+def crossover(generation, results, height, width):
     choices = get_choices(results)
     next_generation = []
     for i in range(0, len(generation)):
