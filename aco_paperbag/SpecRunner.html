@@ -1,48 +1,21 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Jasmine Spec Runner</title>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner v2.4.1</title>
 
-  <link rel="shortcut icon" type="image/png" href="/jasmine/lib/jasmine-1.2.0/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="/jasmine/lib/jasmine-1.2.0/jasmine.css">
-  <script type="text/javascript" src="/jasmine/lib/jasmine-1.2.0/jasmine.js"></script>
-  <script type="text/javascript" src="/jasmine/lib/jasmine-1.2.0/jasmine-html.js"></script>
+  <link rel="shortcut icon" type="image/png" href="c:/dev/jasmine/lib/jasmine-2.4.1/jasmine_favicon.png">
+  <link rel="stylesheet" href="c:/dev/jasmine/lib/jasmine-2.4.1/jasmine.css">
+
+  <script src="c:/dev/jasmine/lib/jasmine-2.4.1/jasmine.js"></script>
+  <script src="c:/dev/jasmine/lib/jasmine-2.4.1/jasmine-html.js"></script>
+  <script src="c:/dev/jasmine/lib/jasmine-2.4.1/boot.js"></script>
 
   <!-- include source files here... -->
-  <script type="text/javascript" src="spec/ACOSpec.js"></script>
+  <script src="src/aco_paperbag.js"></script>
 
   <!-- include spec files here... -->
-  <script type="text/javascript" src="src/aco_paperbag.js"></script>
-
-  <script type="text/javascript">
-    (function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
-
-      var htmlReporter = new jasmine.HtmlReporter();
-
-      jasmineEnv.addReporter(htmlReporter);
-
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
-
-      var currentWindowOnload = window.onload;
-
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
-
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
-
-    })();
-  </script>
+  <script src="spec/ACOSpec.js"></script>
 
 </head>
 
