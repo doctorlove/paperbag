@@ -1,5 +1,5 @@
 var id = 0;
-var scale = 20.0;
+var scale = 8.0;
 var ants = 20;
 var trails = [];
 
@@ -33,7 +33,7 @@ function contains(a, obj) {
 
 function possible_positions(width, pos) {
     //up to eight neighbours
-    var possible = [], n = 0;
+    var possible = [];
     if (pos.y > 0) {
         if (pos.x > 0) {
             possible.push({x: pos.x - 1, y: pos.y - 1});
@@ -139,15 +139,32 @@ function cumulative_probability(possible, pheromones){
 }
 
 function show_pheromones(pheromones) {
-  var display = "", i = 0;
-  for (i = 0; i < pheromones.length; ++i) {
-    display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + " ";
+  worst =  { x: 0, y: 0, weight: 1000 };
+  best =  { x: 0, y: 0, weight: -1 };
+  try {
+    var display = "", i = 0;
+    for (i = 0; i < pheromones.length; ++i) {
+      display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + " ";
+      if (pheromones[i].weight > best.weight) {
+        best = pheromones[i];
+      }
+      if (pheromones[i].weight < worst.weight) {
+        worst = pheromones[i];
+      }
+    }
+    display = display + "BEST (" + best.x + ", " + best.y + "):" + best.weight + " ";
+    display = display + "WORST (" + worst.x + ", " + worst.y + "):" + worst.weight + " ";
+    return display;
   }
-  return display;
+  catch (err) {
+    return "pheromones";
+  }
 }
 
 function allowed_positions(width, pos, trail) {
   var possible = possible_positions(width, pos);
+  //return possible; - makes worse much worse
+  
   var allowed = [];
   var i = 0;
   for (i = 0; i < possible.length; ++i) {
@@ -159,6 +176,7 @@ function allowed_positions(width, pos, trail) {
       allowed = possible;
   }
   return allowed;
+  
 }
 
 function roulette_wheel_choice(width, pos, trail, pheromones) {
@@ -187,7 +205,7 @@ function pheromone_trail(height, width, pheromones) {
   var trail = [], pos = start_pos(width);
   trail.push(pos);
 
-  while (pos.y < height) {
+  while (pos.y <= height) {
     pos = roulette_wheel_choice(width, pos, trail, pheromones);
     trail.push(pos);
   }
@@ -227,7 +245,7 @@ function find_worst(trails) {
   return worst;
 }
 
-function draw() {
+function draw(pheromones) {
   var i, x, y;
   var canvas = document.getElementById('tutorial');
   if (canvas.getContext) {
@@ -238,6 +256,10 @@ function draw() {
 
     var result = document.getElementById("epoch");
     result.innerHTML = parseInt(result.innerHTML) + 1;
+
+
+    var pheromone_text = document.getElementById("pheromones");
+    pheromone_text.innerHTML = show_pheromones(pheromones);
 
     i = find_best(trails);
     for (j = 0;  j < trails[i].length; ++j) {
@@ -303,13 +325,13 @@ function update(pheromones, height, width) {
 function simulate(epoch, pheromones, height, width) {
   try {
     update(pheromones, height, width);
-    draw();
+    draw(pheromones);
 
     epoch = epoch + 1;
-    if (epoch < 30) {
+    if (epoch < 20) {
       id = setTimeout(function() {
              simulate(epoch, pheromones, height, width);
-           }, 200);
+           }, 100);
     }
     else {
       stop();
@@ -326,7 +348,7 @@ function aco() {
   height = canvas.height / scale;
   width = canvas.width / scale;
   trails = make_trails(height, width, ants);
-  draw();
+  draw(pheromones);
   simulate(0, pheromones, height, width);
 }
 
