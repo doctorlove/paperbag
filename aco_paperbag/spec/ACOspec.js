@@ -179,6 +179,23 @@ describe("add_new_pheromones", function () {
     }
   });
 
+  //TODO - can fail
+  it("should be larger for each hegher up point", function() {
+    var found, i, pos, pheromones = [], updated;
+    var width = 4;
+    var height = 6;
+    var trail = random_trail(height, width);
+    updated = add_new_pheromones(height, pheromones, trail);
+    for( i = 0; i < pheromones.length; ++i) {
+      better = true;
+      for(j = 0; j<updated.length; ++j) {
+        if (pheromones[i].y > updated[j].y && pheromones[i].weight < updated[j].weight) {
+          better = false;
+        }
+      }
+      expect(better).toBe(true);//TODO better messages
+    }
+  });
 });
 
 
