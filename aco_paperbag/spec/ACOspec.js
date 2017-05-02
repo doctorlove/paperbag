@@ -99,6 +99,22 @@ describe("make_trails", function() {
 
 });
 
+describe("total_length", function() {
+  it("will see a straight line as shorter than a diagonal line", function() {
+    trail_shorter = [];
+    trail_shorter.push({x: 0, y: 1});
+    trail_shorter.push({x: 0, y: 0});
+
+    trail_longer = [];
+    trail_longer.push({x: 1, y: 1});
+    trail_longer.push({x: 0, y: 0});
+
+    var short = total_length(trail_shorter);
+    var long = total_length(trail_longer);
+    expect(short).toBeLessThan(long);
+  });
+});
+
 describe("find_best", function() {
 
   it("should find the only trail if there is just one", function() {
@@ -132,7 +148,7 @@ describe("properties_match", function() {
     expect(properties_match(pos, matching_pos, "y")).toBe(true);
   });
 
-  it("should be flase for non-matching positions", function() {
+  it("should be false for non-matching positions", function() {
     var pos = { x: 0, y: 1};
     var matching_pos = { x: 1, y: 1};
     expect(properties_match(pos, matching_pos, "x")).toBe(false);
@@ -194,6 +210,9 @@ describe("add_new_pheromones", function () {
         }
       }
       expect(better).toBe(true);//TODO better messages
+      if (better === false) {
+        expect(pheromones).toEqual(trail);
+      }
     }
   });
 });

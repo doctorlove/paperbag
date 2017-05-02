@@ -1,6 +1,6 @@
 var id = 0;
 var scale = 25.0;
-var ants = 20;
+var ants = 50;
 var trails = [];
 
 function stop()
@@ -272,7 +272,7 @@ function draw(pheromones) {
 }
 
 function evapourate(pheromones) {
-  var evapouration = 0.75;
+  var evapouration = 0.5;
   var updated = [], new_pos;
 
   for(i = 0; i < pheromones.length; ++i) {
@@ -282,10 +282,22 @@ function evapourate(pheromones) {
   return updated;
 }
 
+function total_length(trail) {
+  var i;
+  var length = 0;
+  for (i = 1; i < trail.length; ++i) {
+    var step = (trail[i-1].x-trail[i].x)**2
+	     + (trail[i-1].y-trail[i].y)**2
+    step = Math.pow(step, 0.5);
+    length = length + step;
+  }
+  return length;
+}
+
 function add_new_pheromones(height, pheromones, trail) {
   var i, pos, new_pos;
   var Q = 2.0 * height;
-  var L = Q/trail.length;
+  var L = Q/total_length(trail);
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
@@ -318,7 +330,7 @@ function simulate(epoch, pheromones, height, width) {
     draw(pheromones);
 
     epoch = epoch + 1;
-    if (epoch < 20) {
+    if (epoch < 25) {
       id = setTimeout(function() {
              simulate(epoch, pheromones, height, width);
            }, 200);
