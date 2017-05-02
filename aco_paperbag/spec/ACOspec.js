@@ -198,6 +198,15 @@ describe("add_new_pheromones", function () {
   });
 });
 
+describe("find pheromone", function() {
+  it("should return -1 when none at that point", function () {
+    var pheromones = [];
+    var pos = {x: 1, y: 2, weight: 1};
+    var index = pheromone_at(pheromones, pos);
+    expect(index === -1).toBe(true);
+  });
+});
+
 
 describe("nearest_pheromones", function() {
 
@@ -215,13 +224,23 @@ describe("nearest_pheromones", function() {
     var pheromones = [], pos = {x: 0, y: 0};
 
     pheromones.push({x: 1, y: 0, weight: 0});
-    pheromones.push({x: 0, y: 1, weight: 1});
+    pheromones.push({x: 0, y: 1, weight: 1});//why not this one? - encouraging up instead of down
     pheromones.push({x: 1, y: 1, weight: 0});
     
     var lookup = nearest_pheromone(pheromones, pos);
     expect(lookup).toEqual(-1);
   });
 
+  it("should encourage greatest weight", function() {
+    var pheromones = [], pos = {x: 0, y: 1};
+
+    pheromones.push({x: 0, y: 0, weight: 2});
+    pheromones.push({x: 0, y: 1, weight: 1});
+    pheromones.push({x: 1, y: 1, weight: 2});
+    
+    var lookup = nearest_pheromone(pheromones, pos);
+    expect(lookup).toEqual(0);
+  });
 });
 
 describe("cumulative_probability", function() {

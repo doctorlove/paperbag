@@ -110,7 +110,7 @@ function nearest_pheromone(pheromones, pos) {
       weight = item.weight;
     }
   }
-  if (best_dist !== -1 && best_dist < 1) {
+  if (best_dist !== -1 && best_dist < 1) {//TODO - maybe <= but then tests fail
     return index;
   }
   else {
@@ -118,6 +118,9 @@ function nearest_pheromone(pheromones, pos) {
   }
 }
 
+function pheromone_at(pheromones, pos) {
+  return -1;
+}
 
 function taueta(weight, y) {
   var alpha = 1.0;
