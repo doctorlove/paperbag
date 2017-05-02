@@ -1,5 +1,5 @@
 var id = 0;
-var scale = 8.0;
+var scale = 25.0;
 var ants = 20;
 var trails = [];
 
@@ -119,6 +119,12 @@ function nearest_pheromone(pheromones, pos) {
 }
 
 function pheromone_at(pheromones, pos) {
+  var i;
+  for (i = 0; i < pheromones.length; ++i) {
+    if(pheromones[i].x === pos.x && pheromones[i].y === pos.y) {
+      return i;
+    }
+  }
   return -1;
 }
 

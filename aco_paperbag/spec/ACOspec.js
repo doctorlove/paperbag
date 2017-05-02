@@ -205,6 +205,15 @@ describe("find pheromone", function() {
     var index = pheromone_at(pheromones, pos);
     expect(index === -1).toBe(true);
   });
+
+  it("should return point's index when point is there", function () {
+    var pheromones = [];
+    var pos = {x: 1, y: 2, weight: 1};
+    pheromones.push(pos);
+    var index = pheromone_at(pheromones, pos);
+    expect(index === 0).toBe(true);
+  });
+
 });
 
 
