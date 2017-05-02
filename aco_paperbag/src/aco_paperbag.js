@@ -138,7 +138,7 @@ function cumulative_probability(possible, pheromones){
   var total = 0.0, index;
   var cumulative = [total];
   for (i = 0; i < possible.length; ++i) {
-    index = nearest_pheromone(pheromones, possible[i]);
+    index = pheromone_at(pheromones, possible[i]);
     if (index !== -1) {
       total = total + taueta(pheromones[index].weight, pheromones[index].y);
     }
@@ -153,7 +153,7 @@ function show_pheromones(pheromones) {
   try {
     var display = "", i = 0;
     for (i = 0; i < pheromones.length; ++i) {
-      display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + " ";
+      display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + ", ";
       if (pheromones[i].weight > best.weight) {
         best = pheromones[i];
       }
@@ -340,7 +340,7 @@ function simulate(epoch, pheromones, height, width) {
     if (epoch < 20) {
       id = setTimeout(function() {
              simulate(epoch, pheromones, height, width);
-           }, 100);
+           }, 200);
     }
     else {
       stop();
