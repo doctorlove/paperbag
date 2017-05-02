@@ -276,7 +276,10 @@ function evapourate(pheromones) {
   var updated = [];
 
   for(i = 0; i < pheromones.length; ++i) {
-    pheromone = {x: pheromones[i].x, y: pheromones[i].y, weight: evapouration * pheromones[i].weight};
+    pheromone = {
+	    x: pheromones[i].x,
+	    y: pheromones[i].y,
+	    weight: evapouration * pheromones[i].weight};
     updated.push( pheromone );
   }
   return updated;
