@@ -180,7 +180,7 @@ describe("add_new_pheromones", function () {
   });
 
   //TODO - can fail
-  it("should be larger for each hegher up point", function() {
+  it("should be larger for each higher up point", function() {
     var found, i, pos, pheromones = [], updated;
     var width = 4;
     var height = 6;
