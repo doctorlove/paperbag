@@ -216,42 +216,6 @@ describe("find pheromone", function() {
 
 });
 
-
-describe("nearest_pheromones", function() {
-
-  it("should find the only item if just one exists", function() {
-    //notice this says the nearest one is where it already is - watch it
-    var pheromones = [];
-    var pos = {x: 1, y: 2, weight: 1};
-    pheromones.push(pos);
-    var lookup = nearest_pheromone(pheromones, pos);
-    var result = pheromones[lookup];
-    expect(result === pos).toBe(true);
-  });
-
-  it("should report -1 if none are near enough", function() {
-    var pheromones = [], pos = {x: 0, y: 0};
-
-    pheromones.push({x: 1, y: 0, weight: 0});
-    pheromones.push({x: 0, y: 1, weight: 1});//why not this one? - encouraging up instead of down
-    pheromones.push({x: 1, y: 1, weight: 0});
-    
-    var lookup = nearest_pheromone(pheromones, pos);
-    expect(lookup).toEqual(-1);
-  });
-
-  it("should encourage greatest weight", function() {
-    var pheromones = [], pos = {x: 0, y: 1};
-
-    pheromones.push({x: 0, y: 0, weight: 2});
-    pheromones.push({x: 0, y: 1, weight: 1});
-    pheromones.push({x: 1, y: 1, weight: 2});
-    
-    var lookup = nearest_pheromone(pheromones, pos);
-    expect(lookup).toEqual(0);
-  });
-});
-
 describe("cumulative_probability", function() {
 
   it("should give the sum of tau eta when there is one point", function() {

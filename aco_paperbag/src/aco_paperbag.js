@@ -99,25 +99,6 @@ function make_trails(height, width, ants) {
     return trails;
 }
 
-function nearest_pheromone(pheromones, pos) {
-  var best_dist = -1, dist, i, item, index, weight = -1;
-  for (i = 0; i < pheromones.length; ++i) {
-    item = pheromones[i];
-    dist = Math.sqrt((pos.x-item.x)*(pos.x-item.x) + (pos.y-item.y)*(pos.y-item.y));
-    if ((best_dist === -1) || (dist < best_dist) || ((dist === best_dist) && item.weight > weight)) {
-      best_dist = dist;
-      index = i;
-      weight = item.weight;
-    }
-  }
-  if (best_dist !== -1 && best_dist < 1) {//TODO - maybe <= but then tests fail
-    return index;
-  }
-  else {
-    return -1;
-  }
-}
-
 function pheromone_at(pheromones, pos) {
   var i;
   for (i = 0; i < pheromones.length; ++i) {
@@ -308,7 +289,7 @@ function add_new_pheromones(height, pheromones, trail) {
 
   for (i = 0; i < trail.length; ++i) {
     pos = trail[i];
-    index = nearest_pheromone(pheromones, pos);
+    index = pheromone_at(pheromones, pos);
     if ( index !== -1 ) {
       pheromones[index] = {x: pheromones[index].x, y: pheromones[index].y, weight: pheromones[index].weight + L};
     }
