@@ -242,7 +242,7 @@ function draw(pheromones) {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
     ctx.fillStyle = "rgb(180, 120, 60)";
-    ctx.fillRect (1, 8, canvas.width - 1, canvas.height - 8);
+    ctx.fillRect (0, 8, canvas.width, canvas.height - 8);
 
     var result = document.getElementById("epoch");
     result.innerHTML = parseInt(result.innerHTML) + 1;
