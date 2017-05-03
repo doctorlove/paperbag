@@ -1,6 +1,6 @@
 var id = 0;
 var scale = 20.0;
-var ants = 2;
+var ants = 20;
 
 function stop()
 {
@@ -271,7 +271,7 @@ function draw(pheromones, trails) {
 }
 
 function evapourate(pheromones) {
-  var evapouration = 1.0/ants;
+  var evapouration = 0.25;
   var updated = [];
 
   for(i = 0; i < pheromones.length; ++i) {
