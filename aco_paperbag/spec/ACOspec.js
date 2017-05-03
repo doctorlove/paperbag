@@ -197,15 +197,15 @@ describe("add_new_pheromones", function () {
 
   //TODO - can fail
   it("should be larger for each higher up point", function() {
-    var found, i, pos, pheromones = [], updated;
+    var found, i, pos, pheromones = [];
     var width = 4;
     var height = 6;
     var trail = random_trail(height, width);
-    updated = add_new_pheromones(height, pheromones, trail);
+    add_new_pheromones(height, pheromones, trail);
     for( i = 0; i < pheromones.length; ++i) {
       better = true;
-      for(j = 0; j<updated.length; ++j) {
-        if (pheromones[i].y > updated[j].y && pheromones[i].weight < updated[j].weight) {
+      for(j = 0; j<pheromones.length; ++j) {
+        if (pheromones[i].y > pheromones[j].y && pheromones[i].weight < pheromones[j].weight) {
           better = false;
         }
       }

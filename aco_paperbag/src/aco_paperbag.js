@@ -1,6 +1,6 @@
 var id = 0;
-var scale = 20.0;
-var ants = 20;
+var scale = 10.0;
+var ants = 10;
 
 function stop()
 {
@@ -338,7 +338,7 @@ function simulate(epoch, pheromones, trails, height, width) {
     draw(pheromones, trails);
 
     epoch = epoch + 1;
-    if (epoch < 50) {
+    if (epoch < 100) {
       id = setTimeout(function() {
              simulate(epoch, pheromones, trails, height, width);
            }, 200);
