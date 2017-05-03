@@ -1,6 +1,6 @@
 var id = 0;
 var scale = 20.0;
-var ants = 20;
+var ants = 2;
 
 function stop()
 {
@@ -236,7 +236,7 @@ function find_worst(trails) {
 
 function draw(pheromones, trails) {
   var i, x, y;
-  var canvas = document.getElementById('tutorial');
+  var canvas = document.getElementById('ant_canvas');
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); 
@@ -348,7 +348,7 @@ function simulate(epoch, pheromones, trails, height, width) {
 }
 
 function aco() {
-  var canvas = document.getElementById('tutorial');
+  var canvas = document.getElementById('ant_canvas');
   var pheromones = [];
   height = canvas.height / scale;
   width = canvas.width / scale;
