@@ -217,6 +217,25 @@ describe("add_new_pheromones", function () {
   });
 });
 
+describe("update", function() {
+  it("should add pheromone where ant went", function() {
+    var height = 5;
+    var width = 5;
+    var ants = 1;
+    var trail = make_trails(height, width, ants);
+    var pheromones = [];
+    pheromones = update(pheromones, trail, height, width);
+    for (i = 0; i < trail.length; ++i) {
+      pos = trail[0][i];
+      index = pheromone_at(pheromones, pos);
+      expect(index).not.toBe(-1);
+      if ( index !== -1 ) {
+        expect(pheromones[index].weight).toBeGreaterThan(0);
+      }
+    }
+  });
+});
+
 describe("find pheromone", function() {
   it("should return -1 when none at that point", function () {
     var pheromones = [];

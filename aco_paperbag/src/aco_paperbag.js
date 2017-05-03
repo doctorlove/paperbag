@@ -1,7 +1,6 @@
 var id = 0;
 var scale = 20.0;
-var ants = 50;
-var trails = [];
+var ants = 20;
 
 function stop()
 {
@@ -235,7 +234,7 @@ function find_worst(trails) {
   return worst;
 }
 
-function draw(pheromones) {
+function draw(pheromones, trails) {
   var i, x, y;
   var canvas = document.getElementById('tutorial');
   if (canvas.getContext) {
@@ -316,7 +315,7 @@ function add_new_pheromones(height, pheromones, trail) {
   return pheromones;
 }
 
-function update(pheromones, height, width) {
+function update(pheromones, trails, height, width) {
   var trail, i;
   var pheromones = evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
@@ -324,19 +323,19 @@ function update(pheromones, height, width) {
     pheromones = add_new_pheromones(height, pheromones, trail);
   }
 
-  trails = new_trails(pheromones, height, width, ants);
   return pheromones;
 }
 
-function simulate(epoch, pheromones, height, width) {
+function simulate(epoch, pheromones, trails, height, width) {
   try {
-    pheromones = update(pheromones, height, width);
-    draw(pheromones);
+    pheromones = update(pheromones, trails, height, width);
+    trails = new_trails(pheromones, height, width, ants);
+    draw(pheromones, trails);
 
     epoch = epoch + 1;
     if (epoch < 50) {
       id = setTimeout(function() {
-             simulate(epoch, pheromones, height, width);
+             simulate(epoch, pheromones, trails, height, width);
            }, 200);
     }
     else {
@@ -353,9 +352,9 @@ function aco() {
   var pheromones = [];
   height = canvas.height / scale;
   width = canvas.width / scale;
-  trails = make_trails(height, width, ants);
-  draw(pheromones);
-  simulate(0, pheromones, height, width);
+  var trails = make_trails(height, width, ants);
+  draw(pheromones, trails);
+  simulate(0, pheromones, trails, height, width);
 }
 
 function start() {
