@@ -250,14 +250,19 @@ function draw(pheromones, trails) {
     var pheromone_text = document.getElementById("pheromones");
     pheromone_text.innerHTML = show_pheromones(pheromones);
 
+    var path = "";
+
     i = find_best(trails);
     for (j = 0;  j < trails[i].length; ++j) {
       ctx.fillStyle = "rgb(0,0,0)";
       x = trails[i][j].x * scale;
       y = canvas.height - trails[i][j].y * scale;
+      path = path +  " (" + x + ", " + y + ")";
       ctx.fillRect (x, y - 2, 4, 4);
     }
     document.getElementById("best").innerHTML += ", " + (trails[i].length - 1);
+    document.getElementById("path").innerHTML = "\n " + path;
+
 
     i = find_worst(trails);
     for (j = 0;  j < trails[i].length; ++j) {
