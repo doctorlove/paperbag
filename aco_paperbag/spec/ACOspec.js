@@ -234,6 +234,19 @@ describe("update", function() {
       }
     }
   });
+
+  it("should not add pheromone where ant did not go", function() {
+    var height = 5;
+    var width = 5;
+    var ants = 1;
+    var trail = make_trails(height, width, ants);
+    var pheromones = [];
+    pheromones = update(pheromones, trail, height, width);
+    for (i = 0; i < pheromones.length; ++i) {
+      pos = pheromones[i];
+      expect(contains(trail[0], pos)).toBe(true);
+    }
+  });
 });
 
 describe("find pheromone", function() {
