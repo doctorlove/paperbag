@@ -309,7 +309,6 @@ function add_new_pheromones(height, pheromones, trail) {
     }
 
   }
-  return pheromones;
 }
 
 function update(pheromones, trails, height, width) {

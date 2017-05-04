@@ -232,7 +232,7 @@ describe("update", function() {
     var ants = 1;
     var trail = make_trails(height, width, ants);
     var pheromones = [];
-    pheromones = update(pheromones, trail, height, width);
+    update(pheromones, trail, height, width);
     for (i = 0; i < trail.length; ++i) {
       pos = trail[0][i];
       index = pheromone_at(pheromones, pos);
@@ -249,7 +249,7 @@ describe("update", function() {
     var ants = 1;
     var trail = make_trails(height, width, ants);
     var pheromones = [];
-    pheromones = update(pheromones, trail, height, width);
+    update(pheromones, trail, height, width);
     for (i = 0; i < pheromones.length; ++i) {
       pos = pheromones[i];
       expect(contains(trail[0], pos)).toBe(true);
