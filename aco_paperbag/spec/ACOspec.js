@@ -313,10 +313,10 @@ describe("cumulative_probability", function() {
 describe("roulette_wheel_choice", function() {
 
   it("should return a position", function() {
-    var width = 5, height = 6, i, pos = {x: 0, y: 0}, pheromones = [], updated;
+    var width = 5, height = 6, i, pos = {x: 0, y: 0}, pheromones = [];
     var trail = random_trail(height, width);
-    updated = add_new_pheromones(height, pheromones, trail);
-    var new_pos = roulette_wheel_choice(width, pos, trail, updated);
+    add_new_pheromones(height, pheromones, trail);
+    var new_pos = roulette_wheel_choice(width, pos, trail, pheromones);
     expect(new_pos.x >= 0).toBe(true);
   });
 
