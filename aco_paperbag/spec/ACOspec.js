@@ -77,7 +77,7 @@ describe("random_trail", function() {
     var height = 3;
     var trail = random_trail(height, width);
     expect(trail.length>0).toBe(true);
-    expect(trail[0].y === 0).toBe(true);
+    expect(trail[0].y).toEqual(0);
   });
 
   it("should end above bag", function() {

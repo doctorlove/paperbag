@@ -61,7 +61,7 @@ function next_pos(width, pos, trail) {
 }
 
 function start_pos(width) {
-  return { x: Math.floor(width/2), y: 0 };
+  return { x:Math.floor(Math.random() * (width + 1)), y:0 };
 }
 
 function random_trail(height, width) {
@@ -331,7 +331,7 @@ function simulate(epoch, pheromones, trails, height, width) {
     draw(pheromones, trails);
 
     epoch = epoch + 1;
-    if (epoch < 100) {
+    if (epoch < 25) {
       id = setTimeout(function() {
              simulate(epoch, pheromones, trails, height, width);
            }, 200);
@@ -358,6 +358,10 @@ function aco() {
 function start() {
   if (id === 0) {  
     document.getElementById("click_draw").innerHTML="stop";
+    var opt = document.getElementById("minmax");
+    if (opt) {
+      minmax = opt.checked;
+    }
     id = setTimeout(aco, 100);
   }
   else {
