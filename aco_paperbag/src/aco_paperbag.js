@@ -1,3 +1,4 @@
+var middle_start = false;
 var minmax = false;
 var id = 0;
 var scale = 10.0;
@@ -61,6 +62,9 @@ function next_pos(width, pos, trail) {
 }
 
 function start_pos(width) {
+  if (middle_start) {
+    return { x: Math.floor(width/2), y: 0 };
+  }
   return { x:Math.floor(Math.random() * (width + 1)), y:0 };
 }
 
@@ -362,8 +366,12 @@ function start() {
     if (opt) {
       minmax = opt.checked;
     }
+    opt = document.getElementById("middle_start");
+    if (opt) {
+      middle_start = opt.checked;
+    }
     id = setTimeout(aco, 100);
-  }
+ }
   else {
      stop();
   }
