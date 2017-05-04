@@ -221,6 +221,15 @@ function find_worst(trails) {
   return worst;
 }
 
+function find_average(trails) {
+  var len = 0, i = 0;
+
+  for (i = 0; i < trails.length; ++i) {
+    len = len + trails[i].length;
+  }
+  len = len / trails.length;
+  return len;
+}
 function draw(pheromones, trails) {
   var i, x, y;
   var canvas = document.getElementById('ant_canvas');
@@ -259,21 +268,17 @@ function draw(pheromones, trails) {
       ctx.strokeRect (x, y - 1, 1, 1);
     }
     document.getElementById("worst").innerHTML += ", " + (trails[i].length - 1);
+
+    document.getElementById("average").innerHTML += ", " + find_average(trails);
   }
 }
 
 function evapourate(pheromones) {
   var evapouration = 0.25;
-  var updated = [];
 
   for(i = 0; i < pheromones.length; ++i) {
-    pheromone = {
-	    x: pheromones[i].x,
-	    y: pheromones[i].y,
-	    weight: evapouration * pheromones[i].weight};
-    updated.push( pheromone );
+    pheromones[i].weight = evapouration * pheromones[i].weight;
   }
-  return updated;
 }
 
 function total_length(trail) {
@@ -309,7 +314,7 @@ function add_new_pheromones(height, pheromones, trail) {
 
 function update(pheromones, trails, height, width) {
   var trail, i;
-  var pheromones = evapourate(pheromones);
+  evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
     pheromones = add_new_pheromones(height, pheromones, trail);

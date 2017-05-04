@@ -217,6 +217,15 @@ describe("add_new_pheromones", function () {
   });
 });
 
+describe("evapourate", function() {
+  it("should decrease the pheromones", function() {
+    var original_value= 100;
+    var pheromones = [{x:0, y:0, weight:original_value}];
+    evapourate(pheromones);
+    expect(pheromones[0].weight).toBeLessThan(original_value);
+  });
+});
+
 describe("update", function() {
   it("should add pheromone where ant went", function() {
     var height = 5;
