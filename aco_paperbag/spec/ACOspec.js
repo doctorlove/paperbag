@@ -178,20 +178,19 @@ describe("contains", function() {
 describe("add_new_pheromones", function () {
 
   it("should contain each point in a new trail", function() {
-    var found, i, pos, pheromones = [], updated;
+    var i, pos, pheromones = [], updated;
     var width = 4;
     var height = 6;
     var trail = random_trail(height, width);
-    updated = add_new_pheromones(height, pheromones, trail);
+    add_new_pheromones(height, pheromones, trail);
+    //there may be some repeated points in the trail
+    expect(pheromones.length).not.toBeGreaterThan(trail.length);
+
     for( i = 0; i < trail.length; ++i) {
       pos = trail[i];
-      found = false;
-      for(j = 0; j<updated.length; ++j) {
-        if ((pos.x === updated[j].x) && (pos.y === updated[j].y)) {
-          found = true;
-        }
+      for(j = 0; j<pheromones.length; ++j) {
+        expect(contains(pheromones, pos)).toBe(true);
       }
-      expect(found).toBe(true);
     }
   });
 
