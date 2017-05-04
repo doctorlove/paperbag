@@ -1,12 +1,15 @@
 describe("next_pos", function() {
 
+  //using (x,y) mathematically - so 0 is at the bottom
+  //the drawing code flips them - as 0 is at the top on the canvas
+
   it("should not be below bag", function() {
     var width = 4;
     for(var i=0; i<width; ++i)
     {
       var pos = { x:i, y:0 };
       var next = next_pos(width, pos, []);
-      expect(next.y >= 0).toBe(true);
+      expect(next.y).not.toBeLessThan(0);
     }
   });
 
@@ -18,7 +21,7 @@ describe("next_pos", function() {
       var pos = { x:i, y:0 };
       var next = next_pos(width, pos, []);
       expect(next.x >= 0).toBe(true);
-      expect(next.x < width).toBe(true);
+      expect(next.x).toBeLessThan(width);
     }
   });
 
@@ -81,8 +84,8 @@ describe("random_trail", function() {
     var width = 4;
     var height = 3;
     var trail = random_trail(height, width);
-    expect(trail.length>0).toBe(true);
-    expect(trail[trail.length-1].y>=height).toBe(true);
+    expect(trail.length).toBeGreaterThan(0);
+    expect(trail[trail.length-1].y).not.toBeLessThan(height);
   });
 
 });
@@ -168,8 +171,7 @@ describe("contains", function() {
   it("should contain a item when it is the only item", function() {
     var trails = []
     var pos = { x: 0, y: 1};
-    //trails.push( pos );
-    trails.push( {x: 0, y:1 } ); //I'm comparing the ref: bug!
+    trails.push( {x: 0, y:1 } ); 
     expect(contains(trails, pos)).toBe(true);
   });
 
@@ -317,7 +319,7 @@ describe("roulette_wheel_choice", function() {
     var trail = random_trail(height, width);
     add_new_pheromones(height, pheromones, trail);
     var new_pos = roulette_wheel_choice(width, pos, trail, pheromones);
-    expect(new_pos.x >= 0).toBe(true);
+    expect(new_pos.x).not.toBeLessThan(0);
   });
 
   it("should go to best pheromone point if all other points have zero probability", function() {
