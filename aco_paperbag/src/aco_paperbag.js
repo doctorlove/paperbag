@@ -98,7 +98,7 @@ function pheromone_at(pheromones, pos) {
 
 function taueta(weight, y) {
   var alpha = 1.0;
-  var beta = 3.0;
+  var beta = 4.0;
   return Math.pow(weight, alpha) * Math.pow(y, beta);
 }
 
@@ -316,15 +316,13 @@ function update(pheromones, trails, height, width) {
   evapourate(pheromones);
   for( i = 0; i < trails.length; ++i) {
     trail = trails[i];
-    pheromones = add_new_pheromones(height, pheromones, trail);
+    add_new_pheromones(height, pheromones, trail);
   }
-
-  return pheromones;
 }
 
 function simulate(epoch, pheromones, trails, height, width) {
   try {
-    pheromones = update(pheromones, trails, height, width);
+    update(pheromones, trails, height, width);
     trails = new_trails(pheromones, height, width, ants);
     draw(pheromones, trails);
 

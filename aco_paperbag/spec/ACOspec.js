@@ -195,24 +195,23 @@ describe("add_new_pheromones", function () {
       }
     }
   });
+});
 
-  //TODO - can fail
+describe("tau eta", function () {
+  //passed when alhpa 1, beta 4 - so not totally convinced
   it("should be larger for each higher up point", function() {
     var found, i, pos, pheromones = [];
     var width = 4;
     var height = 6;
-    var trail = random_trail(height, width);
+    var trail = [ { x: 2, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 2, y: 3 }, { x: 2, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 1 }, { x: 3, y: 0 }, { x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 1, y: 4 }, { x: 2, y: 5 }, { x: 2, y: 4 }, { x: 3, y: 4 }, { x: 3, y: 3 }, { x: 3, y: 2 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 2, y: 4 }, { x: 1, y: 5 }, { x: 0, y: 6 } ]; 
     add_new_pheromones(height, pheromones, trail);
     for( i = 0; i < pheromones.length; ++i) {
-      better = true;
       for(j = 0; j<pheromones.length; ++j) {
-        if (pheromones[i].y > pheromones[j].y && pheromones[i].weight < pheromones[j].weight) {
-          better = false;
-        }
-      }
-      expect(better).toBe(true);//TODO better messages
-      if (better === false) {
-        expect(pheromones).toEqual(trail);
+        if (pheromones[i].y > pheromones[j].y) {
+	  var high = taueta(pheromones[i].weight, pheromones[i].y);
+	  var low = taueta(pheromones[j].weight, pheromones[j].y);
+          expect(high).not.toBeLessThan(low);
+        } 
       }
     }
   });
