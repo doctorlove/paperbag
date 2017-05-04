@@ -1,3 +1,4 @@
+var minmax = false;
 var id = 0;
 var scale = 10.0;
 var ants = 10;
@@ -243,9 +244,6 @@ function draw(pheromones, trails) {
     result.innerHTML = parseInt(result.innerHTML) + 1;
 
 
-    var pheromone_text = document.getElementById("pheromones");
-    pheromone_text.innerHTML = show_pheromones(pheromones);
-
     var path = "";
 
     i = find_best(trails);
@@ -314,9 +312,15 @@ function add_new_pheromones(height, pheromones, trail) {
 function update(pheromones, trails, height, width) {
   var trail, i;
   evapourate(pheromones);
-  for( i = 0; i < trails.length; ++i) {
-    trail = trails[i];
-    add_new_pheromones(height, pheromones, trail);
+  if (minmax) {
+    var best = find_best(trails);
+    add_new_pheromones(height, pheromones, trails[best]);
+  }
+  else {
+    for( i = 0; i < trails.length; ++i) {
+      trail = trails[i];
+      add_new_pheromones(height, pheromones, trail);
+    }
   }
 }
 
