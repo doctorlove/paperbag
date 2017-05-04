@@ -15,19 +15,7 @@ function properties_match(lhs, rhs, property) {
 
 
 function contains(a, obj) {
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] === obj) {
-            return true;
-        }
-        else { 
-            var x_matches = properties_match(a[i], obj, "x");
-            var y_matches = properties_match(a[i], obj, "y");
-            if (x_matches && y_matches) {
-                return true;
-            }
-	}
-    }
-    return false;
+  return a.some(z => z.x == obj.x && z.y == obj.y);
 }
 
 function possible_positions(width, pos) {
@@ -152,7 +140,6 @@ function show_pheromones(pheromones) {
 
 function allowed_positions(width, pos, trail) {
   var possible = possible_positions(width, pos);
-  //return possible; - makes worse much worse
   
   var allowed = [];
   var i = 0;
