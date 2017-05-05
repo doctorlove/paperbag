@@ -343,6 +343,19 @@ describe("roulette_wheel_choice", function() {
     expect(new_pos.y).toEqual(1);
   });
 
+  it("should go to a better pheromone point if some other points have zero probability", function() {
+    var pheromones = [], possible = [], trail = [], pos = {x: 0, y: 0};
+
+    pheromones.push({x: 0, y: 0, weight: 0});
+    pheromones.push({x: 1, y: 0, weight: 0});
+    pheromones.push({x: 2, y: 0, weight: 0});
+    pheromones.push({x: 0, y: 1, weight: 1});//equal best weight and height
+    pheromones.push({x: 1, y: 1, weight: 1});//equal best weight and height
+
+    var new_pos = roulette_wheel_choice(4, pos, trail, pheromones);
+    expect(new_pos.y).toEqual(1);//first two have 0 probablility
+  })
+
   it("should not go to a place already visited", function() {
     var pheromones = [], trail = [], pos = {x: 0, y: 0};
 
