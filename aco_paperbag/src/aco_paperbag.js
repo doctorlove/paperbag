@@ -179,27 +179,6 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
   throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative + " and pheromones " + show_pheromones(pheromones) + " at pos " + pos.x + ", " + pos.y ;
 }
 
-function best_choice(width, pos, trail, pheromones) {
-  var best=-1, best_weight = -1;
-  var possible = allowed_positions(width, pos, trail);
-  var now, i, index;
-  for (i = 0; i < possible.length; i += 1) {
-    index = pheromone_at(pheromones, possible[i]);
-    if (index !== -1 ) {
-      now = taueta(pheromones[index].weight, pheromones[index].y);
-      if (now > best_weight) {
-        best = i;
-        best_weight = now;
-      }
-    }
-  }
-  if (best !== -1) {
-    return possible[best];
-  }
-  return next_pos(width, pos, trail);
-}
-
-
 function pheromone_trail(height, width, pheromones) {
   var trail = [], pos = start_pos(width);
   trail.push(pos);
