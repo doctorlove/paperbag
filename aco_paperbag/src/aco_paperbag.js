@@ -1,5 +1,6 @@
 var middle_start = false;
 var minmax = false;
+var roulette_selection = true;
 var id = 0;
 var scale = 10.0;
 var ants = 10;
@@ -232,7 +233,8 @@ function find_average(trails) {
   len = len / trails.length;
   return len;
 }
-function draw(pheromones, trails) {
+
+function draw(trails) {
   var i, x, y;
   var canvas = document.getElementById('ant_canvas');
   if (canvas.getContext) {
@@ -329,7 +331,7 @@ function simulate(epoch, pheromones, trails, height, width) {
   try {
     update(pheromones, trails, height, width);
     trails = new_trails(pheromones, height, width, ants);
-    draw(pheromones, trails);
+    draw(trails);
 
     epoch = epoch + 1;
     if (epoch < 25) {
@@ -352,7 +354,7 @@ function aco() {
   height = canvas.height / scale;
   width = canvas.width / scale;
   var trails = make_trails(height, width, ants);
-  draw(pheromones, trails);
+  draw(trails);
   simulate(0, pheromones, trails, height, width);
 }
 
@@ -366,6 +368,10 @@ function start() {
     opt = document.getElementById("middle_start");
     if (opt) {
       middle_start = opt.checked;
+    }
+    opt = document.getElementById("roulette_selection");
+    if (opt) {
+      roulette_selection = opt.checked;
     }
     id = setTimeout(aco, 100);
  }
