@@ -81,7 +81,7 @@ function random_trail(height, width) {
 
 function make_trails(height, width, ants) {
     var i = 0, trails = [], trail;
-    for (i = 0; i < ants; ++i) {
+    for (i = 0; i < ants; i+=1) {
         trail = random_trail(height, width);
         trails.push(trail);
     }
@@ -90,7 +90,7 @@ function make_trails(height, width, ants) {
 
 function pheromone_at(pheromones, pos) {
   var i;
-  for (i = 0; i < pheromones.length; ++i) {
+  for (i = 0; i < pheromones.length; i+=1) {
     if(pheromones[i].x === pos.x && pheromones[i].y === pos.y) {
       return i;
     }
@@ -107,7 +107,7 @@ function taueta(weight, y) {
 function cumulative_probability(possible, pheromones){
   var total = 0.0, index;
   var cumulative = [total];
-  for (i = 0; i < possible.length; ++i) {
+  for (i = 0; i < possible.length; i+=1) {
     index = pheromone_at(pheromones, possible[i]);
     if (index !== -1) {
       total = total + taueta(pheromones[index].weight, pheromones[index].y);
@@ -122,7 +122,7 @@ function show_pheromones(pheromones) {
   best =  { x: 0, y: 0, weight: -1 };
   try {
     var display = "", i = 0;
-    for (i = 0; i < pheromones.length; ++i) {
+    for (i = 0; i < pheromones.length; i+=1) {
       display = display + "(" + pheromones[i].x + ", " + pheromones[i].y + "):" + pheromones[i].weight + ", ";
       if (pheromones[i].weight > best.weight) {
         best = pheromones[i];
@@ -142,10 +142,10 @@ function show_pheromones(pheromones) {
 
 function allowed_positions(width, pos, trail) {
   var possible = possible_positions(width, pos);
-  
+
   var allowed = [];
   var i = 0;
-  for (i = 0; i < possible.length; ++i) {
+  for (i = 0; i < possible.length; i+=1) {
     if (!contains(trail, possible[i])) {
       allowed.push(possible[i]);
     }
@@ -154,7 +154,6 @@ function allowed_positions(width, pos, trail) {
       allowed = possible;
   }
   return allowed;
-  
 }
 
 function roulette_wheel_choice(width, pos, trail, pheromones) {
@@ -169,8 +168,8 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
 
   p = Math.random() * total;
 
-  for (i = 0; i < cumulative.length - 1; ++i) {
-    if (p >= cumulative[i] && p <= cumulative[i+1]) { 
+  for (i = 0; i < cumulative.length - 1; i+=1) {
+    if (p >= cumulative[i] && p <= cumulative[i+1]) {
       //the first place where it is in range, with 1 is in [1,1]
       return possible[i];
     }
@@ -182,10 +181,11 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
 function best_choice(width, pos, trail, pheromones) {
   var best=-1, best_weight = -1;
   var possible = allowed_positions(width, pos, trail);
-  for (i = 0; i < possible.length; ++i) {
+  var now;
+  for (i = 0; i < possible.length; i+=1) {
     index = pheromone_at(pheromones, possible[i]);
     if (index !== -1 ) {
-      var now = taueta(pheromones[index].weight, pheromones[index].y);
+      now = taueta(pheromones[index].weight, pheromones[index].y);
       if (now > best_weight) {
         best = i;
         best_weight = now;
@@ -212,7 +212,7 @@ function pheromone_trail(height, width, pheromones) {
 
 function new_trails(pheromones, height, width, ants) {
   var i = 0, trails = [], trail;
-  for (i = 0; i < ants; ++i) {
+  for (i = 0; i < ants; i+=1) {
       trail = pheromone_trail(height, width, pheromones);
       trails.push(trail);
   }
@@ -222,7 +222,7 @@ function new_trails(pheromones, height, width, ants) {
 function find_best(trails) {
   var len = -1, best = 0, i = 0;
 
-  for (i = 0; i < trails.length; ++i) {
+  for (i = 0; i < trails.length; i+=1) {
       if (len === -1 || trails[i].length < len) {
           best = i;
           len = trails[i].length;
@@ -234,7 +234,7 @@ function find_best(trails) {
 function find_worst(trails) {
   var len = 0, worst = 0, i = 0;
 
-  for (i = 0; i < trails.length; ++i) {
+  for (i = 0; i < trails.length; i+=1) {
       if (trails[i].length > len) {
           worst = i;
           len = trails[i].length;
@@ -246,7 +246,7 @@ function find_worst(trails) {
 function find_average(trails) {
   var len = 0, i = 0;
 
-  for (i = 0; i < trails.length; ++i) {
+  for (i = 0; i < trails.length; i+=1) {
     len = len + trails[i].length;
   }
   len = len / trails.length;
@@ -255,10 +255,10 @@ function find_average(trails) {
 
 function draw(trails) {
   var i, x, y;
-  var canvas = document.getElementById('ant_canvas');
+  var canvas = document.getElementById("ant_canvas");
   if (canvas.getContext) {
     var ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "rgb(180, 120, 60)";
     ctx.fillRect (0, 8, canvas.width, canvas.height - 8);
 
@@ -269,7 +269,7 @@ function draw(trails) {
     var path = "";
 
     i = find_best(trails);
-    for (j = 0;  j < trails[i].length; ++j) {
+    for (j = 0;  j < trails[i].length; j+=1) {
       ctx.fillStyle = "rgb(0,0,0)";
       x = trails[i][j].x * scale;
       y = canvas.height - trails[i][j].y * scale;
@@ -281,7 +281,7 @@ function draw(trails) {
 
 
     i = find_worst(trails);
-    for (j = 0;  j < trails[i].length; ++j) {
+    for (j = 0;  j < trails[i].length; j+=1) {
       ctx.fillStyle = "rgb(255,0,0)";
       x = trails[i][j].x * scale;
       y = canvas.height - trails[i][j].y * scale;
@@ -296,7 +296,7 @@ function draw(trails) {
 function evapourate(pheromones) {
   var evapouration = 0.25;
 
-  for(i = 0; i < pheromones.length; ++i) {
+  for(i = 0; i < pheromones.length; i+=1) {
     pheromones[i].weight = evapouration * pheromones[i].weight;
   }
 }
@@ -304,9 +304,10 @@ function evapourate(pheromones) {
 function total_length(trail) {
   var i;
   var length = 0;
-  for (i = 1; i < trail.length; ++i) {
-    var step = (trail[i-1].x-trail[i].x)**2
-       + (trail[i-1].y-trail[i].y)**2
+  var step;
+  for (i = 1; i < trail.length; i+=1) {
+    step = Math.pow((trail[i-1].x-trail[i].x), 2)
+         + Math.pow((trail[i-1].y-trail[i].y), 2)
     step = Math.pow(step, 0.5);
     length = length + step;
   }
@@ -318,7 +319,7 @@ function add_new_pheromones(height, pheromones, trail) {
   var Q = 2.0 * height;
   var L = Q/total_length(trail);
 
-  for (i = 0; i < trail.length; ++i) {
+  for (i = 0; i < trail.length; i+=1) {
     pos = trail[i];
     index = pheromone_at(pheromones, pos);
     if ( index !== -1 ) {
@@ -339,7 +340,7 @@ function update(pheromones, trails, height, width) {
     add_new_pheromones(height, pheromones, trails[best]);
   }
   else {
-    for( i = 0; i < trails.length; ++i) {
+    for( i = 0; i < trails.length; i+=1) {
       trail = trails[i];
       add_new_pheromones(height, pheromones, trail);
     }
@@ -368,7 +369,7 @@ function simulate(epoch, pheromones, trails, height, width) {
 }
 
 function aco() {
-  var canvas = document.getElementById('ant_canvas');
+  var canvas = document.getElementById("ant_canvas");
   var pheromones = [];
   height = canvas.height / scale;
   width = canvas.width / scale;
@@ -378,7 +379,7 @@ function aco() {
 }
 
 function start() {
-  if (id === 0) {  
+  if (id === 0) {
     document.getElementById("click_draw").innerHTML="stop";
     var opt = document.getElementById("minmax");
     if (opt) {

@@ -116,6 +116,15 @@ describe("total_length", function() {
     var long = total_length(trail_longer);
     expect(short).toBeLessThan(long);
   });
+
+  it("will see a straight line of three steps as length three", function() {
+    trail = [];
+    trail.push({x: 0, y: 3});
+    trail.push({x: 0, y: 0});
+
+    var length = total_length(trail);
+    expect(length).toEqual(3);
+  })
 });
 
 describe("find_best", function() {
