@@ -180,12 +180,37 @@ function roulette_wheel_choice(width, pos, trail, pheromones) {
   throw "Cannot find valid move, for " + p + " of total " + total + " with " + cumulative + " and pheromones " + show_pheromones(pheromones) + " at pos " + pos.x + ", " + pos.y ;
 }
 
+function best_choice(width, pos, trail, pheromones) {
+  var best=-1, best_weight = -1;
+  var possible = allowed_positions(width, pos, trail);
+  for (i = 0; i < possible.length; ++i) {
+    index = pheromone_at(pheromones, possible[i]);
+    if (index !== -1 ) {
+      var now = taueta(pheromones[index].weight, pheromones[index].y);
+      if (now > best_weight) {
+        best = i;
+        best_weight = now;
+      }
+    }
+  }
+  if (best !== -1) {
+    return possible[best];
+  }
+  return next_pos(width, pos, trail);
+}
+
+
 function pheromone_trail(height, width, pheromones) {
   var trail = [], pos = start_pos(width);
   trail.push(pos);
 
   while (pos.y <= height) {
-    pos = roulette_wheel_choice(width, pos, trail, pheromones);
+    if (roulette_selection) {
+      pos = roulette_wheel_choice(width, pos, trail, pheromones);
+    }
+    else {
+      pos = best_choice(width, pos, trail, pheromones);
+    }
     trail.push(pos);
   }
   return trail;
@@ -287,7 +312,7 @@ function total_length(trail) {
   var length = 0;
   for (i = 1; i < trail.length; ++i) {
     var step = (trail[i-1].x-trail[i].x)**2
-	     + (trail[i-1].y-trail[i].y)**2
+       + (trail[i-1].y-trail[i].y)**2
     step = Math.pow(step, 0.5);
     length = length + step;
   }
