@@ -54,11 +54,8 @@ function possible_positions(width, pos) {
 
 function next_pos(width, pos, trail) {
     var allowed = allowed_positions(width, pos, trail);
-    n = Math.floor(Math.random() * allowed.length);//we want < total length, so don't add one here
-    if (n < 0 || n >= allowed.length) {
-        throw "n out of range " + n;
-    }
-    return allowed[n];
+    var index = Math.floor(Math.random() * allowed.length);
+    return allowed[index];
 }
 
 function start_pos(width) {
