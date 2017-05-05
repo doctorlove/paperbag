@@ -4,8 +4,7 @@ var id = 0;
 var scale = 10.0;
 var ants = 10;
 
-function stop()
-{
+function stop() {
   clearInterval(id);
   id = 0;
   document.getElementById("click_draw").innerHTML="draw";
@@ -17,7 +16,7 @@ function properties_match(lhs, rhs, property) {
 
 
 function contains(a, obj) {
-  return a.some(z => z.x == obj.x && z.y == obj.y);
+  return a.some(z => z.x === obj.x && z.y === obj.y);
 }
 
 function possible_positions(width, pos) {
