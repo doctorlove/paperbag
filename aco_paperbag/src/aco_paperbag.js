@@ -2,8 +2,8 @@
 var middle_start = false;
 var minmax = false;
 var id = 0;
-var scale = 10.0;
-var ants = 10;
+var scale = 50.0;
+var ants = 3;
 
 function stop() {
   clearInterval(id);
@@ -200,24 +200,26 @@ function new_trails(pheromones, height, width, ants) {
 }
 
 function find_best(trails) {
-  var len = -1, best = 0, i = 0;
+  var len = -1, best = 0, i = 0, this_length;
 
   for (i = 0; i < trails.length; i += 1) {
-      if (len === -1 || trails[i].length < len) {
+      this_length = total_length(trails[i]);
+      if (len === -1 || this_length < len) {
           best = i;
-          len = trails[i].length;
+          len = this_length;
       }
   }
   return best;
 }
 
 function find_worst(trails) {
-  var len = 0, worst = 0, i = 0;
+  var len = 0, worst = 0, i = 0, this_length;
 
   for (i = 0; i < trails.length; i += 1) {
-      if (trails[i].length > len) {
+      this_length = total_length(trails[i]);
+      if (total_length(trails[i]) > len) {
           worst = i;
-          len = trails[i].length;
+          len = this_length;
       }
   }
   return worst;
@@ -227,7 +229,7 @@ function find_average(trails) {
   var len = 0, i = 0;
 
   for (i = 0; i < trails.length; i += 1) {
-    len = len + trails[i].length;
+    len = total_length(trails[i]);
   }
   len = len / trails.length;
   return len;
@@ -256,7 +258,7 @@ function draw(trails) {
       path = path +  " (" + x + ", " + y + ")";
       ctx.fillRect (x, y - 2, 4, 4);
     }
-    document.getElementById("best").innerHTML += ", " + (trails[i].length - 1);
+    document.getElementById("best").innerHTML += ", " + total_length(trails[i]);
     document.getElementById("path").innerHTML = "\n " + path;
 
 
@@ -267,7 +269,7 @@ function draw(trails) {
       y = canvas.height - trails[i][j].y * scale;
       ctx.strokeRect (x, y - 1, 1, 1);
     }
-    document.getElementById("worst").innerHTML += ", " + (trails[i].length - 1);
+    document.getElementById("worst").innerHTML += ", " + total_length(trails[i]);
 
     document.getElementById("average").innerHTML += ", " + find_average(trails);
   }

@@ -131,21 +131,21 @@ describe("find_best", function() {
 
   it("should find the only trail if there is just one", function() {
     var trails = [];
-    trails.push( [ 2, 3] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
     expect(find_best(trails)).toBe(0);
   });
 
   it("should find the shortest trail when it is first", function() {
     var trails = [];
-    trails.push( [2, 3] );
-    trails.push( [2, 3, 4, 5] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}, {x:4, y:0}, {x:5, y:0}] );
     expect(find_best(trails)).toBe(0);
   });
 
   it("should find the shortest trail when it is last", function() {
     var trails = [];
-    trails.push( [2, 3, 4, 5] );
-    trails.push( [2, 3] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}, {x:4, y:0}, {x:5, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
     expect(find_best(trails)).toBe(1);
   });
 
