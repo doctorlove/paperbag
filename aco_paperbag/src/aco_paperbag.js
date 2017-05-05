@@ -229,7 +229,7 @@ function find_average(trails) {
   var len = 0, i = 0;
 
   for (i = 0; i < trails.length; i += 1) {
-    len = total_length(trails[i]);
+    len += total_length(trails[i]);
   }
   len = len / trails.length;
   return len;
