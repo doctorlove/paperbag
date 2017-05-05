@@ -1,6 +1,5 @@
 var middle_start = false;
 var minmax = false;
-var roulette_selection = true;
 var id = 0;
 var scale = 10.0;
 var ants = 10;
@@ -205,12 +204,7 @@ function pheromone_trail(height, width, pheromones) {
   trail.push(pos);
 
   while (pos.y <= height) {
-    if (roulette_selection) {
-      pos = roulette_wheel_choice(width, pos, trail, pheromones);
-    }
-    else {
-      pos = best_choice(width, pos, trail, pheromones);
-    }
+    pos = roulette_wheel_choice(width, pos, trail, pheromones);
     trail.push(pos);
   }
   return trail;
@@ -393,10 +387,6 @@ function start() {
     opt = document.getElementById("middle_start");
     if (opt) {
       middle_start = opt.checked;
-    }
-    opt = document.getElementById("roulette_selection");
-    if (opt) {
-      roulette_selection = opt.checked;
     }
     id = setTimeout(aco, 100);
  }
