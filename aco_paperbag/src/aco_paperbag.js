@@ -2,8 +2,8 @@
 var middle_start = false;
 var minmax = false;
 var id = 0;
-var scale = 50.0;
-var ants = 3;
+var scale = 30.0;
+var ants = 100;
 
 function stop() {
   clearInterval(id);
@@ -258,7 +258,7 @@ function draw(trails) {
       path = path +  " (" + x + ", " + y + ")";
       ctx.fillRect (x, y - 2, 4, 4);
     }
-    document.getElementById("best").innerHTML += ", " + total_length(trails[i]);
+    document.getElementById("best").innerHTML += ", " + total_length(trails[i]).toFixed(2);
     document.getElementById("path").innerHTML = "\n " + path;
 
 
@@ -269,9 +269,9 @@ function draw(trails) {
       y = canvas.height - trails[i][j].y * scale;
       ctx.strokeRect (x, y - 1, 1, 1);
     }
-    document.getElementById("worst").innerHTML += ", " + total_length(trails[i]);
+    document.getElementById("worst").innerHTML += ", " + total_length(trails[i]).toFixed(2);
 
-    document.getElementById("average").innerHTML += ", " + find_average(trails);
+    document.getElementById("average").innerHTML += ", " + find_average(trails).toFixed(2);
   }
 }
 
