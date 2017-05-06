@@ -124,7 +124,13 @@ describe("total_length", function() {
 
     var length = total_length(trail);
     expect(length).toEqual(3);
-  })
+  });
+
+  it("will be greater than zero for a path of several steps", function() {
+    var trails = [];
+    trails.push( [{x:120, y:260},  {x:150, y:230},  {x:180, y:200},  {x:180, y:170},  {x:150, y:140},  {x:150, y:110},  {x:150, y:80},  {x:180, y:50},  {x:180, y:20},  {x:150, y:-10}] );
+    expect(total_length(trails[0])).toBeGreaterThan(0);
+  });
 });
 
 describe("find_best", function() {
@@ -170,6 +176,34 @@ describe("find_worst", function() {
     trails.push( [{x:2, y:0}, {x:3, y:0}] );
     trails.push( [{x:2, y:0}, {x:3, y:0}, {x:4, y:0}, {x:5, y:0}] );
     expect(find_worst(trails)).toBe(1);
+  });
+});
+
+describe("find_average", function() {
+
+  it("should return length of trail if there is just one just one", function() {
+    var trails = [];
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    expect(find_average(trails)).toEqual(total_length(trails[0]));
+  });
+
+  it("should return length of trail if there all the same length", function() {
+    var trails = [];
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    expect(find_average(trails)).toEqual(total_length(trails[0]));
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    expect(find_average(trails)).toEqual(total_length(trails[0]));
+  });
+
+  it("should match best and worst for a single path", function() {
+    var trails = [];
+    trails.push( [{x:120, y:260},  {x:150, y:230},  {x:180, y:200},  {x:180, y:170},  {x:150, y:140},  {x:150, y:110},  {x:150, y:80},  {x:180, y:50},  {x:180, y:20},  {x:150, y:-10}] );
+    var average = find_average(trails);
+    expect(average).toEqual(total_length(trails[find_best(trails)]));
+    expect(average).toEqual(total_length(trails[find_worst(trails)]));
   });
 });
 
