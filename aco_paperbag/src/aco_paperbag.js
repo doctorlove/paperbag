@@ -2,8 +2,8 @@
 var middle_start = false;
 var minmax = false;
 var id = 0;
-var scale = 30.0;
-var ants = 100;
+var scale = 50.0;
+var ants = 75;
 
 function stop() {
   clearInterval(id);
