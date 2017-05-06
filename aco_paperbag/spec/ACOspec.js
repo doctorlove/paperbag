@@ -148,7 +148,29 @@ describe("find_best", function() {
     trails.push( [{x:2, y:0}, {x:3, y:0}] );
     expect(find_best(trails)).toBe(1);
   });
+});
 
+describe("find_worst", function() {
+
+  it("should find the only trail if there is just one", function() {
+    var trails = [];
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    expect(find_worst(trails)).toBe(0);
+  });
+
+  it("should find the longest trail when it is first", function() {
+    var trails = [];
+    trails.push( [{x:2, y:0}, {x:3, y:0}, {x:4, y:0}, {x:5, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    expect(find_worst(trails)).toBe(0);
+  });
+
+  it("should find the longest trail when it is last", function() {
+    var trails = [];
+    trails.push( [{x:2, y:0}, {x:3, y:0}] );
+    trails.push( [{x:2, y:0}, {x:3, y:0}, {x:4, y:0}, {x:5, y:0}] );
+    expect(find_worst(trails)).toBe(1);
+  });
 });
 
 describe("properties_match", function() {
