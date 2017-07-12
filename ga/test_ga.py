@@ -25,6 +25,11 @@ class TestCumulativeProbabilites(unittest.TestCase):
         choices = get_choices(results)
 	self.assertEqual(len(choices), len(results))
 
+class testMutation(unittest.TestCase):
+    def test_that_mutation_leaves_number_of_solutions_unaffected(self):
+	generation = [(5,0), (10,15), (15, 30)]
+        mutate(generation)
+        self.assertEqual(len(generation), 3)
 
 class TestHitHeight(unittest.TestCase):
     def test_that_angle_of_zero_gives_hit_height_of_zero(self):
