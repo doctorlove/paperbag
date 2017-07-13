@@ -2,81 +2,62 @@ import math
 import matplotlib.pyplot as plt
 import random
 
-def hit_height(theta, v, width):
+def hit_coordinate(theta, v, width):
     angle = theta
     x = 0.5*width
+    x_hit = width
     if theta > math.pi/2:
         angle = math.pi - theta
-        x = 0.0
-    t = 0.5*width / (v * math.cos(angle))
+        x = -x
+	x_hit = 0
+    t = 0.5*width / (v * math.cos(angle)) #luckily angle and veloicty are never zero
     y = v * t * math.sin(angle) - 0.5 * 9.81 * t * t
     if y < 0 : y=0.0
-    return x, y
+    return x_hit, y
 
-def collision_point(x0, y0, x1, y1, height, width):
-    if x0 == x1: return x0, y0
-    x = 0.0
-    if x1 > width: x = width
-    m = (y1 - y0)/(1.0*x1 - x0)
-    y = y0 + m*(x-x0)
-    return x, y
-
-def collides(x0, y0, x1, y1, height, width):
-    x, y = collision_point(x0, y0, x1, y1, height, width)
-    if y < height and ((x0 >= 0 and x1 <= 0) or (x0 <= width and x1 >= width)):
-        return x, y, True
-    return x, y, False 
-
-def escaped(height, width, path):
-    if len(path) == 0: return False
-    if path[-1][0]>0 and path[-1][0]<width: return False
-    return path[-1][2] == False
+def esacped(theta, v, width, height):
+    x_hit, y_hit = hit_coordinate(theta, v, width)
+    return (x_hit==0 or x_hit==width) and y_hit > height
 
 def launch(generation, height, width):
     results = []
     for (theta, v) in generation:
         result = []
-        x = width/2.0
-        y = 0
-        result.append((x, y, False))
-        for i in xrange(1, 20):
-            previous_x = x
-            previous_y = y
-            t  = i*0.2
+        result.append((width/2.0, 0.0))
+        for i in range(1, 20): #TODO - make while instead?
+            t = i*0.2
             x = width/2.0 + v * t * math.cos(theta)
             y = v * t * math.sin(theta) - 0.5 * 9.81 * t * t
             if y < 0: y = 0
-            x_hit, y_hit, hits = collides(previous_x, previous_y, x, y, height, width)
-            if hits:
-                result.append((x_hit, y_hit, hits))
-                break
-            else:
-                result.append((x, y, False))
+            result.append((x, y))
         results.append(result)
     return results
 
 def cumulative_probabilities(results):
+    #Could use from itertools import accumulate in python 3
     cp = []
     total = 0
     for res in results:
-        total += res[1] # maybe if it's more than height square it
+        total += res[1] 
         cp.append(total)
-    return cp
-
-def get_choices(results):
-    choices = cumulative_probabilities(results)
-    return choices
+    return cp #not actually a probability!
 
 def choose(choices):
-    p = random.uniform(0,choices[-1])
+    p = random.uniform(0, choices[-1])
     for i in range(len(choices)):
         if choices[i] >= p:
             return i
     return i
 
+def selection(generation, width):
+    results = []
+    for gen in generation:
+        theta, v = gen
+        results.append(hit_coordinate(theta, v, width))
+    return cumulative_probabilities(results)
 
-def crossover(generation, results, height, width):
-    choices = get_choices(results)
+def crossover(generation, width):
+    choices = selection(generation, width)
     next_generation = []
     for i in range(0, len(generation)):
         mum = generation[choose(choices)]
@@ -86,7 +67,11 @@ def crossover(generation, results, height, width):
     return next_generation
 
 def mutate(generation):
-    for i in range(len(generation)):
+    #Could just pick one e.g.
+    #i = random.randint(0, len(generation)-1)
+    # or do all
+    # or random shuffle and take top n
+    for i in range(len(generation)-1):
         (theta, v) = generation[i]
         if random.random() < 0.1:
             new_theta = theta + random.uniform(-10, 10) * math.pi/180
@@ -101,21 +86,22 @@ def display(generation, result, ax, height, width):
     ax.add_patch(rect)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    for gen in generation:
-        print gen
+    ax.set_xlim(-width, 2*width)
+    ax.set_ylim(0, 3.5*height)
     free = 0
-    for res in result:
-        if escaped(height, width, res):
-            free += 1
-        x = [i[0] for i in res]
-        y = [i[1] for i in res]
-        if escaped(height, width, res):
+    for i in range(len(result)):
+        theta, v = generation[i]
+	res = result[i]
+        x = [j[0] for j in res]
+        y = [j[1] for j in res]
+	if esacped(theta, v, width, height):
             ax.plot(x, y, 'ro-')
+            free += 1
         else:
             ax.plot(x, y, 'bx-')
-    print "Escaped", free
+    print ("Escaped", free)
 
-def graph_interpolation(generation0, result0, generation, result, height, width):
+def display_start_and_finish(generation0, result0, generation, result, height, width):
     fig = plt.figure()
     #http://stackoverflow.com/questions/3584805/in-matplotlib-what-does-111-means-in-fig-add-subplot111
     #subplot(m,n,i) breaks the figure window into an m-by-n matrix of small subplots and 
@@ -146,19 +132,28 @@ def demo():
 
     generation = init_random_generation(items)
 
-    generation0 = list(generation)
+    generation0 = list(generation) # save to contrast with last epoch
     results0 = launch(generation, height, width)
 
     for i in range(1, epochs):
         results = []
-        for gen in generation:
-            theta, v = gen
-            results.append(hit_height(theta, v, height))
-        generation = crossover(generation, results, height, width)
+        generation = crossover(generation, width)
         mutate(generation)
 
     results = launch(generation, height, width)
-    graph_interpolation(generation0, results0, generation, results, height, width)
+    display_start_and_finish(generation0, results0, generation, results, height, width)
+
+def single_item():
+    height = 5
+    width = 10
+    generation = init_random_generation(5)
+    result = launch(generation, height, width)
+    fig = plt.figure()
+    ax = fig.add_subplot(2,1,1)
+    ax.set_title('Single cannon ball')
+    display(generation, result, ax, height, width)
+    plt.show()
 
 if __name__ == "__main__":
+    #single_item()
     demo()
