@@ -21,13 +21,13 @@ class TestCumulativeProbabilites(unittest.TestCase):
         self.assertEqual(0, choose(res))
 
     def test_that_get_choices_returns_full_generation(self):
-	results = [(5,10), (10,15), (15, 30)]
+        results = [(5,10), (10,15), (15, 30)]
         choices = selection(results, 42) # 42 some width
-	self.assertEqual(len(choices), len(results))
+        self.assertEqual(len(choices), len(results))
 
 class testMutation(unittest.TestCase):
     def test_that_mutation_leaves_number_of_solutions_unaffected(self):
-	generation = [(5,0), (10,15), (15, 30)]
+        generation = [(5,0), (10,15), (15, 30)]
         mutate(generation)
         self.assertEqual(len(generation), 3)
 
@@ -44,6 +44,16 @@ class TestHitHeight(unittest.TestCase):
         x, y = hit_coordinate(math.pi, 10, width)
         self.assertEqual(0.0, x)
         self.assertEqual(0.0, y)
+
+    def test_going_right_but_not_fast_enough_hits_below_top_of_bag(self):
+        width = 10
+        x, y = hit_coordinate(math.pi/4, 15, width)
+        self.assertLess(y, 5)
+
+    def test_going_left_but_not_fast_enough_hits_below_top_of_bag(self):
+        width = 10
+        x, y = hit_coordinate(3*math.pi/4, 15, width)
+        self.assertLess(y, 5)
 
     def test_that_angle_of_50_degrees_going_slow_gives_hit_height_of_less_than_bag_height(self):
         width = 10
@@ -67,38 +77,77 @@ class TestHitHeight(unittest.TestCase):
         width = 10
         x, y = hit_coordinate(130*math.pi/180, 50, width)
         self.assertEqual(0.0, x)
-        self.assertTrue(y > 5.0)
+        self.assertGreater(y, 5.0)
 
 
 class TestLaunch(unittest.TestCase):
     def test_that_launch_returns_some_points(self):
         width = 10
         height = 5
-	generation = [(1, 10)]
+        generation = [(1, 10)]
         result = launch(generation, height, width)
-        self.assertTrue(len(generation)>0)
+        self.assertEqual(len(result), len(generation))
+        self.assertGreater(len(result[0]), 0)
 
+    def test_that_launch_stops_at_edge_of_bag_if_it_hits_the_bag(self):
+        width = 10
+        height = 5
+        generation = [(math.pi/4, 15)]
+        result = launch(generation, height, width)
+        self.assertTrue(len(result)>0)
+        self.assertEqual(result[0][-1][0], width)
+
+    def test_that_launch_stops_at_edge_of_bag_if_it_hits_the_bag_between_steps(self):
+        width = 10
+        height = 5
+        generation = [(math.pi/3, 8)]
+        result = launch(generation, height, width)
+        self.assertTrue(len(result)>0)
+        self.assertEqual(result[0][-1][0], width)
+
+
+    def test_that_launch_going_over_bag_keeps_going(self):
+        width = 10
+        height = 5
+        generation = [(math.pi/3, 15)]
+        result = launch(generation, height, width)
+        self.assertTrue(len(result)>0)
+        self.assertGreater(result[0][-1][0], width)
 
 class TestEscape(unittest.TestCase):
+    def test_going_right_but_not_fast_enough_hits_below_top_of_bag(self):
+        width = 10
+        height = 5
+        theta = math.pi/4
+        v = 15
+        self.assertFalse(esacped(theta, v, width, height))
+
     def test_going_right_fast_enough_esacpes(self):
         width = 10
         height = 5
-	theta  = 1.1323018699
-	v  = 17.6708379946
+        theta  = 1.1323018699
+        v  = 17.6708379946
         self.assertTrue(esacped(theta, v, width, height))
+
+    def test_going_right_but_not_fast_enough_hits_below_top_of_bag(self):
+        width = 10
+        height = 5
+        theta = 3*math.pi/4
+        v = 15
+        self.assertFalse(esacped(theta, v, width, height))
 
     def test_going_left_fast_enough_esacpes(self):
         width = 10
         height = 5
-	theta  = math.pi -1.1323018699
-	v  = 17.6708379946
+        theta  = math.pi -1.1323018699
+        v  = 17.6708379946
         self.assertTrue(esacped(theta, v, width, height))
 
     def test_that_projectile_going_up_does_not_escape(self):
         width = 10
         height = 5
-	theta  = math.pi/2
-	v  = 17.6708379946
+        theta  = math.pi/2
+        v  = 17.6708379946
         self.assertFalse(esacped(theta, v, width, height))
 
 

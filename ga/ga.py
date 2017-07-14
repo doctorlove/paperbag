@@ -22,6 +22,8 @@ def esacped(theta, v, width, height):
 def launch(generation, height, width):
     results = []
     for (theta, v) in generation:
+        x_hit, y_hit = hit_coordinate(theta, v, width)
+	good = esacped(theta, v, width, height)
         result = []
         result.append((width/2.0, 0.0))
         for i in range(1, 20): #TODO - make while instead?
@@ -29,6 +31,9 @@ def launch(generation, height, width):
             x = width/2.0 + v * t * math.cos(theta)
             y = v * t * math.sin(theta) - 0.5 * 9.81 * t * t
             if y < 0: y = 0
+	    if not good and (x > width or x < -width):
+                result.append((x_hit, y_hit))
+                break
             result.append((x, y))
         results.append(result)
     return results
@@ -81,7 +86,7 @@ def mutate(generation):
             v *= random.uniform(0.9, 1.1)
         generation[i] = (theta, v)
 
-def display(generation, result, ax, height, width):
+def display(generation, ax, height, width):
     rect = plt.Rectangle((0, 0), width, height, facecolor='grey')
     ax.add_patch(rect)
     ax.set_xlabel('x')
@@ -89,9 +94,8 @@ def display(generation, result, ax, height, width):
     ax.set_xlim(-width, 2*width)
     ax.set_ylim(0, 3.5*height)
     free = 0
-    for i in range(len(result)):
-        theta, v = generation[i]
-	res = result[i]
+    result = launch(generation, height, width)
+    for res, (theta, v) in zip(result, generation):
         x = [j[0] for j in res]
         y = [j[1] for j in res]
 	if esacped(theta, v, width, height):
@@ -101,7 +105,7 @@ def display(generation, result, ax, height, width):
             ax.plot(x, y, 'bx-')
     print ("Escaped", free)
 
-def display_start_and_finish(generation0, result0, generation, result, height, width):
+def display_start_and_finish(generation0, generation, height, width):
     fig = plt.figure()
     #http://stackoverflow.com/questions/3584805/in-matplotlib-what-does-111-means-in-fig-add-subplot111
     #subplot(m,n,i) breaks the figure window into an m-by-n matrix of small subplots and 
@@ -109,10 +113,10 @@ def display_start_and_finish(generation0, result0, generation, result, height, w
     #row of the figure window, then the second row, and so forth.
     ax0 = fig.add_subplot(2,1,1)
     ax0.set_title('Initial attempt')
-    display(generation0, result0, ax0, height, width)
+    display(generation0, ax0, height, width)
     ax = fig.add_subplot(2,1,2)
     ax.set_title('Final attempt')
-    display(generation, result, ax, height, width)
+    display(generation, ax, height, width)
     plt.show()
 
 def init_random_generation(items):
@@ -131,27 +135,23 @@ def demo():
     width = 10
 
     generation = init_random_generation(items)
-
     generation0 = list(generation) # save to contrast with last epoch
-    results0 = launch(generation, height, width)
 
     for i in range(1, epochs):
         results = []
         generation = crossover(generation, width)
         mutate(generation)
 
-    results = launch(generation, height, width)
-    display_start_and_finish(generation0, results0, generation, results, height, width)
+    display_start_and_finish(generation0, generation, height, width)
 
 def single_item():
     height = 5
     width = 10
-    generation = init_random_generation(5)
-    result = launch(generation, height, width)
+    generation = [(math.pi/3, 8), (math.pi/4, 15), (math.pi/3, 15), (math.pi/3, 5)]
     fig = plt.figure()
     ax = fig.add_subplot(2,1,1)
     ax.set_title('Single cannon ball')
-    display(generation, result, ax, height, width)
+    display(generation, ax, height, width)
     plt.show()
 
 if __name__ == "__main__":
