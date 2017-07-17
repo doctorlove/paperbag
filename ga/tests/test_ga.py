@@ -1,5 +1,5 @@
 import pdb
-from ga.ga import *
+from ga.ga0 import *
 import math
 import unittest
 
