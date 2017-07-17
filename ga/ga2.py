@@ -39,7 +39,7 @@ def launch(generation, height, width):
         x = width/2.0
         y = 0
         result.append((x, y, False))
-        for i in xrange(1, 20):
+        for i in range(1, 20):
             previous_x = x
             previous_y = y
             t  = i*0.2
@@ -102,8 +102,6 @@ def display(generation, result, ax, height, width):
     ax.add_patch(rect)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    for gen in generation:
-        print gen
     free = 0
     for res in result:
         if escaped(height, width, res):
@@ -114,7 +112,7 @@ def display(generation, result, ax, height, width):
             ax.plot(x, y, 'ro-')
         else:
             ax.plot(x, y, 'bx-')
-    print "Escaped", free
+    print ("Escaped", free)
 
 def graph_interpolation(generation0, result0, generation, result, height, width):
     fig = plt.figure()
